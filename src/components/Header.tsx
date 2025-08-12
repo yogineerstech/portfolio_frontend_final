@@ -38,11 +38,15 @@ export const Header = () => {
   };
 
   return (
+    <>
+      {/* Orange bloom effect */}
+      <div className="fixed top-0 left-0 right-0 z-[9997] h-32 bg-gradient-to-b from-orange-400/20 via-orange-300/10 to-transparent dark:from-orange-500/15 dark:via-orange-400/8 dark:to-transparent blur-3xl opacity-60" />
+      
       <motion.header
         initial={{ y: 0, opacity: 1 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0 }}
-        className="fixed top-0 left-0 right-0 z-[9998] bg-white/10 dark:bg-black/10 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-2xl shadow-primary/10 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-[9998] bg-white/10 dark:bg-black/10 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-2xl shadow-orange-400/10 dark:shadow-orange-500/8 transition-all duration-300"
       >
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -153,5 +157,6 @@ export const Header = () => {
           )}
         </div>
       </motion.header>
+    </>
   );
 };
