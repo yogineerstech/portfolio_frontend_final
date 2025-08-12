@@ -180,7 +180,7 @@ export const Hero = () => {
         className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center"
       >
         {/* Main title */}
-        <div ref={titleRef} className="mb-8 mt-20">
+        <div ref={titleRef} className="mb-8 mt-32">
           <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-black text-foreground leading-none tracking-tight font-aftika">
             {splitText('YOGINEERS')}
           </h1>
@@ -217,7 +217,7 @@ export const Hero = () => {
             </WrapButton>
           </div>
           <div className="cta-button">
-            <button className="btn-outline-premium">
+            <button className="px-8 py-4 border border-primary/20 bg-background/10 text-foreground rounded-full hover:bg-primary/10 hover:border-primary/40 transition-all duration-300 backdrop-blur-sm font-medium tracking-wide">
               Learn More
             </button>
           </div>
@@ -237,7 +237,7 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Enhanced floating elements */}
+      {/* Enhanced floating elements with more dots */}
       <div className="absolute top-20 left-20 w-2 h-2 bg-accent/30 rounded-full animate-float shadow-lg shadow-accent/20"></div>
       <div className="absolute top-40 right-32 w-3 h-3 bg-primary/25 rounded-full animate-float-delayed shadow-lg shadow-primary/20"></div>
       <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-accent/35 rounded-full animate-float-slow shadow-md shadow-accent/15"></div>
@@ -246,6 +246,22 @@ export const Hero = () => {
       <div className="absolute top-32 right-1/3 w-4 h-4 bg-primary/15 rounded-full animate-float-slow shadow-xl shadow-primary/10"></div>
       <div className="absolute bottom-40 left-1/3 w-1.5 h-1.5 bg-accent/25 rounded-full animate-float shadow-md shadow-accent/20"></div>
       <div className="absolute top-72 right-16 w-2 h-2 bg-secondary/25 rounded-full animate-float-delayed shadow-lg shadow-secondary/15"></div>
+      
+      {/* Additional floating dots */}
+      <div className="absolute top-1/3 left-10 w-1 h-1 bg-primary/20 rounded-full animate-float shadow-sm shadow-primary/10"></div>
+      <div className="absolute top-1/2 right-10 w-2 h-2 bg-accent/20 rounded-full animate-float-slow shadow-md shadow-accent/15"></div>
+      <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-secondary/30 rounded-full animate-float-delayed shadow-lg shadow-secondary/20"></div>
+      <div className="absolute top-1/4 right-1/5 w-3 h-3 bg-primary/10 rounded-full animate-float shadow-xl shadow-primary/5"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-accent/40 rounded-full animate-float-slow shadow-sm shadow-accent/25"></div>
+      <div className="absolute top-3/4 left-1/6 w-2 h-2 bg-muted-foreground/25 rounded-full animate-float-delayed shadow-md"></div>
+      <div className="absolute top-2/3 right-1/6 w-1.5 h-1.5 bg-secondary/35 rounded-full animate-float shadow-lg shadow-secondary/15"></div>
+      <div className="absolute bottom-1/5 left-2/3 w-2.5 h-2.5 bg-primary/20 rounded-full animate-float-slow shadow-xl shadow-primary/15"></div>
+      <div className="absolute top-1/6 left-1/2 w-1 h-1 bg-accent/30 rounded-full animate-float-delayed shadow-sm shadow-accent/20"></div>
+      <div className="absolute bottom-1/6 right-1/2 w-2 h-2 bg-secondary/20 rounded-full animate-float shadow-lg shadow-secondary/10"></div>
+      <div className="absolute top-5/6 left-3/4 w-1.5 h-1.5 bg-primary/25 rounded-full animate-float-slow shadow-md shadow-primary/20"></div>
+      <div className="absolute bottom-2/3 left-1/12 w-1 h-1 bg-accent/35 rounded-full animate-float-delayed shadow-sm shadow-accent/15"></div>
+      <div className="absolute top-1/12 right-3/4 w-3 h-3 bg-muted-foreground/20 rounded-full animate-float shadow-xl"></div>
+      <div className="absolute bottom-1/12 right-1/12 w-2 h-2 bg-secondary/30 rounded-full animate-float-slow shadow-lg shadow-secondary/25"></div>
     </div>
   );
 };
