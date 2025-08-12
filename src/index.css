@@ -172,7 +172,11 @@ All colors MUST be HSL.
   .btn-premium {
     @apply relative overflow-hidden px-8 py-4 rounded-lg font-medium transition-all duration-500;
     @apply bg-primary text-primary-foreground hover:scale-105 transform;
-    @apply shadow-elegant hover:shadow-premium;
+    box-shadow: 0 20px 40px -10px hsla(0, 0%, 0%, 0.1);
+  }
+
+  .btn-premium:hover {
+    box-shadow: 0 32px 64px -12px hsla(0, 0%, 0%, 0.15);
   }
   
   .btn-premium::before {
