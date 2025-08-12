@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@/components/ThemeProvider';
-import { RouteTransition } from './RouteTransition';
+import { Spotlight } from '@/components/ui/spotlight-new';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,9 +39,19 @@ export const Header = () => {
 
   return (
     <>
-      {/* Sun spotlight bloom effect */}
-      <div className="fixed top-0 left-0 right-0 z-[9997] h-60 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 w-[800px] h-[400px] bg-gradient-radial from-orange-400/15 via-orange-300/8 via-orange-200/4 to-transparent dark:from-orange-500/12 dark:via-orange-400/6 dark:via-orange-300/3 dark:to-transparent rounded-full blur-[120px] animate-spotlight mix-blend-overlay opacity-70" />
+      {/* Professional Spotlight Effect */}
+      <div className="fixed top-0 left-0 right-0 z-[9997] h-32 overflow-hidden pointer-events-none">
+        <Spotlight 
+          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(25, 100%, 75%, .06) 0, hsla(25, 100%, 60%, .015) 50%, hsla(25, 100%, 50%, 0) 80%)"
+          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(25, 100%, 75%, .04) 0, hsla(25, 100%, 60%, .015) 80%, transparent 100%)"
+          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(25, 100%, 75%, .03) 0, hsla(25, 100%, 55%, .01) 80%, transparent 100%)"
+          translateY={-300}
+          width={300}
+          height={600}
+          smallWidth={120}
+          duration={8}
+          xOffset={60}
+        />
       </div>
       
       <motion.header
