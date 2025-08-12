@@ -1,0 +1,90 @@
+/* Aftika Font Family */
+@font-face {
+  font-family: 'Aftika';
+  src: url('/fonts/aftika/Demo_Fonts/Fontspring-DEMO-aftika-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aftika';
+  src: url('/fonts/aftika/Demo_Fonts/Fontspring-DEMO-aftika-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aftika';
+  src: url('/fonts/aftika/Demo_Fonts/Fontspring-DEMO-aftika-black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Palo Font Family */
+@font-face {
+  font-family: 'Palo';
+  src: url('/fonts/Palo/palo-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Palo';
+  src: url('/fonts/Palo/palo-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Palo';
+  src: url('/fonts/Palo/palo-black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Palo Compressed';
+  src: url('/fonts/Palo/palo-compressed-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Palo Wide';
+  src: url('/fonts/Palo/palo-wide-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Montserrat Font Family */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Mon/Montserrat-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Mon/Montserrat-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Mon/Montserrat-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

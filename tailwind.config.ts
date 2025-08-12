@@ -22,6 +22,9 @@ export default {
         'display': ['Playfair Display', 'serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
         'serif': ['Playfair Display', 'serif'],
+        'aftika': ['Aftika', 'sans-serif'],
+        'palo': ['Palo', 'sans-serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
       },
 			colors: {
 				border: 'hsl(var(--border))',

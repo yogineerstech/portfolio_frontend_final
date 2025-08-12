@@ -1,188 +1,239 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WrapButton } from '@/components/ui/wrap-button-new';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const Hero = () => {
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    const cta = ctaRef.current;
-    const scrollIndicator = scrollIndicatorRef.current;
+    const ctx = gsap.context(() => {
+      // Hero section entrance animation
+      const tl = gsap.timeline({ delay: 2.7 });
+      
+      tl.fromTo(
+        titleRef.current,
+        { y: 100, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 1.2, 
+          ease: 'power3.out',
+        }
+      )
+      .fromTo(
+        subtitleRef.current,
+        { y: 50, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 1, 
+          ease: 'power3.out' 
+        },
+        '-=0.8'
+      )
+      .fromTo(
+        descriptionRef.current,
+        { y: 30, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power3.out' 
+        },
+        '-=0.6'
+      )
+      .fromTo(
+        ctaRef.current,
+        { y: 30, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power3.out' 
+        },
+        '-=0.4'
+      )
+      .fromTo(
+        scrollIndicatorRef.current,
+        { opacity: 0 },
+        { 
+          opacity: 1, 
+          duration: 1, 
+          ease: 'power2.out' 
+        },
+        '-=0.2'
+      );
 
-    if (!title || !subtitle || !cta || !scrollIndicator) return;
+      // Parallax background movement
+      gsap.to(backgroundRef.current, {
+        yPercent: -50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
 
-    // Delay animations to start after page transition
-    const tl = gsap.timeline({ delay: 2.2 });
+      // Hero content parallax
+      gsap.to(parallaxRef.current, {
+        yPercent: -20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
 
-    // Staggered text reveal
-    tl.from(title.children, {
-      y: 100,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.1,
-      ease: 'power3.out'
-    })
-    .from(subtitle, {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out'
-    }, '-=0.5')
-    .from(cta.children, {
-      y: 30,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out'
-    }, '-=0.3')
-    .from(scrollIndicator, {
-      y: 20,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, '-=0.2');
+      // Scroll indicator animation
+      gsap.to(scrollIndicatorRef.current, {
+        opacity: 0,
+        y: -20,
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
 
-    return () => {
-      tl.kill();
-    };
+      // Micro-interactions for CTA buttons
+      const ctaButtons = ctaRef.current?.querySelectorAll('.cta-button');
+      ctaButtons?.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          gsap.to(button, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+        });
+
+        button.addEventListener('mouseleave', () => {
+          gsap.to(button, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+        });
+      });
+
+      // Text reveal animation for title
+      const titleChars = titleRef.current?.querySelectorAll('.char');
+      if (titleChars) {
+        gsap.fromTo(
+          titleChars,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.02,
+            ease: 'power3.out',
+            delay: 3.0,
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
   }, []);
 
+  const splitText = (text: string) => {
+    return text.split('').map((char, index) => (
+      <span key={index} className="char inline-block">
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Enhanced Background Elements with floating animations */}
-      <div className="absolute inset-0 opacity-5">
-        <motion.div 
-          animate={{ 
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            rotate: [0, 180, 360]
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute top-20 left-20 w-96 h-96 bg-accent rounded-full blur-3xl"
-        />
-        <motion.div 
-          animate={{ 
-            x: [0, -80, 0],
-            y: [0, 100, 0],
-            rotate: [0, -180, -360]
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"
-        />
-        
-        {/* Floating particles */}
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            transition={{
-              duration: 10 + Math.random() * 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-            className="absolute w-2 h-2 bg-accent/30 rounded-full"
-          />
-        ))}
+    <div 
+      ref={heroRef}
+      className="relative min-h-screen overflow-hidden bg-[hsl(var(--cream-background))] dark:bg-[hsl(var(--cream-background))]"
+    >
+      {/* Animated background elements */}
+      <div
+        ref={backgroundRef}
+        className="absolute inset-0 pointer-events-none"
+      >
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[hsl(var(--cream-text))]/5 dark:bg-[hsl(var(--cream-text))]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[hsl(var(--cream-text))]/3 dark:bg-[hsl(var(--cream-text))]/8 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-8 text-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 2.5 }}
-        >
-          <h1 
-            ref={titleRef}
-            className="text-hero text-foreground mb-6 leading-[0.85]"
-          >
-            <span className="block font-light">Tired of mediocre</span>
-            <span className="block font-light">solutions?</span>
+      {/* Main content */}
+      <div
+        ref={parallaxRef}
+        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center"
+      >
+        {/* Main title */}
+        <div ref={titleRef} className="mb-6">
+          <h1 className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[hsl(var(--cream-text))] leading-none tracking-tight font-aftika">
+            {splitText('YOGINEERS')}
           </h1>
+        </div>
 
-          <p 
-            ref={subtitleRef}
-            className="text-elegant-italic text-foreground/90 max-w-4xl mx-auto mb-12"
-          >
-            Your growth demands <span className="text-hero-accent">experts, not excuses.</span>
+        {/* Subtitle */}
+        <div ref={subtitleRef} className="mb-8">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[hsl(var(--cream-text))] tracking-wide font-palo">
+            TECH
+          </h2>
+        </div>
+
+        {/* Description */}
+        <div ref={descriptionRef} className="mb-12 max-w-2xl">
+          <p className="text-lg md:text-xl text-[hsl(var(--cream-text))]/80 leading-relaxed font-montserrat">
+            Crafting digital experiences that inspire and innovate. 
+            We transform ideas into beautiful, functional solutions 
+            that make a difference.
           </p>
+        </div>
 
-          <div className="text-body text-muted-foreground max-w-2xl mx-auto mb-16">
-            Premium software development, AI integration, and healthcare technology solutions 
-            that transform ambitious ideas into award-winning digital experiences.
-          </div>
-
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
+        {/* CTA Buttons */}
+        <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
+          <div className="cta-button">
             <WrapButton href="/services">
               Discover Excellence
             </WrapButton>
-
+          </div>
+          <div className="cta-button">
             <WrapButton href="/contact">
               View Portfolio
             </WrapButton>
           </div>
-        </motion.div>
-
-        {/* Enhanced Scroll Indicator with magnetic effect */}
-        <motion.div 
-          ref={scrollIndicatorRef}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
-          whileHover={{ scale: 1.1 }}
-          animate={{ 
-            y: [0, 10, 0],
-            rotate: [0, 5, -5, 0]
-          }}
-          transition={{ 
-            y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-            rotate: { repeat: Infinity, duration: 4, ease: "easeInOut" }
-          }}
-        >
-          <motion.div
-            className="flex flex-col items-center text-muted-foreground cursor-pointer"
-            whileHover={{ y: -5 }}
-          >
-            <span className="text-sm font-display tracking-wider mb-3">Explore Further</span>
-            <div className="w-6 h-12 border border-current rounded-full flex justify-center overflow-hidden">
-              <motion.div
-                animate={{ y: [0, 16, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className="w-1 h-4 bg-current rounded-full mt-2"
-              />
-            </div>
-            
-            {/* Ripple effect on hover */}
-            <motion.div
-              className="absolute inset-0 border border-current rounded-full opacity-0"
-              whileHover={{ 
-                scale: [1, 1.5, 2],
-                opacity: [0, 0.3, 0]
-              }}
-              transition={{ duration: 1 }}
-            />
-          </motion.div>
-        </motion.div>
+        </div>
       </div>
-    </section>
+
+      {/* Scroll indicator */}
+      <div
+        ref={scrollIndicatorRef}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-[hsl(var(--cream-text))]/60"
+      >
+        <span className="text-sm font-medium mb-2 tracking-wider font-montserrat">
+          SCROLL
+        </span>
+        <div className="w-px h-16 bg-[hsl(var(--cream-text))]/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-8 bg-[hsl(var(--cream-text))]/40 animate-scroll-down"></div>
+        </div>
+      </div>
+
+      {/* Floating elements */}
+      <div className="absolute top-20 left-20 w-2 h-2 bg-[hsl(var(--cream-text))]/20 rounded-full animate-float"></div>
+      <div className="absolute top-40 right-32 w-3 h-3 bg-[hsl(var(--cream-text))]/15 rounded-full animate-float-delayed"></div>
+      <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-[hsl(var(--cream-text))]/25 rounded-full animate-float-slow"></div>
+    </div>
   );
 };
