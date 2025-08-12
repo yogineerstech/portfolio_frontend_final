@@ -86,7 +86,7 @@ export const PageTransition = ({ children }: PageTransitionProps) => {
           >
             <div
               ref={progressRef}
-              className="h-full bg-gradient-to-r from-white to-orange-400 rounded-full w-0"
+              className="h-full bg-gradient-to-r from-accent via-primary to-accent rounded-full w-0"
             />
           </motion.div>
         </div>

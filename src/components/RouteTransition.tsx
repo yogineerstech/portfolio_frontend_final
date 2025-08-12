@@ -90,7 +90,7 @@ export const RouteTransition = ({ children }: RouteTransitionProps) => {
           <div className="w-96 h-1 bg-white/20 rounded-full mx-auto overflow-hidden">
             <div
               ref={progressRef}
-              className="h-full bg-gradient-to-r from-white via-orange-400 to-white rounded-full w-0 transition-all duration-300"
+              className="h-full bg-gradient-to-r from-accent via-primary to-accent rounded-full w-0 transition-all duration-300"
             />
           </div>
         </div>

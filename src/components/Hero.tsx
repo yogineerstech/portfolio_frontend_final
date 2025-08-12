@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import { WrapButton } from '@/components/ui/wrap-button';
+import { WrapButton } from '@/components/ui/wrap-button-new';
 
 export const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -55,10 +55,56 @@ export const Hero = () => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Background Elements */}
+      {/* Enhanced Background Elements with floating animations */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        <motion.div 
+          animate={{ 
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            rotate: [0, 180, 360]
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-20 left-20 w-96 h-96 bg-accent rounded-full blur-3xl"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -80, 0],
+            y: [0, 100, 0],
+            rotate: [0, -180, -360]
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"
+        />
+        
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            transition={{
+              duration: 10 + Math.random() * 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+            className="absolute w-2 h-2 bg-accent/30 rounded-full"
+          />
+        ))}
       </div>
 
       <div className="container mx-auto px-6 lg:px-8 text-center relative z-10">
@@ -88,25 +134,33 @@ export const Hero = () => {
           </div>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
-            <WrapButton variant="primary" size="lg">
+            <WrapButton href="/services">
               Discover Excellence
             </WrapButton>
 
-            <WrapButton variant="secondary" size="lg">
+            <WrapButton href="/contact">
               View Portfolio
             </WrapButton>
           </div>
         </motion.div>
 
-        {/* Elegant Scroll Indicator */}
-        <div 
+        {/* Enhanced Scroll Indicator with magnetic effect */}
+        <motion.div 
           ref={scrollIndicatorRef}
           className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+          whileHover={{ scale: 1.1 }}
+          animate={{ 
+            y: [0, 10, 0],
+            rotate: [0, 5, -5, 0]
+          }}
+          transition={{ 
+            y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+            rotate: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+          }}
         >
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-            className="flex flex-col items-center text-muted-foreground"
+            className="flex flex-col items-center text-muted-foreground cursor-pointer"
+            whileHover={{ y: -5 }}
           >
             <span className="text-sm font-display tracking-wider mb-3">Explore Further</span>
             <div className="w-6 h-12 border border-current rounded-full flex justify-center overflow-hidden">
@@ -116,8 +170,18 @@ export const Hero = () => {
                 className="w-1 h-4 bg-current rounded-full mt-2"
               />
             </div>
+            
+            {/* Ripple effect on hover */}
+            <motion.div
+              className="absolute inset-0 border border-current rounded-full opacity-0"
+              whileHover={{ 
+                scale: [1, 1.5, 2],
+                opacity: [0, 0.3, 0]
+              }}
+              transition={{ duration: 1 }}
+            />
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
