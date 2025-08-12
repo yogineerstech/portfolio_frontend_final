@@ -95,20 +95,25 @@ export default {
 				},
 				'spotlight': {
 					'0%': {
-						transform: 'translateX(-100%)'
+						transform: 'translateX(-150%) scale(1.2)',
+						opacity: '0'
 					},
-					'50%': {
-						transform: 'translateX(calc(100vw - 50%))'
+					'25%': {
+						opacity: '1'
+					},
+					'75%': {
+						opacity: '1'
 					},
 					'100%': {
-						transform: 'translateX(-100%)'
+						transform: 'translateX(calc(100vw + 50%)) scale(1.2)',
+						opacity: '0'
 					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'spotlight': 'spotlight 8s ease-in-out infinite'
+				'spotlight': 'spotlight 2.5s ease-in-out infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
