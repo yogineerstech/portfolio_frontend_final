@@ -42,7 +42,7 @@ export const Header = () => {
         initial={{ y: 0, opacity: 1 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0 }}
-        className="fixed top-0 left-0 right-0 z-[9998] bg-background/10 backdrop-blur-xl border-b border-border/20 shadow-lg shadow-primary/5 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-[9998] bg-white/10 dark:bg-black/10 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-2xl shadow-primary/10 transition-all duration-300"
       >
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
