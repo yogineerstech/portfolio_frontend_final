@@ -39,8 +39,10 @@ export const Header = () => {
 
   return (
     <>
-      {/* Orange bloom effect */}
-      <div className="fixed top-0 left-0 right-0 z-[9997] h-40 bg-gradient-to-b from-orange-400/40 via-orange-300/25 to-transparent dark:from-orange-500/35 dark:via-orange-400/20 dark:to-transparent blur-3xl opacity-90" />
+      {/* Sun spotlight bloom effect */}
+      <div className="fixed top-0 left-0 right-0 z-[9997] h-40 overflow-hidden">
+        <div className="absolute -top-10 w-96 h-96 bg-gradient-radial from-orange-400/50 via-orange-300/30 to-transparent dark:from-orange-500/40 dark:via-orange-400/25 dark:to-transparent rounded-full blur-3xl animate-[spotlight_8s_ease-in-out_infinite]" />
+      </div>
       
       <motion.header
         initial={{ y: 0, opacity: 1 }}
