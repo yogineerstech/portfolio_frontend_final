@@ -116,7 +116,12 @@ All colors MUST be HSL.
   }
 
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Let Lenis handle smooth scrolling */
+  }
+
+  .smooth-scroll-container {
+    height: 100%;
+    overflow-x: hidden;
   }
 }
 

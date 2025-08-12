@@ -2,12 +2,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { SectionTransition } from './SectionTransition';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { RouteTransition } from './RouteTransition';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,31 +21,22 @@ export const Header = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   const handleNavClick = (href: string) => {
-    setIsTransitioning(true);
     setIsMobileMenuOpen(false);
     
-    // Trigger transition then scroll
-    setTimeout(() => {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-      setIsTransitioning(false);
-    }, 600);
+    if (href !== location.pathname) {
+      navigate(href);
+    }
   };
 
   return (
-    <>
-      <SectionTransition isActive={isTransitioning} />
-      
-      <motion.header
+    <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 2, ease: [0.4, 0, 0.2, 1] }}
@@ -93,7 +86,7 @@ export const Header = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 2.6 }}
               className="hidden md:block btn-premium group"
-              onClick={() => handleNavClick('#contact')}
+              onClick={() => handleNavClick('/contact')}
             >
               <span className="relative z-10">Get Started</span>
             </motion.button>
@@ -128,7 +121,7 @@ export const Header = () => {
                 </button>
               ))}
               <button 
-                onClick={() => handleNavClick('#contact')}
+                onClick={() => handleNavClick('/contact')}
                 className="w-full mt-4 btn-premium"
               >
                 Get Started
@@ -137,6 +130,5 @@ export const Header = () => {
           )}
         </div>
       </motion.header>
-    </>
   );
 };
