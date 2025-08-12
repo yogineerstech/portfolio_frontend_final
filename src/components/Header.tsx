@@ -40,19 +40,10 @@ export const Header = () => {
   return (
     <>
       {/* Professional Spotlight Effect */}
-      <div className="fixed top-0 left-0 right-0 z-[9997] h-32 overflow-hidden pointer-events-none">
-        <Spotlight 
-          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(25, 100%, 75%, .06) 0, hsla(25, 100%, 60%, .015) 50%, hsla(25, 100%, 50%, 0) 80%)"
-          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(25, 100%, 75%, .04) 0, hsla(25, 100%, 60%, .015) 80%, transparent 100%)"
-          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(25, 100%, 75%, .03) 0, hsla(25, 100%, 55%, .01) 80%, transparent 100%)"
-          translateY={-300}
-          width={300}
-          height={600}
-          smallWidth={120}
-          duration={8}
-          xOffset={60}
-        />
-      </div>
+      <Spotlight
+        className="-top-40 left-0 md:-top-20 md:left-60"
+        fill="hsl(var(--primary))"
+      />
       
       <motion.header
         initial={{ y: 0, opacity: 1 }}
