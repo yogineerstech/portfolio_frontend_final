@@ -40,7 +40,7 @@ export const Header = () => {
   return (
     <>
       {/* Orange bloom effect */}
-      <div className="fixed top-0 left-0 right-0 z-[9997] h-32 bg-gradient-to-b from-orange-400/20 via-orange-300/10 to-transparent dark:from-orange-500/15 dark:via-orange-400/8 dark:to-transparent blur-3xl opacity-60" />
+      <div className="fixed top-0 left-0 right-0 z-[9997] h-40 bg-gradient-to-b from-orange-400/40 via-orange-300/25 to-transparent dark:from-orange-500/35 dark:via-orange-400/20 dark:to-transparent blur-3xl opacity-90" />
       
       <motion.header
         initial={{ y: 0, opacity: 1 }}
