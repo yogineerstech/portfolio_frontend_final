@@ -68,56 +68,59 @@ export const Hero = () => {
         >
           <h1 
             ref={titleRef}
-            className="text-display-xl text-foreground mb-8 leading-tight"
+            className="text-hero text-foreground mb-6 leading-[0.85]"
           >
-            <span className="block">Premium</span>
-            <span className="block">Software</span>
-            <span className="block text-accent">Solutions</span>
+            <span className="block font-light">Tired of mediocre</span>
+            <span className="block font-light">solutions?</span>
           </h1>
 
           <p 
             ref={subtitleRef}
-            className="text-body-lg text-muted-foreground max-w-3xl mx-auto mb-12"
+            className="text-elegant-italic text-foreground/90 max-w-4xl mx-auto mb-12"
           >
-            Cutting-edge software development, AI integration, and healthcare technology solutions. 
-            We transform ideas into award-winning digital experiences.
+            Your growth demands <span className="text-hero-accent">experts, not excuses.</span>
           </p>
 
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
+          <div className="text-body text-muted-foreground max-w-2xl mx-auto mb-16">
+            Premium software development, AI integration, and healthcare technology solutions 
+            that transform ambitious ideas into award-winning digital experiences.
+          </div>
+
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.95 }}
               className="btn-premium group"
             >
-              <span className="relative z-10">Start Your Project</span>
+              <span className="relative z-10 font-display">Discover Excellence</span>
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotate: -1 }}
               whileTap={{ scale: 0.95 }}
               className="btn-outline-premium"
             >
-              View Our Work
+              <span className="font-display">View Portfolio</span>
             </motion.button>
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Elegant Scroll Indicator */}
         <div 
           ref={scrollIndicatorRef}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
             className="flex flex-col items-center text-muted-foreground"
           >
-            <span className="text-sm mb-2">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 border-current rounded-full flex justify-center">
+            <span className="text-sm font-display tracking-wider mb-3">Explore Further</span>
+            <div className="w-6 h-12 border border-current rounded-full flex justify-center overflow-hidden">
               <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="w-1 h-3 bg-current rounded-full mt-2"
+                animate={{ y: [0, 16, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="w-1 h-4 bg-current rounded-full mt-2"
               />
             </div>
           </motion.div>
