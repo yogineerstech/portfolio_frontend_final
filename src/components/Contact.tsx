@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, Send, CheckCircle, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,18 +15,30 @@ export const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    company: '',
     message: '',
   });
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const contactMethods = [
-    { icon: MessageSquare, title: 'Live Chat', detail: 'Available 24/7', color: 'from-blue-600 to-blue-400' },
-    { icon: Mail, title: 'Email Us', detail: 'support@yogineers.com', color: 'from-purple-600 to-purple-400' },
-    { icon: Phone, title: 'Call Us', detail: '+1 (555) 123-4567', color: 'from-indigo-600 to-indigo-400' },
-    { icon: MapPin, title: 'Visit Us', detail: 'Tech Hub, Innovation Street', color: 'from-violet-600 to-violet-400' }
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: 'Email Us',
+      content: 'hello@yogineers.com',
+      description: 'Send us an email anytime!',
+    },
+    {
+      icon: Phone,
+      title: 'Call Us',
+      content: '+1 (555) 123-4567',
+      description: 'Mon-Fri from 8am to 5pm',
+    },
+    {
+      icon: MapPin,
+      title: 'Visit Us',
+      content: 'San Francisco, CA',
+      description: 'Come say hello at our office',
+    },
   ];
 
   useEffect(() => {
@@ -67,21 +79,12 @@ export const Contact = () => {
       );
   }, [isInView]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      // Simulate API call - replace with actual endpoint
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
-      console.error('Submission error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Simulate form submission
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 3000);
+    setFormData({ name: '', email: '', company: '', message: '' });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,134 +95,153 @@ export const Contact = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground p-4 sm:p-8 mt-[10vh]">
-      <div className="relative border border-primary/30 rounded-3xl overflow-hidden backdrop-blur-sm">
-        <div className="absolute inset-0 bg-primary/5" />
-        <div className="relative container mx-auto px-4 py-16">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-            <h1
-              ref={titleRef}
-              className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-            >
-              Let's Connect
-            </h1>
-            <p className="text-muted-foreground text-xl">Transform your ideas into reality with us</p>
-          </motion.div>
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="py-24 lg:py-32 bg-card/50 relative overflow-hidden"
+    >
+      {/* Background Elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 right-10 w-80 h-80 bg-accent rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary rounded-full blur-3xl" />
+      </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-              <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                {contactMethods.map((method, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    className={`contact-card p-4 rounded-xl bg-gradient-to-br ${method.color} bg-opacity-10 backdrop-blur-sm border border-primary/20`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <method.icon className="w-6 h-6 text-primary" />
-                      <div>
-                        <h3 className="font-semibold text-foreground">{method.title}</h3>
-                        <p className="text-sm text-muted-foreground">{method.detail}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2
+            ref={titleRef}
+            className="text-display-lg mb-6 text-foreground"
+          >
+            Let's Build Something Amazing Together
+          </h2>
+          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Ready to transform your ideas into reality? Get in touch with our team of experts 
+            and let's discuss how we can help bring your vision to life.
+          </p>
+        </div>
 
-              <motion.form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                {['name', 'email', 'subject'].map((field) => (
-                  <motion.div key={field} whileTap={{ scale: 0.995 }}>
-                    <div className="relative">
-                      <motion.input
-                        type={field === 'email' ? 'email' : 'text'}
-                        name={field}
-                        value={formData[field as keyof typeof formData]}
-                        onChange={handleChange}
-                        onFocus={() => setFocusedField(field)}
-                        onBlur={() => setFocusedField(null)}
-                        className={`w-full bg-primary/10 border ${
-                          focusedField === field ? 'border-primary' : 'border-primary/20'
-                        } rounded-lg p-4 text-foreground placeholder-muted-foreground backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300`}
-                        placeholder={
-                          field === 'subject' ? 'Subject' :
-                            field.charAt(0).toUpperCase() + field.slice(1)
-                        }
-                        required={field !== 'subject'}
-                      />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Contact Information */}
+          <div className="lg:col-span-1">
+            <div className="space-y-8">
+              {contactInfo.map((info, index) => (
+                <motion.div
+                  key={info.title}
+                  className="contact-card"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                      <info.icon className="w-6 h-6 text-accent" />
                     </div>
-                  </motion.div>
-                ))}
-                
-                <motion.div whileTap={{ scale: 0.995 }}>
-                  <div className="relative">
-                    <motion.textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      onFocus={() => setFocusedField('message')}
-                      onBlur={() => setFocusedField(null)}
-                      className={`w-full bg-primary/10 border ${focusedField === 'message' ? 'border-primary' : 'border-primary/20'
-                        } rounded-lg p-4 text-foreground placeholder-muted-foreground backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300`}
-                      placeholder="Message"
-                      rows={4}
-                      required
-                    />
+                    <div>
+                      <h3 className="text-display-sm mb-2 text-foreground">
+                        {info.title}
+                      </h3>
+                      <p className="text-body font-medium text-foreground mb-1">
+                        {info.content}
+                      </p>
+                      <p className="text-body text-muted-foreground">
+                        {info.description}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
+              ))}
+            </div>
+          </div>
 
-                <div className="space-y-2">
-                  <motion.button
-                    type="submit"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    disabled={isSubmitting}
-                    className={`w-full py-4 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center space-x-2 text-primary-foreground font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                      }`}
-                  >
-                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                    <Send className="w-5 h-5" />
-                  </motion.button>
-
-                  {submitStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center text-green-400 text-sm"
-                    >
-                      Message sent successfully!
-                    </motion.div>
-                  )}
-                  {submitStatus === 'error' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center text-red-400 text-sm"
-                    >
-                      Failed to send message. Please try again.
-                    </motion.div>
-                  )}
+          {/* Contact Form */}
+          <div className="lg:col-span-2">
+            <motion.form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="bg-card rounded-3xl p-8 lg:p-10 shadow-xl border border-border"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="block text-body font-medium text-foreground mb-3">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 text-foreground"
+                    placeholder="Your full name"
+                  />
                 </div>
-              </motion.form>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="relative lg:h-full">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl blur-3xl" />
-              <div className="relative h-full border border-primary/20 rounded-2xl p-8 backdrop-blur-sm">
-                <div className="h-full w-full rounded-xl overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.418226163045!2d72.9702449!3d19.220596399999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b95d538156e1%3A0x187b9472a813728!2sK.K.%20Computer%20Academy!5e0!3m2!1sen!2sin!4v1746008228104!5m2!1sen!2sin"
-                    className="w-full h-full min-h-[600px]"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                <div>
+                  <label className="block text-body font-medium text-foreground mb-3">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 text-foreground"
+                    placeholder="your@email.com"
                   />
                 </div>
               </div>
-            </motion.div>
+
+              <div className="mb-6">
+                <label className="block text-body font-medium text-foreground mb-3">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 text-foreground"
+                  placeholder="Your company name"
+                />
+              </div>
+
+              <div className="mb-8">
+                <label className="block text-body font-medium text-foreground mb-3">
+                  Project Details *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 text-foreground resize-none"
+                  placeholder="Tell us about your project, timeline, and requirements..."
+                />
+              </div>
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitted}
+                className="w-full btn-premium group flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitted ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    <span className="relative z-10">Message Sent!</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="relative z-10">Send Message</span>
+                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
+                  </>
+                )}
+              </motion.button>
+            </motion.form>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
