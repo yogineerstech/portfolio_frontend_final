@@ -123,23 +123,19 @@ All colors MUST be HSL.
 /* Premium Typography Classes */
 @layer components {
   .text-display-xl {
-    @apply text-6xl lg:text-8xl font-bold tracking-tight leading-none;
-    font-family: var(--font-display);
+    @apply text-6xl lg:text-8xl font-bold tracking-tight leading-none font-display;
   }
   
   .text-display-lg {
-    @apply text-4xl lg:text-6xl font-bold tracking-tight leading-tight;
-    font-family: var(--font-display);
+    @apply text-4xl lg:text-6xl font-bold tracking-tight leading-tight font-display;
   }
   
   .text-display-md {
-    @apply text-3xl lg:text-4xl font-semibold tracking-tight leading-tight;
-    font-family: var(--font-display);
+    @apply text-3xl lg:text-4xl font-semibold tracking-tight leading-tight font-display;
   }
   
   .text-display-sm {
-    @apply text-xl lg:text-2xl font-medium tracking-wide;
-    font-family: var(--font-display);
+    @apply text-xl lg:text-2xl font-medium tracking-wide font-display;
   }
 
   .text-body-lg {
