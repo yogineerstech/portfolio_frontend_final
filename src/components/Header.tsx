@@ -40,8 +40,8 @@ export const Header = () => {
   return (
     <>
       {/* Sun spotlight bloom effect */}
-      <div className="fixed top-0 left-0 right-0 z-[9997] h-60 overflow-hidden">
-        <div className="absolute -top-20 w-[600px] h-[600px] bg-gradient-radial from-orange-400/60 via-orange-300/35 via-orange-200/20 to-transparent dark:from-orange-500/50 dark:via-orange-400/30 dark:via-orange-300/15 dark:to-transparent rounded-full blur-[80px] animate-spotlight mix-blend-soft-light" />
+      <div className="fixed top-0 left-0 right-0 z-[9997] h-60 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 w-[800px] h-[400px] bg-gradient-radial from-orange-400/15 via-orange-300/8 via-orange-200/4 to-transparent dark:from-orange-500/12 dark:via-orange-400/6 dark:via-orange-300/3 dark:to-transparent rounded-full blur-[120px] animate-spotlight mix-blend-overlay opacity-70" />
       </div>
       
       <motion.header
