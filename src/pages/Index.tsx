@@ -1,4 +1,6 @@
+
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
+import { PageTransition } from "@/components/PageTransition";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -8,18 +10,20 @@ import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <SmoothScrollProvider>
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main>
-          <Hero />
-          <About />
-          <Services />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </SmoothScrollProvider>
+    <PageTransition>
+      <SmoothScrollProvider>
+        <div className="min-h-screen bg-background">
+          <Header />
+          <main>
+            <Hero />
+            <About />
+            <Services />
+            <Contact />
+          </main>
+          <Footer />
+        </div>
+      </SmoothScrollProvider>
+    </PageTransition>
   );
 };
 

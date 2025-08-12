@@ -1,150 +1,127 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import { ChevronDown, ArrowRight } from 'lucide-react';
 
 export const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.5 });
+    const title = titleRef.current;
+    const subtitle = subtitleRef.current;
+    const cta = ctaRef.current;
+    const scrollIndicator = scrollIndicatorRef.current;
 
-    // Animate title with stagger effect
-    if (titleRef.current) {
-      const chars = titleRef.current.textContent?.split('') || [];
-      titleRef.current.innerHTML = chars
-        .map((char) => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`)
-        .join('');
+    if (!title || !subtitle || !cta || !scrollIndicator) return;
 
-      tl.fromTo(
-        '.char',
-        {
-          y: 100,
-          opacity: 0,
-          rotationX: -90,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.03,
-          ease: 'back.out(1.7)',
-        }
-      );
-    }
+    // Delay animations to start after page transition
+    const tl = gsap.timeline({ delay: 2.2 });
 
-    // Animate subtitle and CTA
-    tl.fromTo(
-      subtitleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-      '-=0.3'
-    )
-      .fromTo(
-        ctaRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
-        '-=0.4'
-      );
+    // Staggered text reveal
+    tl.from(title.children, {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.1,
+      ease: 'power3.out'
+    })
+    .from(subtitle, {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out'
+    }, '-=0.5')
+    .from(cta.children, {
+      y: 30,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out'
+    }, '-=0.3')
+    .from(scrollIndicator, {
+      y: 20,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.2');
+
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background to-background/90">
-        <div className="absolute inset-0 opacity-5">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ scale: 0, rotate: 0 }}
-              animate={{
-                scale: [0, 1, 0],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                delay: i * 0.4,
-                ease: 'linear',
-              }}
-              className="absolute w-2 h-2 bg-accent rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+      {/* Background Elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-6 lg:px-8 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="max-w-5xl mx-auto"
+          transition={{ duration: 0.8, delay: 2.5 }}
         >
-          {/* Title */}
-          <h1
+          <h1 
             ref={titleRef}
-            className="text-display-xl mb-8 text-foreground leading-none"
+            className="text-display-xl text-foreground mb-8 leading-tight"
           >
-            Yogineers Technologies
+            <span className="block">Premium</span>
+            <span className="block">Software</span>
+            <span className="block text-accent">Solutions</span>
           </h1>
 
-          {/* Subtitle */}
-          <p
+          <p 
             ref={subtitleRef}
-            className="text-body-lg text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-body-lg text-muted-foreground max-w-3xl mx-auto mb-12"
           >
-            We craft cutting-edge software solutions with AI integration, healthcare technology,
-            and government platforms. Building the future of digital experiences with premium
-            design and flawless execution.
+            Cutting-edge software development, AI integration, and healthcare technology solutions. 
+            We transform ideas into award-winning digital experiences.
           </p>
 
-          {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
             <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="btn-premium group flex items-center justify-center gap-3"
+              className="btn-premium group"
             >
               <span className="relative z-10">Start Your Project</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn-outline-premium"
             >
               View Our Work
             </motion.button>
           </div>
-
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 1 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex flex-col items-center gap-2 text-muted-foreground"
-            >
-              <span className="text-sm font-medium">Scroll to explore</span>
-              <ChevronDown className="w-5 h-5" />
-            </motion.div>
-          </motion.div>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <div 
+          ref={scrollIndicatorRef}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="flex flex-col items-center text-muted-foreground"
+          >
+            <span className="text-sm mb-2">Scroll to explore</span>
+            <div className="w-6 h-10 border-2 border-current rounded-full flex justify-center">
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="w-1 h-3 bg-current rounded-full mt-2"
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
