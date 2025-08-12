@@ -39,9 +39,9 @@ export const Header = () => {
 
   return (
       <motion.header
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: 0, opacity: 1 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
             ? 'bg-background/10 backdrop-blur-xl border-b border-border/20 shadow-lg shadow-primary/5'
@@ -70,9 +70,9 @@ export const Header = () => {
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
                   whileHover={{ y: -2 }}
-                  initial={{ opacity: 0, y: -20 }}
+                  initial={{ opacity: 1, y: 0 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 2.2 + index * 0.1 }}
+                  transition={{ duration: 0 }}
                   className="text-foreground hover:text-accent transition-colors duration-300 font-medium"
                 >
                   {item.name}
@@ -80,41 +80,43 @@ export const Header = () => {
               ))}
             </nav>
 
-            {/* Theme Toggle */}
-            <motion.button
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 2.5 }}
-              className="hidden md:flex w-10 h-10 items-center justify-center rounded-lg bg-card border border-border hover:bg-accent/10 transition-colors duration-300"
-            >
-              {theme === "light" ? 
-                <Moon className="h-5 w-5 text-foreground" /> : 
-                <Sun className="h-5 w-5 text-foreground" />
-              }
-            </motion.button>
-
             {/* CTA Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 2.6 }}
-              className="hidden md:block btn-premium group"
-              onClick={() => handleNavClick('/contact')}
-            >
-              <span className="relative z-10">Get Started</span>
-            </motion.button>
+            <div className="hidden md:flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <motion.button
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 1, scale: 1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0 }}
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-card border border-border hover:bg-accent/10 transition-colors duration-300"
+              >
+                {theme === "light" ? 
+                  <Moon className="h-5 w-5 text-foreground" /> : 
+                  <Sun className="h-5 w-5 text-foreground" />
+                }
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 1, scale: 1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0 }}
+                className="btn-premium group"
+                onClick={() => handleNavClick('/contact')}
+              >
+                <span className="relative z-10">Get Started</span>
+              </motion.button>
+            </div>
 
             {/* Mobile Menu Toggle */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 2.4 }}
+              transition={{ duration: 0 }}
               className="md:hidden p-2 text-foreground"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

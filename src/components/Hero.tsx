@@ -216,11 +216,6 @@ export const Hero = () => {
               Start Your Project
             </WrapButton>
           </div>
-          <div className="cta-button">
-            <button className="px-8 py-4 border border-primary/20 bg-background/10 text-foreground rounded-full hover:bg-primary/10 hover:border-primary/40 transition-all duration-300 backdrop-blur-sm font-medium tracking-wide">
-              Learn More
-            </button>
-          </div>
         </div>
       </div>
 

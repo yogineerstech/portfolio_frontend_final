@@ -15,16 +15,22 @@ export const ShredTransition = ({ children }: ShredTransitionProps) => {
     const container = containerRef.current;
     if (!container) return;
 
+    // Skip animation on initial load
+    if (location.pathname === '/' && !sessionStorage.getItem('hasNavigated')) {
+      sessionStorage.setItem('hasNavigated', 'true');
+      return;
+    }
+
     // Create shredding rectangles
     const rectangles: HTMLDivElement[] = [];
-    const numRectangles = 20;
+    const numRectangles = 15;
     
     // Clear previous rectangles
     container.innerHTML = '';
     
     for (let i = 0; i < numRectangles; i++) {
       const rect = document.createElement('div');
-      rect.className = `fixed top-0 bg-background z-[9999] h-screen transition-transform duration-700 ease-in-out`;
+      rect.className = `fixed top-0 bg-primary z-[9999] h-screen`;
       rect.style.left = `${(i / numRectangles) * 100}%`;
       rect.style.width = `${100 / numRectangles}%`;
       rect.style.transform = 'translateY(-100%)';
@@ -32,33 +38,35 @@ export const ShredTransition = ({ children }: ShredTransitionProps) => {
       rectangles.push(rect);
     }
 
+    // Show container
+    gsap.set(container, { display: 'block' });
+
     // Animation timeline
     const tl = gsap.timeline();
 
     // Show rectangles with staggered animation
-    tl.set(container, { display: 'block' })
-      .to(rectangles, {
-        y: 0,
-        duration: 0.6,
-        stagger: {
-          amount: 0.3,
-          from: "center"
-        },
-        ease: 'power2.out'
-      })
-      // Hold briefly
-      .to({}, { duration: 0.3 })
-      // Hide rectangles
-      .to(rectangles, {
-        y: '100vh',
-        duration: 0.6,
-        stagger: {
-          amount: 0.3,
-          from: "center"
-        },
-        ease: 'power2.in'
-      })
-      .set(container, { display: 'none' });
+    tl.to(rectangles, {
+      y: 0,
+      duration: 0.4,
+      stagger: {
+        amount: 0.2,
+        from: "center"
+      },
+      ease: 'power2.out'
+    })
+    // Hold briefly
+    .to({}, { duration: 0.1 })
+    // Hide rectangles
+    .to(rectangles, {
+      y: '100vh',
+      duration: 0.4,
+      stagger: {
+        amount: 0.2,
+        from: "center"
+      },
+      ease: 'power2.in'
+    })
+    .set(container, { display: 'none' });
 
     return () => {
       tl.kill();
@@ -81,8 +89,8 @@ export const ShredTransition = ({ children }: ShredTransitionProps) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ 
-          duration: 0.8, 
-          delay: 1.2,
+          duration: 0.6, 
+          delay: 0.6,
           ease: [0.16, 1, 0.3, 1]
         }}
       >
