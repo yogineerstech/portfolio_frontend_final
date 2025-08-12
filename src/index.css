@@ -41,8 +41,6 @@ All colors MUST be HSL.
     --radius: 0.375rem;
 
     /* Custom cream background for hero */
-    --cream-background: 47 41% 96%;
-    --cream-text: 0 0% 0%;
 
     /* Premium animations and effects */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -103,9 +101,6 @@ All colors MUST be HSL.
     --input: 0 0% 12%;
     --ring: 47 41% 95%;
 
-    /* Dark mode cream override for hero */
-    --cream-background: 0 0% 6%;
-    --cream-text: 47 41% 95%;
     --sidebar-background: 0 0% 5%;
     --sidebar-foreground: 47 41% 95%;
     --sidebar-primary: 47 41% 95%;

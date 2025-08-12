@@ -163,15 +163,15 @@ export const Hero = () => {
   return (
     <div 
       ref={heroRef}
-      className="relative min-h-screen overflow-hidden bg-[hsl(var(--cream-background))] dark:bg-[hsl(var(--cream-background))]"
+      className="relative min-h-screen overflow-hidden bg-background"
     >
       {/* Animated background elements */}
       <div
         ref={backgroundRef}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[hsl(var(--cream-text))]/5 dark:bg-[hsl(var(--cream-text))]/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[hsl(var(--cream-text))]/3 dark:bg-[hsl(var(--cream-text))]/8 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-2xl"></div>
       </div>
 
       {/* Main content */}
@@ -181,38 +181,38 @@ export const Hero = () => {
       >
         {/* Main title */}
         <div ref={titleRef} className="mb-6">
-          <h1 className="text-8xl md:text-9xl lg:text-[12rem] font-black text-[hsl(var(--cream-text))] leading-none tracking-tight font-aftika">
+          <h1 className="text-8xl md:text-9xl lg:text-[12rem] font-black text-foreground leading-none tracking-tight font-aftika">
             {splitText('YOGINEERS')}
           </h1>
         </div>
 
         {/* Subtitle */}
         <div ref={subtitleRef} className="mb-8">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[hsl(var(--cream-text))] tracking-wide font-palo">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide font-palo">
             TECH
           </h2>
         </div>
 
         {/* Description */}
         <div ref={descriptionRef} className="mb-12 max-w-2xl">
-          <p className="text-lg md:text-xl text-[hsl(var(--cream-text))]/80 leading-relaxed font-montserrat">
-            Crafting digital experiences that inspire and innovate. 
-            We transform ideas into beautiful, functional solutions 
-            that make a difference.
+          <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-montserrat">
+            At Yogineers, we craft cutting-edge software solutions that bridge 
+            the gap between innovation and practicality. From AI-powered applications 
+            to healthcare technology and government platforms.
           </p>
         </div>
 
         {/* CTA Buttons */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
           <div className="cta-button">
-            <WrapButton href="/services">
-              Discover Excellence
+            <WrapButton href="/contact">
+              Start Your Project
             </WrapButton>
           </div>
           <div className="cta-button">
-            <WrapButton href="/contact">
-              View Portfolio
-            </WrapButton>
+            <button className="btn-outline-premium">
+              Learn More
+            </button>
           </div>
         </div>
       </div>
@@ -220,20 +220,20 @@ export const Hero = () => {
       {/* Scroll indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-[hsl(var(--cream-text))]/60"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground"
       >
         <span className="text-sm font-medium mb-2 tracking-wider font-montserrat">
-          SCROLL
+          SCROLL TO EXPLORE
         </span>
-        <div className="w-px h-16 bg-[hsl(var(--cream-text))]/20 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-8 bg-[hsl(var(--cream-text))]/40 animate-scroll-down"></div>
+        <div className="w-px h-16 bg-muted-foreground/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-8 bg-muted-foreground/40 animate-scroll-down"></div>
         </div>
       </div>
 
       {/* Floating elements */}
-      <div className="absolute top-20 left-20 w-2 h-2 bg-[hsl(var(--cream-text))]/20 rounded-full animate-float"></div>
-      <div className="absolute top-40 right-32 w-3 h-3 bg-[hsl(var(--cream-text))]/15 rounded-full animate-float-delayed"></div>
-      <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-[hsl(var(--cream-text))]/25 rounded-full animate-float-slow"></div>
+      <div className="absolute top-20 left-20 w-2 h-2 bg-accent/20 rounded-full animate-float"></div>
+      <div className="absolute top-40 right-32 w-3 h-3 bg-primary/15 rounded-full animate-float-delayed"></div>
+      <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-accent/25 rounded-full animate-float-slow"></div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '@/components/ThemeProvider';
 import { RouteTransition } from './RouteTransition';
 
 export const Header = () => {
@@ -10,6 +11,7 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,6 +80,22 @@ export const Header = () => {
               ))}
             </nav>
 
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 2.5 }}
+              className="hidden md:flex w-10 h-10 items-center justify-center rounded-lg bg-card border border-border hover:bg-accent/10 transition-colors duration-300"
+            >
+              {theme === "light" ? 
+                <Moon className="h-5 w-5 text-foreground" /> : 
+                <Sun className="h-5 w-5 text-foreground" />
+              }
+            </motion.button>
+
             {/* CTA Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -120,6 +138,13 @@ export const Header = () => {
                   {item.name}
                 </button>
               ))}
+              <button
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                className="flex items-center justify-center w-full py-3 text-foreground hover:text-accent transition-colors duration-300"
+              >
+                {theme === "light" ? <Moon className="w-5 h-5 mr-2" /> : <Sun className="w-5 h-5 mr-2" />}
+                {theme === "light" ? "Dark Mode" : "Light Mode"}
+              </button>
               <button 
                 onClick={() => handleNavClick('/contact')}
                 className="w-full mt-4 btn-premium"
