@@ -7,11 +7,11 @@ import {
   Brain, 
   Heart, 
   GraduationCap, 
-  ArrowRight,
   Code2,
   Database,
   Smartphone
 } from 'lucide-react';
+import { CardSwipe } from '@/components/ui/card-swipe';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +22,7 @@ export const Services = () => {
 
   const services = [
     {
+      id: 'web-apps',
       icon: Globe,
       title: 'Web Applications',
       description: 'Custom web solutions with modern frameworks, responsive design, and seamless user experiences.',
@@ -29,6 +30,7 @@ export const Services = () => {
       color: 'from-blue-500 to-cyan-500',
     },
     {
+      id: 'ai-integration',
       icon: Brain,
       title: 'AI Integration',
       description: 'Cutting-edge AI solutions including machine learning, automation, and intelligent data processing.',
@@ -36,6 +38,7 @@ export const Services = () => {
       color: 'from-purple-500 to-pink-500',
     },
     {
+      id: 'healthcare',
       icon: Heart,
       title: 'Healthcare Technology',
       description: 'HIPAA-compliant healthcare solutions that improve patient care and streamline medical processes.',
@@ -43,6 +46,7 @@ export const Services = () => {
       color: 'from-red-500 to-orange-500',
     },
     {
+      id: 'edtech',
       icon: GraduationCap,
       title: 'EdTech Platforms',
       description: 'Educational technology and government exam platforms with advanced assessment capabilities.',
@@ -68,14 +72,13 @@ export const Services = () => {
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
     ).fromTo(
-      '.service-card',
-      { y: 80, opacity: 0, rotationX: -15 },
+      '.card-swipe-container',
+      { y: 80, opacity: 0, scale: 0.9 },
       {
         y: 0,
         opacity: 1,
-        rotationX: 0,
-        duration: 0.8,
-        stagger: 0.2,
+        scale: 1,
+        duration: 1,
         ease: 'back.out(1.7)',
       },
       '-=0.4'
@@ -108,65 +111,8 @@ export const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              className="service-card group"
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="bg-card rounded-3xl p-8 lg:p-10 shadow-xl border border-border hover:shadow-2xl transition-all duration-500 h-full">
-                {/* Icon with gradient background */}
-                <div className="relative mb-8">
-                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.color} p-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <service.icon className="w-full h-full text-white" />
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="space-y-6">
-                  <h3 className="text-display-sm text-foreground group-hover:text-accent transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-body text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="space-y-3">
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.div
-                        key={feature}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ 
-                          delay: 0.6 + (index * 0.2) + (featureIndex * 0.1),
-                          duration: 0.4 
-                        }}
-                        className="flex items-center gap-3"
-                      >
-                        <div className="w-2 h-2 bg-accent rounded-full" />
-                        <span className="text-body text-muted-foreground">
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <motion.button
-                    whileHover={{ x: 5 }}
-                    className="flex items-center gap-2 text-accent font-medium mt-6 group/btn"
-                  >
-                    <span>Learn More</span>
-                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <div className="card-swipe-container">
+          <CardSwipe cards={services} className="mb-16" />
         </div>
 
         {/* Technology Stack */}

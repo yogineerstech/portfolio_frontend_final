@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import { WrapButton } from '@/components/ui/wrap-button';
 
 export const Hero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -87,21 +88,13 @@ export const Hero = () => {
           </div>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
-            <motion.button
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-premium group"
-            >
-              <span className="relative z-10 font-display">Discover Excellence</span>
-            </motion.button>
+            <WrapButton variant="primary" size="lg">
+              Discover Excellence
+            </WrapButton>
 
-            <motion.button
-              whileHover={{ scale: 1.05, rotate: -1 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-outline-premium"
-            >
-              <span className="font-display">View Portfolio</span>
-            </motion.button>
+            <WrapButton variant="secondary" size="lg">
+              View Portfolio
+            </WrapButton>
           </div>
         </motion.div>
 
