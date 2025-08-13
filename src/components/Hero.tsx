@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WrapButton } from '@/components/ui/wrap-button-new';
+import DarkVeil from '@/components/ui/dark-veil';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,18 +152,31 @@ export const Hero = () => {
   };
 
   return (
-    <div ref={heroRef} className="relative overflow-hidden bg-background pt-24 pb-24">
+    <div ref={heroRef} className="relative overflow-hidden bg-background min-h-screen flex items-center">
+      {/* Dark Veil Background - Full viewport coverage */}
+      <div className="fixed inset-0 w-screen h-screen opacity-30 z-0">
+        <DarkVeil 
+          hueShift={25}
+          noiseIntensity={0.03}
+          scanlineIntensity={0.15}
+          speed={0.2}
+          scanlineFrequency={1.5}
+          warpAmount={0.08}
+          resolutionScale={1.0}
+        />
+      </div>
+      
       {/* Animated background elements */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-10"
       >
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-2xl"></div>
       </div>
 
       {/* Main content */}
-      <div ref={parallaxRef} className="relative z-10 flex flex-col items-center justify-center px-6 text-center">
+      <div ref={parallaxRef} className="relative z-20 flex flex-col items-center justify-center px-6 text-center w-full">
         {/* Main title */}
         <div ref={titleRef} className="mb-8">
           <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-AftikaBold font-extrabold text-foreground leading-none tracking-tight">
@@ -206,7 +220,7 @@ export const Hero = () => {
       {/* Scroll indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground z-30"
       >
         <span className="text-sm font-medium mb-2 tracking-wider font-montserrat">
           SCROLL TO EXPLORE
@@ -217,7 +231,7 @@ export const Hero = () => {
       </div>
 
       {/* Enhanced floating elements with more dots */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden z-10">
         <div className="absolute top-20 left-20 w-2 h-2 bg-accent/30 rounded-full animate-float shadow-lg shadow-accent/20" />
         <div className="absolute top-40 right-32 w-3 h-3 bg-primary/25 rounded-full animate-float-delayed shadow-lg shadow-primary/20" />
         <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-accent/35 rounded-full animate-float-slow shadow-md shadow-accent/15" />

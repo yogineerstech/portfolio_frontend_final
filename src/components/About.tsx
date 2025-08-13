@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code, Brain, Heart, Users } from 'lucide-react';
+import { CometCard } from '@/components/ui/comet-card';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,13 +100,13 @@ export const About = () => {
 
         <div ref={contentRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {values.map((value, index) => (
-            <motion.div
+            <CometCard
               key={value.title}
               className="about-card group"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
+              rotateDepth={12}
+              translateDepth={15}
             >
-              <div className="bg-card rounded-2xl p-8 shadow-lg border border-border hover:shadow-2xl transition-all duration-500">
+              <div className="p-8">
                 <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors duration-300">
                   <value.icon className="w-8 h-8 text-accent" />
                 </div>
@@ -118,7 +119,7 @@ export const About = () => {
                   {value.description}
                 </p>
               </div>
-            </motion.div>
+            </CometCard>
           ))}
         </div>
 
