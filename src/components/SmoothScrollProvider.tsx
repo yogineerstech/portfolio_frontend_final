@@ -13,6 +13,12 @@ export const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) =>
     lenisRef.current = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
     });
 
     // Enhanced animation frame loop
@@ -34,5 +40,5 @@ export const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) =>
     };
   }, []);
 
-  return <div className="smooth-scroll-container">{children}</div>;
+  return <>{children}</>;
 };

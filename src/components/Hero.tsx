@@ -24,22 +24,11 @@ export const Hero = () => {
       tl.fromTo(
         titleRef.current,
         { y: 100, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 1.2, 
-          ease: 'power3.out',
-        }
-      )
-      .fromTo(
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' }
+      ).fromTo(
         subtitleRef.current,
         { y: 50, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 1, 
-          ease: 'power3.out' 
-        },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
         '-=0.8'
       )
       .fromTo(
@@ -88,16 +77,17 @@ export const Hero = () => {
       });
 
       // Hero content parallax
-      gsap.to(parallaxRef.current, {
-        yPercent: -20,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+  // Hero content parallax removed (was affecting document height) to help diagnose extra space
+  // gsap.to(parallaxRef.current, {
+  //   yPercent: -20,
+  //   ease: 'none',
+  //   scrollTrigger: {
+  //     trigger: heroRef.current,
+  //     start: 'top bottom',
+  //     end: 'bottom top',
+  //     scrub: true,
+  //   },
+  // });
 
       // Scroll indicator animation
       gsap.to(scrollIndicatorRef.current, {
@@ -161,10 +151,7 @@ export const Hero = () => {
   };
 
   return (
-    <div 
-      ref={heroRef}
-      className="relative min-h-screen overflow-hidden bg-background"
-    >
+    <div ref={heroRef} className="relative overflow-hidden bg-background pt-24 pb-24">
       {/* Animated background elements */}
       <div
         ref={backgroundRef}
@@ -175,19 +162,16 @@ export const Hero = () => {
       </div>
 
       {/* Main content */}
-      <div
-        ref={parallaxRef}
-        className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center"
-      >
+      <div ref={parallaxRef} className="relative z-10 flex flex-col items-center justify-center px-6 text-center">
         {/* Main title */}
-        <div ref={titleRef} className="mb-8 mt-32  pt-[17vh]">
+        <div ref={titleRef} className="mb-8">
           <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-AftikaBold font-extrabold text-foreground leading-none tracking-tight">
             {splitText('YOGINEERS')}
           </h1>
         </div>
 
         {/* Elegant subtitle */}
-        <div ref={subtitleRef} className="mb-6 mt-[-5vh]">
+  <div ref={subtitleRef} className="mb-6">
           <h2 className="text-3xl md:text-5xl lg:text-5xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
             We don't just grow brands
           </h2>
@@ -210,7 +194,7 @@ export const Hero = () => {
         </div>
 
         {/* CTA Buttons */}
-        <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
+  <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-4">
           <div className="cta-button">
             <WrapButton href="/contact" >
               Start Your Project
@@ -233,30 +217,31 @@ export const Hero = () => {
       </div>
 
       {/* Enhanced floating elements with more dots */}
-      <div className="absolute top-20 left-20 w-2 h-2 bg-accent/30 rounded-full animate-float shadow-lg shadow-accent/20"></div>
-      <div className="absolute top-40 right-32 w-3 h-3 bg-primary/25 rounded-full animate-float-delayed shadow-lg shadow-primary/20"></div>
-      <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-accent/35 rounded-full animate-float-slow shadow-md shadow-accent/15"></div>
-      <div className="absolute top-60 left-1/4 w-2.5 h-2.5 bg-secondary/20 rounded-full animate-float shadow-lg shadow-secondary/10"></div>
-      <div className="absolute bottom-60 right-20 w-1 h-1 bg-muted-foreground/30 rounded-full animate-float-delayed shadow-sm"></div>
-      <div className="absolute top-32 right-1/3 w-4 h-4 bg-primary/15 rounded-full animate-float-slow shadow-xl shadow-primary/10"></div>
-      <div className="absolute bottom-40 left-1/3 w-1.5 h-1.5 bg-accent/25 rounded-full animate-float shadow-md shadow-accent/20"></div>
-      <div className="absolute top-72 right-16 w-2 h-2 bg-secondary/25 rounded-full animate-float-delayed shadow-lg shadow-secondary/15"></div>
-      
-      {/* Additional floating dots */}
-      <div className="absolute top-1/3 left-10 w-1 h-1 bg-primary/20 rounded-full animate-float shadow-sm shadow-primary/10"></div>
-      <div className="absolute top-1/2 right-10 w-2 h-2 bg-accent/20 rounded-full animate-float-slow shadow-md shadow-accent/15"></div>
-      <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-secondary/30 rounded-full animate-float-delayed shadow-lg shadow-secondary/20"></div>
-      <div className="absolute top-1/4 right-1/5 w-3 h-3 bg-primary/10 rounded-full animate-float shadow-xl shadow-primary/5"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-accent/40 rounded-full animate-float-slow shadow-sm shadow-accent/25"></div>
-      <div className="absolute top-3/4 left-1/6 w-2 h-2 bg-muted-foreground/25 rounded-full animate-float-delayed shadow-md"></div>
-      <div className="absolute top-2/3 right-1/6 w-1.5 h-1.5 bg-secondary/35 rounded-full animate-float shadow-lg shadow-secondary/15"></div>
-      <div className="absolute bottom-1/5 left-2/3 w-2.5 h-2.5 bg-primary/20 rounded-full animate-float-slow shadow-xl shadow-primary/15"></div>
-      <div className="absolute top-1/6 left-1/2 w-1 h-1 bg-accent/30 rounded-full animate-float-delayed shadow-sm shadow-accent/20"></div>
-      <div className="absolute bottom-1/6 right-1/2 w-2 h-2 bg-secondary/20 rounded-full animate-float shadow-lg shadow-secondary/10"></div>
-      <div className="absolute top-5/6 left-3/4 w-1.5 h-1.5 bg-primary/25 rounded-full animate-float-slow shadow-md shadow-primary/20"></div>
-      <div className="absolute bottom-2/3 left-1/12 w-1 h-1 bg-accent/35 rounded-full animate-float-delayed shadow-sm shadow-accent/15"></div>
-      <div className="absolute top-1/12 right-3/4 w-3 h-3 bg-muted-foreground/20 rounded-full animate-float shadow-xl"></div>
-      <div className="absolute bottom-1/12 right-1/12 w-2 h-2 bg-secondary/30 rounded-full animate-float-slow shadow-lg shadow-secondary/25"></div>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-20 w-2 h-2 bg-accent/30 rounded-full animate-float shadow-lg shadow-accent/20" />
+        <div className="absolute top-40 right-32 w-3 h-3 bg-primary/25 rounded-full animate-float-delayed shadow-lg shadow-primary/20" />
+        <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-accent/35 rounded-full animate-float-slow shadow-md shadow-accent/15" />
+        <div className="absolute top-60 left-1/4 w-2.5 h-2.5 bg-secondary/20 rounded-full animate-float shadow-lg shadow-secondary/10" />
+        <div className="absolute bottom-60 right-20 w-1 h-1 bg-muted-foreground/30 rounded-full animate-float-delayed shadow-sm" />
+        <div className="absolute top-32 right-1/3 w-4 h-4 bg-primary/15 rounded-full animate-float-slow shadow-xl shadow-primary/10" />
+        <div className="absolute bottom-40 left-1/3 w-1.5 h-1.5 bg-accent/25 rounded-full animate-float shadow-md shadow-accent/20" />
+        <div className="absolute top-72 right-16 w-2 h-2 bg-secondary/25 rounded-full animate-float-delayed shadow-lg shadow-secondary/15" />
+        {/* Additional floating dots */}
+        <div className="absolute top-1/3 left-10 w-1 h-1 bg-primary/20 rounded-full animate-float shadow-sm shadow-primary/10" />
+        <div className="absolute top-1/2 right-10 w-2 h-2 bg-accent/20 rounded-full animate-float-slow shadow-md shadow-accent/15" />
+        <div className="absolute bottom-1/3 left-[20%] w-1.5 h-1.5 bg-secondary/30 rounded-full animate-float-delayed shadow-lg shadow-secondary/20" />
+        <div className="absolute top-1/4 right-[20%] w-3 h-3 bg-primary/10 rounded-full animate-float shadow-xl shadow-primary/5" />
+        <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-accent/40 rounded-full animate-float-slow shadow-sm shadow-accent/25" />
+        <div className="absolute top-3/4 left-[16%] w-2 h-2 bg-muted-foreground/25 rounded-full animate-float-delayed shadow-md" />
+        <div className="absolute top-2/3 right-[16%] w-1.5 h-1.5 bg-secondary/35 rounded-full animate-float shadow-lg shadow-secondary/15" />
+        <div className="absolute bottom-[20%] left-2/3 w-2.5 h-2.5 bg-primary/20 rounded-full animate-float-slow shadow-xl shadow-primary/15" />
+        <div className="absolute top-[16%] left-1/2 w-1 h-1 bg-accent/30 rounded-full animate-float-delayed shadow-sm shadow-accent/20" />
+        <div className="absolute bottom-[16%] right-1/2 w-2 h-2 bg-secondary/20 rounded-full animate-float shadow-lg shadow-secondary/10" />
+        <div className="absolute top-[83%] left-3/4 w-1.5 h-1.5 bg-primary/25 rounded-full animate-float-slow shadow-md shadow-primary/20" />
+        <div className="absolute bottom-[66%] left-[8%] w-1 h-1 bg-accent/35 rounded-full animate-float-delayed shadow-sm shadow-accent/15" />
+        <div className="absolute top-[8%] right-3/4 w-3 h-3 bg-muted-foreground/20 rounded-full animate-float shadow-xl" />
+        <div className="absolute bottom-[8%] right-[8%] w-2 h-2 bg-secondary/30 rounded-full animate-float-slow shadow-lg shadow-secondary/25" />
+      </div>
     </div>
   );
 };

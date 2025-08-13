@@ -39,11 +39,13 @@ export const Header = () => {
 
   return (
     <>
-      {/* Professional Spotlight Effect */}
-      <Spotlight
-        className="-top-40 left-0 md:-top-20 md:left-60"
-        fill="hsl(var(--primary))"
-      />
+      {/* Professional Spotlight Effect (constrained) */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10">
+        <Spotlight
+          className="-top-40 left-0 md:-top-20 md:left-60"
+          fill="hsl(var(--primary))"
+        />
+      </div>
       
       <motion.header
         initial={{ y: 0, opacity: 1 }}

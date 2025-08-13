@@ -26,7 +26,7 @@ const WrapButton: React.FC<WrapButtonProps> = ({
             )}
           >
             <div className="border border-primary/30 bg-primary h-[43px] rounded-full flex items-center justify-center text-primary-foreground">
-              <p className="font-medium tracking-tight mr-3 ml-2 flex items-center gap-2 justify-center  p-1">
+              <p className="font-Aftika font-medium  mr-3 ml-2 flex items-center gap-2 justify-center  p-1">
                 {children}
               </p>
             </div>
