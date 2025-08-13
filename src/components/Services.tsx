@@ -4,14 +4,19 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Globe, 
+  BookOpenText,
   Brain, 
   Heart, 
   GraduationCap, 
+  Cloud,
+  Store,
   Code2,
+  TrendingUp,
+  Monitor,
   Database,
   Smartphone
 } from 'lucide-react';
-import { CardSwipe } from '@/components/ui/card-swipe';
+import { CardSwap } from '@/components/ui/card-swap';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,41 +25,80 @@ export const Services = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
-  const services = [
-    {
-      id: 'web-apps',
-      icon: Globe,
-      title: 'Web Applications',
-      description: 'Custom web solutions with modern frameworks, responsive design, and seamless user experiences.',
-      features: ['React & Next.js', 'Progressive Web Apps', 'E-commerce Platforms', 'API Development'],
-      color: 'from-blue-500 to-cyan-500',
-    },
-    {
-      id: 'ai-integration',
-      icon: Brain,
-      title: 'AI Integration',
-      description: 'Cutting-edge AI solutions including machine learning, automation, and intelligent data processing.',
-      features: ['Machine Learning', 'Natural Language Processing', 'Computer Vision', 'Predictive Analytics'],
-      color: 'from-purple-500 to-pink-500',
-    },
-    {
-      id: 'healthcare',
-      icon: Heart,
-      title: 'Healthcare Technology',
-      description: 'HIPAA-compliant healthcare solutions that improve patient care and streamline medical processes.',
-      features: ['Patient Management', 'Telemedicine Platforms', 'Health Analytics', 'Medical Devices'],
-      color: 'from-red-500 to-orange-500',
-    },
-    {
-      id: 'edtech',
-      icon: GraduationCap,
-      title: 'EdTech Platforms',
-      description: 'Educational technology and government exam platforms with advanced assessment capabilities.',
-      features: ['Exam Management', 'Learning Management', 'Assessment Tools', 'Analytics Dashboard'],
-      color: 'from-green-500 to-emerald-500',
-    },
-  ];
-
+const services = [
+  {
+    id: 'exam-portals',
+    icon: Globe,
+    title: 'Custom Exam Portals',
+    description: 'Expert development of exam portals, along with exam software with exam management system with automated processes',
+    features: ['Exam Management System', 'Automated Processes', 'Secure Assessments', 'Analytics & Reports'],
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    id: 'e-learning',
+    icon: BookOpenText,
+    title: 'E-Learning Platforms',
+    description: 'Comprehensive digital learning solutions with interactive content delivery and progress tracking.',
+    features: ['Interactive Content', 'Progress Tracking', 'Course Management', 'Gamification'],
+    color: 'from-green-500 to-emerald-500',
+  },
+  {
+    id: 'analytics',
+    icon: Database,
+    title: 'Data Analytics & AI',
+    description: 'Advanced analytics and AI/ML solutions for intelligent business insights and automation.',
+    features: ['Data Visualization', 'Predictive Analytics', 'AI Automation', 'ML Models'],
+    color: 'from-purple-500 to-pink-500',
+  },
+  {
+    id: 'llm-solutions',
+    icon: Brain,
+    title: 'Custom LLM Solutions',
+    description: 'Tailored language models and AI applications for specific industry requirements.',
+    features: ['Custom Language Models', 'Industry-Specific AI', 'Chatbots & Virtual Assistants', 'Content Generation'],
+    color: 'from-indigo-500 to-violet-500',
+  },
+  {
+    id: 'ecommerce',
+    icon: Store,
+    title: 'E-Commerce Solutions',
+    description: 'Scalable and secure online shopping platforms with comprehensive management systems.',
+    features: ['Online Stores', 'Payment Gateway Integration', 'Inventory Management', 'Custom Checkout'],
+    color: 'from-orange-500 to-yellow-500',
+  },
+  {
+    id: 'mobile',
+    icon: Smartphone,
+    title: 'Mobile Development',
+    description: 'Native and cross-platform mobile applications for iOS and Android devices.',
+    features: ['iOS Apps', 'Android Apps', 'Cross-Platform Development', 'App Store Deployment'],
+    color: 'from-pink-500 to-rose-500',
+  },
+  {
+    id: 'desktop',
+    icon: Monitor,
+    title: 'Desktop Applications',
+    description: 'High-performance desktop software solutions for Windows, macOS, and Linux.',
+    features: ['Windows Applications', 'macOS Apps', 'Linux Support', 'Custom UI/UX'],
+    color: 'from-gray-500 to-slate-500',
+  },
+  {
+    id: 'cloud',
+    icon: Cloud,
+    title: 'Cloud Solutions',
+    description: 'Enterprise-grade cloud infrastructure and deployment services.',
+    features: ['Cloud Hosting', 'Scalable Infrastructure', 'CI/CD Pipelines', 'Serverless Applications'],
+    color: 'from-teal-500 to-cyan-500',
+  },
+  {
+    id: 'trading',
+    icon: TrendingUp,
+    title: 'Trading Bot',
+    description: 'Custom AI-powered trading bots for automated trading strategies.',
+    features: ['Automated Trading', 'Custom Strategies', 'Market Analysis', 'Real-Time Monitoring'],
+    color: 'from-yellow-500 to-amber-500',
+  },
+];
   useEffect(() => {
     if (!isInView) return;
 
@@ -72,7 +116,7 @@ export const Services = () => {
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
     ).fromTo(
-      '.card-swipe-container',
+      '.card-swap-container',
       { y: 80, opacity: 0, scale: 0.9 },
       {
         y: 0,
@@ -105,14 +149,52 @@ export const Services = () => {
           >
             Our Expertise & Services
           </h2>
-          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12">
             We deliver comprehensive technology solutions across multiple domains, 
             combining innovation with reliability to drive your business forward.
           </p>
         </div>
 
-        <div className="card-swipe-container">
-          <CardSwipe cards={services} className="mb-16" />
+        <div className="card-swap-container relative">
+          <CardSwap 
+            cards={services.map((service) => ({
+              id: service.id,
+              content: (
+                <div className="h-full flex flex-col">
+                  {/* Icon and Title */}
+                  <div className="flex items-center mb-6">
+                    <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mr-4">
+                      <service.icon className="w-7 h-7 text-accent" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground font-palo">
+                      {service.title}
+                    </h3>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
+                    {service.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="space-y-2 mb-6">
+                    {service.features.slice(0, 3).map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-xs text-muted-foreground">
+                        <div className="w-1.5 h-1.5 bg-accent rounded-full mr-2"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Call to Action */}
+                  <button className="mt-auto w-full bg-accent/10 hover:bg-accent/20 text-accent font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm">
+                    Learn More
+                  </button>
+                </div>
+              ),
+            }))}
+            className="mb-16"
+          />
         </div>
 
         {/* Technology Stack */}
