@@ -16,7 +16,7 @@
 }
 
 @font-face {
-  font-family: 'Aftika';
+  font-family: 'AftikaBold';
   src: url('/fonts/aftika/Demo_Fonts/Fontspring-DEMO-aftika-black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
@@ -49,7 +49,7 @@
 }
 
 @font-face {
-  font-family: 'Palo Compressed';
+  font-family: 'palocompressed';
   src: url('/fonts/Palo/palo-compressed-regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
@@ -57,7 +57,7 @@
 }
 
 @font-face {
-  font-family: 'Palo Wide';
+  font-family: 'palo-wide';
   src: url('/fonts/Palo/palo-wide-regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
@@ -81,10 +81,10 @@
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/Mon/Montserrat-Black.otf') format('opentype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-}
+} */

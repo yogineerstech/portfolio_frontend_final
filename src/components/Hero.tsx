@@ -180,25 +180,25 @@ export const Hero = () => {
         className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center"
       >
         {/* Main title */}
-        <div ref={titleRef} className="mb-8 mt-32">
-          <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-black text-foreground leading-none tracking-tight font-aftika">
+        <div ref={titleRef} className="mb-8 mt-32  pt-[17vh]">
+          <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-AftikaBold font-extrabold text-foreground leading-none tracking-tight">
             {splitText('YOGINEERS')}
           </h1>
         </div>
 
         {/* Elegant subtitle */}
-        <div ref={subtitleRef} className="mb-6">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
+        <div ref={subtitleRef} className="mb-6 mt-[-5vh]">
+          <h2 className="text-3xl md:text-5xl lg:text-5xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
             We don't just grow brands
           </h2>
         </div>
 
         {/* Tech subtitle */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide font-palo">
             TECH
           </h3>
-        </div>
+        </div> */}
 
         {/* Description */}
         <div ref={descriptionRef} className="mb-12 max-w-2xl">
@@ -212,7 +212,7 @@ export const Hero = () => {
         {/* CTA Buttons */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24">
           <div className="cta-button">
-            <WrapButton href="/contact">
+            <WrapButton href="/contact" >
               Start Your Project
             </WrapButton>
           </div>

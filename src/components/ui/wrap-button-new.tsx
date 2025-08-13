@@ -26,13 +26,13 @@ const WrapButton: React.FC<WrapButtonProps> = ({
             )}
           >
             <div className="border border-primary/30 bg-primary h-[43px] rounded-full flex items-center justify-center text-primary-foreground">
-              <p className="font-medium tracking-tight mr-3 ml-2 flex items-center gap-2 justify-center ">
+              <p className="font-medium tracking-tight mr-3 ml-2 flex items-center gap-2 justify-center  p-1">
                 {children}
               </p>
             </div>
-            <div className="text-foreground/60 group-hover:ml-2 ease-in-out transition-all size-[26px] flex items-center justify-center rounded-full border-2 border-foreground/20 group-hover:border-primary/40">
+            <div className="text-foreground/60 group-hover:ml-2 ease-in-out transition-all size-[36px] flex items-center justify-center rounded-full border-2 border-foreground/20 group-hover:border-primary/40">
               <ArrowRight
-                size={18}
+                size={20}
                 className="group-hover:rotate-45 ease-in-out transition-all "
               />
             </div>
