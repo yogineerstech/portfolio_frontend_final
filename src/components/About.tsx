@@ -1,11 +1,56 @@
-import { useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, useAnimation } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code, Brain, Heart, Users } from 'lucide-react';
 import { CometCard } from '@/components/ui/comet-card';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Animated Counter Component
+const AnimatedCounter = ({ end, duration = 2, suffix = '' }: { end: number; duration?: number; suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(countRef, { once: true, margin: '-50px' });
+  
+  useEffect(() => {
+    if (!isInView) return;
+    
+    let startTime: number;
+    let animationFrame: number;
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+      
+      // Easing function for smooth animation
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = Math.floor(end * easeOutQuart);
+      
+      setCount(currentCount);
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+    
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isInView, end, duration]);
+  
+  return (
+    <div ref={countRef} className="text-display-md font-palo font-bold text-accent tracking-tight">
+      {count}{suffix}
+    </div>
+  );
+};
 
 export const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -131,19 +176,37 @@ export const About = () => {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
-            { number: '150+', label: 'Projects Delivered' },
-            { number: '50+', label: 'Happy Clients' },
-            { number: '5+', label: 'Years Experience' },
-            { number: '24/7', label: 'Support Available' },
+            { number: 150, label: 'Projects Delivered', suffix: '+' },
+            { number: 50, label: 'Happy Clients', suffix: '+' },
+            { number: 5, label: 'Years Experience', suffix: '+' },
+            { number: 24, label: 'Support Available', suffix: '/7' },
           ].map((stat, index) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-display-md text-accent font-bold mb-2">
-                {stat.number}
+            <motion.div 
+              key={stat.label} 
+              className="text-center group"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ 
+                delay: 1.2 + (index * 0.15), 
+                duration: 0.6,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <div className="mb-3 group-hover:transform group-hover:scale-110 transition-transform duration-300">
+                <AnimatedCounter 
+                  end={stat.number} 
+                  duration={2.5} 
+                  suffix={stat.suffix}
+                />
               </div>
-              <div className="text-body text-muted-foreground">
+              <div className="text-body font-palo text-muted-foreground">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
