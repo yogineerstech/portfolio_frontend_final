@@ -171,3 +171,77 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     throw error;
   }
 };
+
+// Admin Blog Management Functions
+export const fetchBlogById = async (id: number): Promise<Blog> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v2/blogs/id/${id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching blog by ID:', error);
+    throw error;
+  }
+};
+
+export const createBlog = async (formData: FormData): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v2/blogs`, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating blog:', error);
+    throw error;
+  }
+};
+
+export const updateBlog = async (id: number, formData: FormData): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v2/blogs/${id}`, {
+      method: 'PUT',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    throw error;
+  }
+};
+
+export const deleteBlog = async (id: number): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v2/blogs/${id}`, {
+      method: 'DELETE',
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error deleting blog:', error);
+    throw error;
+  }
+};

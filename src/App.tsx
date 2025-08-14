@@ -13,6 +13,9 @@ import ContactPage from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import { CompanyBlogs } from "./pages/CompanyBlogs";
 import { BlogDetail } from "./pages/BlogDetail";
+import { AdminLogin } from "./pages/AdminLogin";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { BlogForm } from "./pages/BlogForm";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,11 @@ const App = () => (
               <Route path="/projects/:serviceId" element={<ProjectsShowcase />} />
               <Route path="/companyblogs" element={<CompanyBlogs />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/create" element={<BlogForm />} />
+              <Route path="/admin/edit/:id" element={<BlogForm />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
