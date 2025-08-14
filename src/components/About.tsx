@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code, Brain, Heart, Users } from 'lucide-react';
 import { CometCard } from '@/components/ui/comet-card';
+import ScrollReveal from '@/components/ui/scroll-reveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -134,12 +135,30 @@ export const About = () => {
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
           >
-            Pioneering the Future of Software Development
+            <ScrollReveal
+              containerClassName="my-0"
+              textClassName="text-inherit font-inherit"
+              enableBlur={true}
+              baseOpacity={0.2}
+              baseRotation={1}
+              blurStrength={2}
+            >
+              Pioneering the Future of Software Development
+            </ScrollReveal>
           </h2>
           <p className="text-body-lg text-muted-foreground leading-relaxed">
-            At Yogineers Technologies, we don't just write code – we architect digital experiences 
-            that transform industries and improve lives. Our expertise spans across AI integration, 
-            healthcare innovation, and government technology platforms.
+            <ScrollReveal
+              containerClassName="my-0"
+              textClassName="text-inherit font-inherit"
+              enableBlur={true}
+              baseOpacity={0.15}
+              baseRotation={0.5}
+              blurStrength={1.5}
+            >
+              At Yogineers Technologies, we don't just write code – we architect digital experiences 
+              that transform industries and improve lives. Our expertise spans across AI integration, 
+              healthcare innovation, and government technology platforms.
+            </ScrollReveal>
           </p>
         </div>
 
@@ -157,7 +176,16 @@ export const About = () => {
                 </div>
                 
                 <h3 className="text-display-sm mb-4 text-foreground">
-                  {value.title}
+                  <ScrollReveal
+                    containerClassName="my-0"
+                    textClassName="text-inherit font-inherit"
+                    enableBlur={true}
+                    baseOpacity={0.3}
+                    baseRotation={0.5}
+                    blurStrength={1}
+                  >
+                    {value.title}
+                  </ScrollReveal>
                 </h3>
                 
                 <p className="text-body text-muted-foreground leading-relaxed">

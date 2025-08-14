@@ -31,7 +31,7 @@ export const Footer = () => {
     {
       title: 'Resources',
       links: [
-        { name: 'Blog', href: '#' },
+        { name: 'Blogs', href: '#' },
         { name: 'Documentation', href: '#' },
         { name: 'Support', href: '#' },
         { name: 'Privacy Policy', href: '#' },

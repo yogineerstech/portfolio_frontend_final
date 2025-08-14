@@ -1,22 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from 'react-router-dom';
 import { 
-  Globe, 
-  BookOpenText,
-  Brain, 
-  Heart, 
-  GraduationCap, 
-  Cloud,
-  Store,
   Code2,
-  TrendingUp,
-  Monitor,
   Database,
-  Smartphone
+  Smartphone,
+  Brain,
 } from 'lucide-react';
 import { CardSwap } from '@/components/ui/card-swap';
+import { CometCard } from '@/components/ui/comet-card';
+import { fetchServices, Service } from '@/lib/api';
+import { getIconComponent } from '@/lib/icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,81 +20,58 @@ export const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const navigate = useNavigate();
+  
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const services = [
-  {
-    id: 'exam-portals',
-    icon: Globe,
-    title: 'Custom Exam Portals',
-    description: 'Expert development of exam portals, along with exam software with exam management system with automated processes',
-    features: ['Exam Management System', 'Automated Processes', 'Secure Assessments', 'Analytics & Reports'],
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    id: 'e-learning',
-    icon: BookOpenText,
-    title: 'E-Learning Platforms',
-    description: 'Comprehensive digital learning solutions with interactive content delivery and progress tracking.',
-    features: ['Interactive Content', 'Progress Tracking', 'Course Management', 'Gamification'],
-    color: 'from-green-500 to-emerald-500',
-  },
-  {
-    id: 'analytics',
-    icon: Database,
-    title: 'Data Analytics & AI',
-    description: 'Advanced analytics and AI/ML solutions for intelligent business insights and automation.',
-    features: ['Data Visualization', 'Predictive Analytics', 'AI Automation', 'ML Models'],
-    color: 'from-purple-500 to-pink-500',
-  },
-  {
-    id: 'llm-solutions',
-    icon: Brain,
-    title: 'Custom LLM Solutions',
-    description: 'Tailored language models and AI applications for specific industry requirements.',
-    features: ['Custom Language Models', 'Industry-Specific AI', 'Chatbots & Virtual Assistants', 'Content Generation'],
-    color: 'from-indigo-500 to-violet-500',
-  },
-  {
-    id: 'ecommerce',
-    icon: Store,
-    title: 'E-Commerce Solutions',
-    description: 'Scalable and secure online shopping platforms with comprehensive management systems.',
-    features: ['Online Stores', 'Payment Gateway Integration', 'Inventory Management', 'Custom Checkout'],
-    color: 'from-orange-500 to-yellow-500',
-  },
-  {
-    id: 'mobile',
-    icon: Smartphone,
-    title: 'Mobile Development',
-    description: 'Native and cross-platform mobile applications for iOS and Android devices.',
-    features: ['iOS Apps', 'Android Apps', 'Cross-Platform Development', 'App Store Deployment'],
-    color: 'from-pink-500 to-rose-500',
-  },
-  {
-    id: 'desktop',
-    icon: Monitor,
-    title: 'Desktop Applications',
-    description: 'High-performance desktop software solutions for Windows, macOS, and Linux.',
-    features: ['Windows Applications', 'macOS Apps', 'Linux Support', 'Custom UI/UX'],
-    color: 'from-gray-500 to-slate-500',
-  },
-  {
-    id: 'cloud',
-    icon: Cloud,
-    title: 'Cloud Solutions',
-    description: 'Enterprise-grade cloud infrastructure and deployment services.',
-    features: ['Cloud Hosting', 'Scalable Infrastructure', 'CI/CD Pipelines', 'Serverless Applications'],
-    color: 'from-teal-500 to-cyan-500',
-  },
-  {
-    id: 'trading',
-    icon: TrendingUp,
-    title: 'Trading Bot',
-    description: 'Custom AI-powered trading bots for automated trading strategies.',
-    features: ['Automated Trading', 'Custom Strategies', 'Market Analysis', 'Real-Time Monitoring'],
-    color: 'from-yellow-500 to-amber-500',
-  },
-];
+  // Static features for each service type (to maintain design)
+  const serviceFeatures: Record<string, string[]> = {
+    'Custom Exam Portals': ['Exam Management System', 'Automated Processes', 'Secure Assessments', 'Analytics & Reports'],
+    'E-Learning Platforms': ['Interactive Content', 'Progress Tracking', 'Course Management', 'Gamification'],
+    'Data Analytics & AI': ['Data Visualization', 'Predictive Analytics', 'AI Automation', 'ML Models'],
+    'Custom LLM Solutions': ['Custom Language Models', 'Industry-Specific AI', 'Chatbots & Virtual Assistants', 'Content Generation'],
+    'E-Commerce Solutions': ['Online Stores', 'Payment Gateway Integration', 'Inventory Management', 'Custom Checkout'],
+    'Mobile Development': ['iOS Apps', 'Android Apps', 'Cross-Platform Development', 'App Store Deployment'],
+    'Desktop Applications': ['Windows Applications', 'macOS Apps', 'Linux Support', 'Custom UI/UX'],
+    'Cloud Solutions': ['Cloud Hosting', 'Scalable Infrastructure', 'CI/CD Pipelines', 'Serverless Applications'],
+    'Trading Bot': ['Automated Trading', 'Custom Strategies', 'Market Analysis', 'Real-Time Monitoring'],
+  };
+
+  // Static colors for each service (to maintain design)
+  const serviceColors: Record<string, string> = {
+    'Custom Exam Portals': 'from-blue-500 to-cyan-500',
+    'E-Learning Platforms': 'from-green-500 to-emerald-500',
+    'Data Analytics & AI': 'from-purple-500 to-pink-500',
+    'Custom LLM Solutions': 'from-indigo-500 to-violet-500',
+    'E-Commerce Solutions': 'from-orange-500 to-yellow-500',
+    'Mobile Development': 'from-pink-500 to-rose-500',
+    'Desktop Applications': 'from-gray-500 to-slate-500',
+    'Cloud Solutions': 'from-teal-500 to-cyan-500',
+    'Trading Bot': 'from-yellow-500 to-amber-500',
+  };
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        setLoading(true);
+        const servicesData = await fetchServices();
+        setServices(servicesData);
+      } catch (err) {
+        setError('Failed to load services');
+        console.error('Error loading services:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadServices();
+  }, []);
+
+  const handleViewProjects = (serviceId: number) => {
+    navigate(`/projects/${serviceId}`);
+  };
   useEffect(() => {
     if (!isInView) return;
 
@@ -126,6 +99,18 @@ const services = [
         ease: 'back.out(1.7)',
       },
       '-=0.4'
+    ).fromTo(
+      '.tech-card',
+      { y: 60, opacity: 0, scale: 0.9 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: 'back.out(1.7)',
+      },
+      '-=0.2'
     );
   }, [isInView]);
 
@@ -156,45 +141,70 @@ const services = [
         </div>
 
         <div className="card-swap-container relative">
-          <CardSwap 
-            cards={services.map((service) => ({
-              id: service.id,
-              content: (
-                <div className="h-full flex flex-col">
-                  {/* Icon and Title */}
-                  <div className="flex items-center mb-6">
-                    <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mr-4">
-                      <service.icon className="w-7 h-7 text-accent" />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground font-palo">
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
-                    {service.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="space-y-2 mb-6">
-                    {service.features.slice(0, 3).map((feature, idx) => (
-                      <div key={idx} className="flex items-center text-xs text-muted-foreground">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full mr-2"></div>
-                        {feature}
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-red-500 mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()}
+                className="bg-accent text-accent-foreground px-6 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : (
+            <CardSwap 
+              cards={services.map((service) => {
+                const IconComponent = getIconComponent(service.service_icon);
+                const features = serviceFeatures[service.service_name] || ['Feature 1', 'Feature 2', 'Feature 3'];
+                const color = serviceColors[service.service_name] || 'from-gray-500 to-slate-500';
+                
+                return {
+                  id: service.service_id.toString(),
+                  content: (
+                    <div className="h-full flex flex-col">
+                      {/* Icon and Title */}
+                      <div className="flex items-center mb-6">
+                        <div className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mr-4">
+                          <IconComponent className="w-7 h-7 text-accent" />
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground font-palo">
+                          {service.service_name}
+                        </h3>
                       </div>
-                    ))}
-                  </div>
 
-                  {/* Call to Action */}
-                  <button className="mt-auto w-full bg-accent/10 hover:bg-accent/20 text-accent font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm">
-                    Learn More
-                  </button>
-                </div>
-              ),
-            }))}
-            className="mb-16"
-          />
+                      {/* Description */}
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
+                        {service.service_description}
+                      </p>
+
+                      {/* Features */}
+                      <div className="space-y-2 mb-6">
+                        {features.slice(0, 3).map((feature, idx) => (
+                          <div key={idx} className="flex items-center text-xs text-muted-foreground">
+                            <div className="w-1.5 h-1.5 bg-accent rounded-full mr-2"></div>
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Call to Action */}
+                      <button 
+                        onClick={() => handleViewProjects(service.service_id)}
+                        className="mt-auto w-full bg-accent/10 hover:bg-accent/20 text-accent font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-sm"
+                      >
+                        View Projects
+                      </button>
+                    </div>
+                  ),
+                };
+              })}
+              className="mb-16"
+            />
+          )}
         </div>
 
         {/* Technology Stack */}
@@ -202,32 +212,70 @@ const services = [
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="mt-20 text-center"
+          className="mt-32 text-center"
         >
-          <h3 className="text-display-sm mb-8 text-foreground">
+          <h2 className="text-display-lg mb-6 text-foreground">
             Technologies We Master
-          </h3>
+          </h2>
+          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-16">
+            Leveraging cutting-edge technologies and frameworks to build scalable, 
+            robust solutions that meet modern business demands.
+          </p>
           
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {[
-              { icon: Code2, name: 'React & Next.js' },
-              { icon: Database, name: 'Node.js & Python' },
-              { icon: Smartphone, name: 'Mobile Development' },
-              { icon: Brain, name: 'AI & ML' },
+              { 
+                icon: Code2, 
+                name: 'React & Next.js',
+                description: 'Modern frontend frameworks for dynamic web applications',
+                gradient: 'from-blue-500 to-cyan-500'
+              },
+              { 
+                icon: Database, 
+                name: 'Node.js & Python',
+                description: 'Powerful backend technologies for scalable APIs',
+                gradient: 'from-green-500 to-emerald-500'
+              },
+              { 
+                icon: Smartphone, 
+                name: 'Mobile Development',
+                description: 'Cross-platform apps for iOS and Android devices',
+                gradient: 'from-purple-500 to-pink-500'
+              },
+              { 
+                icon: Brain, 
+                name: 'AI & ML',
+                description: 'Intelligent solutions with machine learning capabilities',
+                gradient: 'from-orange-500 to-yellow-500'
+              },
             ].map((tech, index) => (
-              <motion.div
+              <div
                 key={tech.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 1.4 + (index * 0.1), duration: 0.4 }}
-                whileHover={{ scale: 1.1, y: -5 }}
-                className="bg-card rounded-2xl p-6 shadow-lg border border-border hover:shadow-xl transition-all duration-300"
+                className="tech-card"
               >
-                <tech.icon className="w-8 h-8 text-accent mb-3 mx-auto" />
-                <p className="text-body font-medium text-foreground">
-                  {tech.name}
-                </p>
-              </motion.div>
+                <CometCard
+                  className="group h-full"
+                  rotateDepth={12}
+                  translateDepth={15}
+                >
+                  <div className="p-8 h-full flex flex-col">
+                    {/* Icon Container */}
+                    <div className={`w-16 h-16 bg-gradient-to-br ${tech.gradient} rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                      <tech.icon className="w-8 h-8 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="text-center flex-1 flex flex-col">
+                      <h4 className="text-lg font-bold text-foreground mb-3 font-palo group-hover:text-accent transition-colors duration-300">
+                        {tech.name}
+                      </h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                        {tech.description}
+                      </p>
+                    </div>
+                  </div>
+                </CometCard>
+              </div>
             ))}
           </div>
         </motion.div>

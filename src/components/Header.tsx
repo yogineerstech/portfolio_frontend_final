@@ -26,6 +26,7 @@ export const Header = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
+    { name: 'Blog', href: '/companyblogs' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -51,7 +52,11 @@ export const Header = () => {
         initial={{ y: 0, opacity: 1 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0 }}
-        className="fixed top-0 left-0 right-0 z-[9998] bg-white/10 dark:bg-black/10 backdrop-blur-2xl border-b border-white/20 dark:border-white/10 shadow-2xl shadow-orange-400/10 dark:shadow-orange-500/8 transition-all duration-300"
+        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-background/20 backdrop-blur-3xl border-b border-white/10 shadow-2xl' 
+            : 'bg-background/10 backdrop-blur-2xl border-b border-white/5 shadow-xl'
+        }`}
       >
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -95,7 +100,7 @@ export const Header = () => {
                 initial={{ opacity: 1, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0 }}
-                className="w-10 h-10 flex items-center justify-center rounded-lg bg-card border border-border hover:bg-accent/10 transition-colors duration-300"
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-md transition-all duration-300"
               >
                 {theme === "light" ? 
                   <Moon className="h-5 w-5 text-foreground" /> : 
@@ -134,7 +139,7 @@ export const Header = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden py-4 border-t border-border"
+              className="md:hidden py-4 border-t border-white/10 bg-white/5 backdrop-blur-md rounded-b-2xl"
             >
               {navItems.map((item) => (
                 <button

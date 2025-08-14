@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { submitContactForm, ContactFormData } from '@/lib/api';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,28 +16,33 @@ export const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    subject: '',
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
 
   const contactInfo = [
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'hello@yogineers.com',
+      content: 'admin@yogineers.in',
       description: 'Send us an email anytime!',
     },
     {
       icon: Phone,
       title: 'Call Us',
-      content: '+1 (555) 123-4567',
+      content: '+91 72494 17317',
       description: 'Mon-Fri from 8am to 5pm',
     },
     {
       icon: MapPin,
       title: 'Visit Us',
-      content: 'San Francisco, CA',
+      content: 'Vasant Vihar, Thane',
       description: 'Come say hello at our office',
     },
   ];
@@ -79,12 +85,41 @@ export const Contact = () => {
       );
   }, [isInView]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
-    setFormData({ name: '', email: '', company: '', message: '' });
+    setIsLoading(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const contactData: ContactFormData = {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      };
+
+      const response = await submitContactForm(contactData);
+      
+      setIsSubmitted(true);
+      setSubmitStatus({
+        type: 'success',
+        message: response.message || 'Thank you! Your message has been sent successfully. We\'ll get back to you soon!',
+      });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setSubmitStatus({ type: null, message: '' });
+      }, 5000);
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: error instanceof Error ? error.message : 'Failed to send message. Please try again later.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -192,15 +227,16 @@ export const Contact = () => {
 
               <div className="mb-6">
                 <label className="block text-body font-medium text-foreground mb-3">
-                  Company Name
+                  Subject *
                 </label>
                 <input
                   type="text"
-                  name="company"
-                  value={formData.company}
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 bg-input border border-border rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-300 text-foreground"
-                  placeholder="Your company name"
+                  placeholder="What's this about?"
                 />
               </div>
 
@@ -219,14 +255,41 @@ export const Contact = () => {
                 />
               </div>
 
+              {/* Status Message */}
+              {submitStatus.type && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mb-6 p-4 rounded-xl border ${
+                    submitStatus.type === 'success'
+                      ? 'bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400'
+                      : 'bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {submitStatus.type === 'success' ? (
+                      <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    ) : (
+                      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
+                    )}
+                    <p className="text-sm font-medium">{submitStatus.message}</p>
+                  </div>
+                </motion.div>
+              )}
+
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                disabled={isSubmitted}
+                whileHover={{ scale: isLoading ? 1 : 1.02, y: isLoading ? 0 : -2 }}
+                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                disabled={isSubmitted || isLoading}
                 className="w-full btn-premium group flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitted ? (
+                {isLoading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                    <span className="relative z-10">Sending...</span>
+                  </>
+                ) : isSubmitted ? (
                   <>
                     <CheckCircle className="w-5 h-5" />
                     <span className="relative z-10">Message Sent!</span>
