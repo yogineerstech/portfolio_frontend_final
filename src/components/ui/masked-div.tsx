@@ -113,30 +113,48 @@ const MaskedDiv: React.FC<MaskedDivProps> = ({
 
   const containerStyle: React.CSSProperties = {
     aspectRatio: `${selectedMask.width}/${selectedMask.height}`,
-    backgroundColor: backgroundColor === 'transparent' ? 'transparent' : backgroundColor, // Use backgroundColor prop but default to transparent
+    backgroundColor: 'transparent',
     maskImage: `url("${svgString}")`,
     WebkitMaskImage: `url("${svgString}")`,
     maskRepeat: "no-repeat",
     WebkitMaskRepeat: "no-repeat",
-    maskSize: "cover", // Change from contain to cover to fill entire container
-    WebkitMaskSize: "cover",
-    maskPosition: "center",
-    WebkitMaskPosition: "center",
+    maskSize: "100% 100%", // Exact fit to prevent edge bleeding
+    WebkitMaskSize: "100% 100%",
+    maskPosition: "center center",
+    WebkitMaskPosition: "center center",
+    maskComposite: "intersect", // Better mask composition
+    WebkitMaskComposite: "intersect",
     width: `${size * 100}%`,
     maxWidth: "100%",
     margin: "0 auto",
-    overflow: "hidden", // Ensure no overflow
-    ...style, // Merge custom styles, allowing override of aspectRatio
+    overflow: "hidden",
+    isolation: "isolate", // Create a new stacking context to prevent bleeding
+    // Add better anti-aliasing
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+    // Improve rendering quality
+    imageRendering: 'auto',
+    WebkitBackfaceVisibility: 'hidden',
+    backfaceVisibility: 'hidden',
+    WebkitTransform: 'translateZ(0)',
+    transform: 'translateZ(0)',
+    ...style,
   }
 
   return (
-    <section className={`relative ${className}`} style={containerStyle}>
-      {React.cloneElement(children, {
-        className: `w-full h-full object-cover hover:scale-105 transition-all duration-300 ${
-          children.props.className || ""
-        }`,
-      })}
-    </section>
+    <div className="relative w-full h-full" style={{ isolation: 'isolate' }}>
+      <section className={`relative w-full h-full ${className}`} style={containerStyle}>
+        {React.cloneElement(children, {
+          className: `w-full h-full object-cover hover:scale-105 transition-all duration-300 ${
+            children.props.className || ""
+          }`,
+          style: {
+            ...children.props.style,
+            filter: 'contrast(1.02) saturate(1.01)', // Subtle enhancement to blend better
+          }
+        })}
+      </section>
+    </div>
   )
 }
 

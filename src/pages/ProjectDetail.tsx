@@ -327,20 +327,32 @@ export const ProjectDetail = () => {
                         whileHover={{ y: -8 }}
                       >
                         {shouldBeMasked ? (
-                          <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] bg-transparent">
-                            <MaskedDiv 
-                              maskType={rowIndex % 2 === 0 ? "type-1" : "type-2"}
-                              className="w-full h-full bg-transparent"
-                              size={1}
-                              style={{ aspectRatio: 'unset', backgroundColor: 'transparent' }}
-                            >
-                              <img
-                                src={`${API_BASE_URL}${photo}`}
-                                alt={`${project.project_name} screenshot ${index + 1}`}
-                                className="w-full h-full object-cover transition-transform duration-500"
-                                loading="lazy"
-                              />
-                            </MaskedDiv>
+                          <div 
+                            className="w-full h-[500px] md:h-[600px] lg:h-[650px] shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] overflow-hidden"
+                            style={{
+                              maskImage: rowIndex % 2 === 0 
+                                ? `url("data:image/svg+xml,%3Csvg width='460' height='591' viewBox='0 0 460 591' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fillRule='evenodd' clipRule='evenodd' d='M0.928955 40.9769C0.928955 18.9149 18.7917 1.01844 40.8536 0.976903L289.97 0.507853C308.413 0.473128 323.521 15.1483 324.022 33.5845L324.886 65.4007C325.955 104.745 358.022 136.159 397.38 136.417L432.98 136.65C447.818 136.748 459.797 148.799 459.803 163.637L459.982 550.982C459.992 573.08 442.08 591 419.982 591H40.9289C18.8376 591 0.928955 573.091 0.928955 551V40.9769Z' fill='%23D9D9D9'/%3E%3C/svg%3E%0A")`
+                                : `url("data:image/svg+xml,%3Csvg width='850' height='381' viewBox='0 0 850 381' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fillRule='evenodd' clipRule='evenodd' d='M0.811768 77.2118C0.811768 60.4225 14.4222 46.8121 31.2115 46.8121H180.95C192.496 46.8121 201.855 37.4527 201.855 25.9073V25.9073C201.855 11.9565 213.164 0.647217 227.115 0.647217H529.273C548.014 0.647217 563.206 15.8395 563.206 34.5802V34.5802C563.206 50.0897 575.779 62.6626 591.289 62.6626H820.388C837.177 62.6626 850.787 76.273 850.787 93.0623V350.953C850.787 367.742 837.177 381.353 820.388 381.353H366.165C349.852 381.353 336.627 368.128 336.627 351.814V351.814C336.627 335.501 323.402 322.276 307.089 322.276H31.2114C14.4222 322.276 0.811768 308.666 0.811768 291.876V77.2118Z' fill='%23D9D9D9'/%3E%3C/svg%3E%0A")`,
+                              WebkitMaskImage: rowIndex % 2 === 0 
+                                ? `url("data:image/svg+xml,%3Csvg width='460' height='591' viewBox='0 0 460 591' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fillRule='evenodd' clipRule='evenodd' d='M0.928955 40.9769C0.928955 18.9149 18.7917 1.01844 40.8536 0.976903L289.97 0.507853C308.413 0.473128 323.521 15.1483 324.022 33.5845L324.886 65.4007C325.955 104.745 358.022 136.159 397.38 136.417L432.98 136.65C447.818 136.748 459.797 148.799 459.803 163.637L459.982 550.982C459.992 573.08 442.08 591 419.982 591H40.9289C18.8376 591 0.928955 573.091 0.928955 551V40.9769Z' fill='%23D9D9D9'/%3E%3C/svg%3E%0A")`
+                                : `url("data:image/svg+xml,%3Csvg width='850' height='381' viewBox='0 0 850 381' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fillRule='evenodd' clipRule='evenodd' d='M0.811768 77.2118C0.811768 60.4225 14.4222 46.8121 31.2115 46.8121H180.95C192.496 46.8121 201.855 37.4527 201.855 25.9073V25.9073C201.855 11.9565 213.164 0.647217 227.115 0.647217H529.273C548.014 0.647217 563.206 15.8395 563.206 34.5802V34.5802C563.206 50.0897 575.779 62.6626 591.289 62.6626H820.388C837.177 62.6626 850.787 76.273 850.787 93.0623V350.953C850.787 367.742 837.177 381.353 820.388 381.353H366.165C349.852 381.353 336.627 368.128 336.627 351.814V351.814C336.627 335.501 323.402 322.276 307.089 322.276H31.2114C14.4222 322.276 0.811768 308.666 0.811768 291.876V77.2118Z' fill='%23D9D9D9'/%3E%3C/svg%3E%0A")`,
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+                              maskSize: 'cover',
+                              WebkitMaskSize: 'cover',
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              transform: 'translateZ(0)',
+                              WebkitBackfaceVisibility: 'hidden',
+                              backfaceVisibility: 'hidden',
+                            }}
+                          >
+                            <img
+                              src={`${API_BASE_URL}${photo}`}
+                              alt={`${project.project_name} screenshot ${index + 1}`}
+                              className="w-full h-full object-cover transition-transform duration-500"
+                              loading="lazy"
+                            />
                           </div>
                         ) : (
                           <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]">
