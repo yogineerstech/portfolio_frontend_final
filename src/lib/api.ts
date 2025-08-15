@@ -89,7 +89,7 @@ export const fetchServices = async (): Promise<Service[]> => {
 
 export const fetchServiceProjects = async (serviceId: number): Promise<Project[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/services/${serviceId}/projects`);
+    const response = await fetch(`${API_BASE_URL}/api/projects/services/${serviceId}/projects`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
