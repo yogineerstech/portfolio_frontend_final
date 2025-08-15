@@ -66,9 +66,11 @@ export const Header = () => {
               className="flex items-center space-x-3 cursor-pointer"
               onClick={() => handleNavClick('/')}
             >
-              <div className="w-11 h-11 bg-primary rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-primary-foreground font-bold text-lg font-mono">Y</span>
-              </div>
+              <img 
+                src="/logo2.png" 
+                alt="Yogineers Logo" 
+                className="h-10 w-auto"
+              />
               <span className="text-display-sm font-bold text-foreground tracking-tight font-sans">
                 Yogineers
               </span>
