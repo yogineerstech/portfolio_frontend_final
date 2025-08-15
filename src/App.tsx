@@ -13,6 +13,7 @@ import ContactPage from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import { CompanyBlogs } from "./pages/CompanyBlogs";
 import { BlogDetail } from "./pages/BlogDetail";
+import { ProjectDetail } from "./pages/ProjectDetail";
 import { AdminLogin } from "./pages/AdminLogin";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { BlogForm } from "./pages/BlogForm";
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/projects/:serviceId" element={<ProjectsShowcase />} />
+              <Route path="/projects/:serviceId/:projectId" element={<ProjectDetail />} />
               <Route path="/companyblogs" element={<CompanyBlogs />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
               {/* Admin Routes */}

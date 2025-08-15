@@ -1,26 +1,35 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Play, Image as ImageIcon, ExternalLink } from 'lucide-react';
-import { fetchServiceProjects, Project } from '@/lib/api';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { fetchServiceProjects, fetchServices, Project, Service } from '@/lib/api';
 import { Header } from '@/components/Header';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const ProjectsShowcase = () => {
   const { serviceId } = useParams<{ serviceId: string }>();
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [service, setService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    const loadProjects = async () => {
+    const loadProjectsAndService = async () => {
       if (!serviceId) return;
       
       try {
         setLoading(true);
-        const projectsData = await fetchServiceProjects(Number(serviceId));
+        const [projectsData, servicesData] = await Promise.all([
+          fetchServiceProjects(Number(serviceId)),
+          fetchServices()
+        ]);
+        
         setProjects(projectsData);
+        
+        const foundService = servicesData.find(s => s.service_id === Number(serviceId));
+        setService(foundService || null);
       } catch (err) {
         setError('Failed to load projects');
         console.error('Error loading projects:', err);
@@ -29,16 +38,8 @@ export const ProjectsShowcase = () => {
       }
     };
 
-    loadProjects();
+    loadProjectsAndService();
   }, [serviceId]);
-
-  const parsePhotos = (photosString: string): string[] => {
-    try {
-      return JSON.parse(photosString);
-    } catch {
-      return [];
-    }
-  };
 
   if (loading) {
     return (
@@ -76,27 +77,30 @@ export const ProjectsShowcase = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      {/* Header */}
-      <div className="border-b border-border pt-20">
-        <div className="container mx-auto px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/services')}
-              className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Services
-            </button>
-            <h1 className="text-2xl font-bold text-foreground">
-              Service Projects
+      
+      {/* Fixed Back Button - Always at top left, below navbar */}
+      <button 
+        onClick={() => navigate('/services')}
+        className="fixed top-24 left-4 md:left-6 z-50 w-10 h-10 md:w-12 md:h-12 bg-background/90 backdrop-blur-sm border border-border rounded-full flex items-center justify-center text-foreground hover:text-accent hover:bg-background transition-all duration-300 shadow-lg hover:shadow-xl"
+      >
+        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+      </button>
+      
+      <div className="container mx-auto px-6 lg:px-8 py-24">
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-display-lg mb-6 text-foreground">
+              {service ? `${service.service_name} Projects` : 'Service Projects'}
             </h1>
-            <div></div>
-          </div>
+            <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              {service ? service.service_description : 'Explore our portfolio of completed projects and case studies.'}
+            </p>
+          </motion.div>
         </div>
-      </div>
-
-      {/* Projects Grid */}
-      <div className="container mx-auto px-6 lg:px-8 py-12">
         {projects.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-muted-foreground text-lg">No projects found for this service.</p>
@@ -114,22 +118,17 @@ export const ProjectsShowcase = () => {
                 {/* Project Thumbnail */}
                 <div className="relative aspect-video bg-muted">
                   <img
-                    src={project.project_thumbnail}
+                    src={`${API_BASE_URL}${project.project_thumbnail}`}
                     alt={project.project_name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      target.parentElement?.classList.add('flex', 'items-center', 'justify-center');
-                      const placeholder = document.createElement('div');
-                      placeholder.className = 'text-muted-foreground text-sm';
-                      placeholder.textContent = 'Image not available';
-                      target.parentElement?.appendChild(placeholder);
+                      target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzllYTNhOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBBdmFpbGFibGU8L3RleHQ+PC9zdmc+';
                     }}
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <button
-                      onClick={() => setSelectedProject(project)}
+                      onClick={() => navigate(`/projects/${serviceId}/${project.project_id}`)}
                       className="bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors"
                     >
                       <ExternalLink className="w-5 h-5" />
@@ -146,102 +145,20 @@ export const ProjectsShowcase = () => {
                     {project.project_description}
                   </p>
                   
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    {project.project_video && (
-                      <button
-                        onClick={() => setSelectedProject(project)}
-                        className="flex items-center gap-2 bg-accent/10 text-accent px-3 py-2 rounded-lg hover:bg-accent/20 transition-colors text-sm flex-1"
-                      >
-                        <Play className="w-4 h-4" />
-                        View Demo
-                      </button>
-                    )}
-                    <button
-                      onClick={() => setSelectedProject(project)}
-                      className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-2 rounded-lg hover:bg-primary/20 transition-colors text-sm flex-1"
-                    >
-                      <ImageIcon className="w-4 h-4" />
-                      Gallery
-                    </button>
-                  </div>
+                  {/* View Project Button */}
+                  <button
+                    onClick={() => navigate(`/projects/${serviceId}/${project.project_id}`)}
+                    className="w-full bg-accent text-accent-foreground px-4 py-3 rounded-lg hover:bg-accent/90 transition-colors font-medium flex items-center justify-center gap-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    View Project
+                  </button>
                 </div>
               </motion.div>
             ))}
           </div>
         )}
       </div>
-
-      {/* Project Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-card rounded-xl max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl border border-border"
-          >
-            {/* Modal Header */}
-            <div className="p-6 border-b border-border flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">
-                {selectedProject.project_name}
-              </h2>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                ×
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 max-h-[60vh] overflow-y-auto">
-              {/* Project Video */}
-              {selectedProject.project_video && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-medium mb-3">Demo Video</h3>
-                  <video
-                    controls
-                    className="w-full rounded-lg"
-                    poster={selectedProject.project_thumbnail}
-                  >
-                    <source src={selectedProject.project_video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              )}
-
-              {/* Project Description */}
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3">About This Project</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {selectedProject.project_description}
-                </p>
-              </div>
-
-              {/* Project Photos */}
-              {selectedProject.project_photos && (
-                <div>
-                  <h3 className="text-lg font-medium mb-3">Screenshots</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {parsePhotos(selectedProject.project_photos).map((photo, index) => (
-                      <img
-                        key={index}
-                        src={photo}
-                        alt={`${selectedProject.project_name} screenshot ${index + 1}`}
-                        className="w-full rounded-lg border border-border"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 };
