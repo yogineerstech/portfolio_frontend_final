@@ -112,6 +112,14 @@ export const BlogDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
+      {/* Fixed Back Button - Always at top left, below navbar */}
+      <Link 
+        to="/companyblogs"
+        className="fixed top-24 left-4 md:left-6 z-50 w-10 h-10 md:w-12 md:h-12 bg-background/90 backdrop-blur-sm border border-border rounded-full flex items-center justify-center text-foreground hover:text-accent hover:bg-background transition-all duration-300 shadow-lg hover:shadow-xl"
+      >
+        <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+      </Link>
+      
       {/* Banner Image - Full width hero section */}
       {blog.banner_image && (
         <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
@@ -159,23 +167,6 @@ export const BlogDetail = () => {
           </div>
         </div>
       )}
-
-      {/* Back button - positioned over banner or at top if no banner */}
-      <div className={`${blog.banner_image ? 'absolute top-24 left-0 right-0 z-20' : 'border-b border-border'}`}>
-        <div className="max-w-4xl mx-auto px-6 py-6">
-          <Link 
-            to="/companyblogs"
-            className={`inline-flex items-center gap-2 transition-colors ${
-              blog.banner_image 
-                ? 'text-white/80 hover:text-white bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20' 
-                : 'text-muted-foreground hover:text-accent'
-            }`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Blog
-          </Link>
-        </div>
-      </div>
 
       {/* Article Content */}
       <article className="max-w-4xl mx-auto px-6 py-12">

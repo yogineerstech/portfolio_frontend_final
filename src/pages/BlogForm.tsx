@@ -84,14 +84,14 @@ export const BlogForm = () => {
       if (blog.featured_image) {
         setFeaturedImagePreview({
           file: null,
-          preview: blog.featured_image
+          preview: `${API_BASE_URL}${blog.featured_image}`
         });
       }
 
       if (blog.banner_image) {
         setBannerImagePreview({
           file: null,
-          preview: blog.banner_image
+          preview: `${API_BASE_URL}${blog.banner_image}`
         });
       }
     } catch (err) {
