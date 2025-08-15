@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Clock, User, Tag, Calendar, Eye, Heart } from 'lucide-react';
-import { fetchBlogBySlug, Blog } from '@/lib/api';
+import { fetchBlogBySlug, likeBlog, Blog } from '@/lib/api';
 import { Header } from '@/components/Header';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -12,6 +12,9 @@ export const BlogDetail = () => {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [likesCount, setLikesCount] = useState(0);
+  const [isLiking, setIsLiking] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     const loadBlog = async () => {
@@ -21,6 +24,7 @@ export const BlogDetail = () => {
         setLoading(true);
         const blogData = await fetchBlogBySlug(slug);
         setBlog(blogData);
+        setLikesCount(blogData.likes_count || 0);
       } catch (err) {
         setError('Failed to load blog');
         console.error('Error loading blog:', err);
@@ -31,6 +35,30 @@ export const BlogDetail = () => {
 
     loadBlog();
   }, [slug]);
+
+  const handleLike = async () => {
+    if (!blog || isLiking) return;
+
+    try {
+      setIsLiking(true);
+      await likeBlog(blog.id);
+      
+      // Update the likes count optimistically
+      if (!hasLiked) {
+        setLikesCount(prev => prev + 1);
+        setHasLiked(true);
+      }
+    } catch (err) {
+      console.error('Error liking blog:', err);
+      // Revert the optimistic update if the API call fails
+      if (hasLiked) {
+        setLikesCount(prev => prev - 1);
+        setHasLiked(false);
+      }
+    } finally {
+      setIsLiking(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -289,10 +317,38 @@ export const BlogDetail = () => {
               </div>
               
               <div className="flex items-center gap-4">
-                <button className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-lg hover:border-accent/30 transition-colors">
-                  <Heart className="w-4 h-4" />
-                  <span>{blog.likes_count}</span>
-                </button>
+                <motion.button 
+                  onClick={handleLike}
+                  disabled={isLiking}
+                  className={`flex items-center gap-2 px-4 py-2 bg-card border rounded-lg transition-all duration-300 ${
+                    hasLiked 
+                      ? 'border-red-400 bg-red-50 text-red-500' 
+                      : 'border-border hover:border-accent/30'
+                  } ${isLiking ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <motion.div
+                    animate={hasLiked ? {
+                      scale: [1, 1.3, 1],
+                      rotate: [0, 15, -15, 0]
+                    } : {}}
+                    transition={{ 
+                      duration: 0.6,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <Heart 
+                      className={`w-4 h-4 transition-all duration-300 ${
+                        hasLiked ? 'fill-red-500 text-red-500' : ''
+                      }`} 
+                    />
+                  </motion.div>
+                  <span className="font-medium">{likesCount}</span>
+                  {isLiking && (
+                    <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin ml-1"></div>
+                  )}
+                </motion.button>
                 <Link 
                   to="/companyblogs"
                   className="px-6 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors"
