@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Play, Image as ImageIcon, ExternalLink, Calendar } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Play, Image as ImageIcon, ExternalLink, Calendar, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fetchServiceProjects, fetchServices, Project, Service } from '@/lib/api';
 import { Header } from '@/components/Header';
+import MaskedDiv from '@/components/ui/masked-div';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,6 +15,8 @@ export const ProjectDetail = () => {
   const [service, setService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const loadProjectAndService = async () => {
@@ -65,6 +68,49 @@ export const ProjectDetail = () => {
     });
   };
 
+  const openImageModal = (index: number) => {
+    setSelectedImageIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeImageModal = () => {
+    setIsModalOpen(false);
+    setSelectedImageIndex(null);
+  };
+
+  const navigateImage = (direction: 'prev' | 'next') => {
+    if (!project || selectedImageIndex === null) return;
+    const photos = parsePhotos(project.project_photos);
+    
+    if (direction === 'prev') {
+      setSelectedImageIndex(selectedImageIndex > 0 ? selectedImageIndex - 1 : photos.length - 1);
+    } else {
+      setSelectedImageIndex(selectedImageIndex < photos.length - 1 ? selectedImageIndex + 1 : 0);
+    }
+  };
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isModalOpen) return;
+      
+      switch (e.key) {
+        case 'Escape':
+          closeImageModal();
+          break;
+        case 'ArrowLeft':
+          navigateImage('prev');
+          break;
+        case 'ArrowRight':
+          navigateImage('next');
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, selectedImageIndex]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -109,15 +155,17 @@ export const ProjectDetail = () => {
       
       {/* Project Thumbnail as Hero */}
       <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
-        <img 
-          src={`${API_BASE_URL}${project.project_thumbnail}`}
-          alt={project.project_name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzllYTNhOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBBdmFpbGFibGU8L3RleHQ+PC9zdmc+';
-          }}
-        />
+        <div className="absolute inset-0">
+          <img 
+            src={`${API_BASE_URL}${project.project_thumbnail}`}
+            alt={project.project_name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzllYTNhOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBBdmFpbGFibGU8L3RleHQ+PC9zdmc+';
+            }}
+          />
+        </div>
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/30" />
         
@@ -198,15 +246,33 @@ export const ProjectDetail = () => {
               className="mb-12"
             >
               <h2 className="text-2xl font-bold text-foreground mb-6 font-display">Project Demo</h2>
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <video
-                  controls
-                  className="w-full h-auto object-cover"
-                  poster={`${API_BASE_URL}${project.project_thumbnail}`}
+              <div className="max-w-5xl mx-auto">
+                <MaskedDiv 
+                  maskType="type-2" 
+                  className="shadow-2xl hover:shadow-3xl transition-all duration-500 bg-gradient-to-br from-accent/5 to-primary/5"
+                  size={0.95}
                 >
-                  <source src={`${API_BASE_URL}${project.project_video}`} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover"
+                    poster={`${API_BASE_URL}${project.project_thumbnail}`}
+                    onError={(e) => {
+                      console.error('Video failed to load:', e);
+                    }}
+                  >
+                    <source src={`${API_BASE_URL}${project.project_video}`} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </MaskedDiv>
+                {/* Video info */}
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Autoplay demo • Tap to interact
+                  </p>
+                </div>
               </div>
             </motion.div>
           )}
@@ -238,32 +304,64 @@ export const ProjectDetail = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mb-12"
             >
-              <h2 className="text-2xl font-bold text-foreground mb-6 font-display">Project Gallery</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {parsePhotos(project.project_photos).map((photo, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
-                  >
-                    <img
-                      src={`${API_BASE_URL}${photo}`}
-                      alt={`${project.project_name} screenshot ${index + 1}`}
-                      className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzllYTNhOCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBBdmFpbGFibGU8L3RleHQ+PC9zdmc+';
-                      }}
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
-                      <p className="text-white/80 text-sm">
-                        Screenshot {index + 1}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+              <h2 className="text-2xl font-bold text-foreground mb-8 font-display">Project Gallery</h2>
+              
+              {/* Equal Size 2-Column Grid Layout */}
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {parsePhotos(project.project_photos).map((photo, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className="group cursor-pointer"
+                      onClick={() => openImageModal(index)}
+                      whileHover={{ y: -8 }}
+                    >
+                      <div className="shadow-xl hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-accent/10 to-primary/10 w-full h-[500px] md:h-[600px] lg:h-[650px] group-hover:scale-[1.02] overflow-hidden">
+                        <MaskedDiv 
+                          maskType={index % 2 === 0 ? "type-1" : "type-2"}
+                          className="w-full h-full"
+                          size={1}
+                        >
+                          <img
+                            src={`${API_BASE_URL}${photo}`}
+                            alt={`${project.project_name} screenshot ${index + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        </MaskedDiv>
+                      </div>
+                    </motion.div>
+                  ))}
+                  
+                  {/* Add placeholder if odd number of images to maintain grid structure */}
+                  {parsePhotos(project.project_photos).length % 2 !== 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.6, delay: parsePhotos(project.project_photos).length * 0.1 }}
+                      className="hidden lg:block"
+                    >
+                      <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] rounded-2xl border-2 border-dashed border-muted-foreground/20 flex items-center justify-center bg-muted/20">
+                        <div className="text-center text-muted-foreground">
+                          <ImageIcon className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                          <p className="text-lg font-medium opacity-50">More screenshots</p>
+                          <p className="text-sm opacity-30">coming soon</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+
+              {/* Gallery info */}
+              <div className="mt-8 text-center">
+                <p className="text-sm text-muted-foreground">
+                  {parsePhotos(project.project_photos).length} screenshot{parsePhotos(project.project_photos).length > 1 ? 's' : ''} • 
+                  Click any image to view full size
+                </p>
               </div>
             </motion.div>
           )}
@@ -298,6 +396,85 @@ export const ProjectDetail = () => {
           </motion.div>
         </motion.div>
       </article>
+
+      {/* Image Modal */}
+      <AnimatePresence>
+        {isModalOpen && selectedImageIndex !== null && project && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={closeImageModal}
+          >
+            <div className="relative max-w-7xl max-h-[90vh] w-full mx-4">
+              {/* Close button */}
+              <button
+                onClick={closeImageModal}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Navigation buttons */}
+              {parsePhotos(project.project_photos).length > 1 && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigateImage('prev');
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigateImage('next');
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
+
+              {/* Modal image - Full size without mask */}
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center justify-center h-full"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="relative max-w-full max-h-[80vh] bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                  <img
+                    src={`${API_BASE_URL}${parsePhotos(project.project_photos)[selectedImageIndex]}`}
+                    alt={`${project.project_name} screenshot ${selectedImageIndex + 1}`}
+                    className="w-full h-full object-contain max-w-none"
+                    style={{ maxHeight: '80vh', maxWidth: '90vw' }}
+                    loading="eager"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Image info */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center">
+                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3">
+                  <p className="text-white text-sm font-medium">
+                    {selectedImageIndex + 1} of {parsePhotos(project.project_photos).length}
+                  </p>
+                  <p className="text-white/70 text-xs mt-1">
+                    Press ESC to close • Use arrow keys to navigate
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
