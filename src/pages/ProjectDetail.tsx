@@ -246,11 +246,11 @@ export const ProjectDetail = () => {
               className="mb-12"
             >
               <h2 className="text-2xl font-bold text-foreground mb-6 font-display">Project Demo</h2>
-              <div className="max-w-5xl mx-auto">
+              <div className="max-w-7xl mx-auto">
                 <MaskedDiv 
                   maskType="type-2" 
                   className="shadow-2xl hover:shadow-3xl transition-all duration-500"
-                  size={0.95}
+                  size={1.1}
                 >
                   <video
                     autoPlay

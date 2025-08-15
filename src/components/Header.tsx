@@ -5,6 +5,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@/components/ThemeProvider';
 import { Spotlight } from '@/components/ui/spotlight-new';
+import { WrapButton } from '@/components/ui/wrap-button-new';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -61,33 +62,62 @@ export const Header = () => {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2"
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => handleNavClick('/')}
             >
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">Y</span>
+              <div className="w-11 h-11 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-primary-foreground font-bold text-lg font-mono">Y</span>
               </div>
-              <span className="text-display-sm font-bold text-foreground">
+              <span className="text-display-sm font-bold text-foreground tracking-tight font-sans">
                 Yogineers
               </span>
-            </motion.div>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {navItems.map((item, index) => (
-                <motion.button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  whileHover={{ y: -2 }}
-                  initial={{ opacity: 1, y: 0 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0 }}
-                  className="text-foreground hover:text-accent transition-colors duration-300 font-medium"
-                >
-                  {item.name}
-                </motion.button>
-              ))}
+              {navItems.map((item, index) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <motion.button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.href)}
+                    whileHover={{ 
+                      y: -2,
+                      scale: 1.05,
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 400, 
+                      damping: 17,
+                      duration: 0.2
+                    }}
+                    className={`relative font-medium transition-all duration-300 px-3 py-2 rounded-lg ${
+                      isActive 
+                        ? 'text-primary bg-primary/5' 
+                        : 'text-foreground hover:text-accent hover:bg-accent/5'
+                    }`}
+                  >
+                    <motion.span
+                      whileHover={{ letterSpacing: "0.05em" }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {item.name}
+                    </motion.span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
+                        initial={false}
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                  </motion.button>
+                );
+              })}
             </nav>
 
             {/* CTA Button */}
@@ -95,41 +125,72 @@ export const Header = () => {
               {/* Theme Toggle */}
               <motion.button
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 1, scale: 1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0 }}
-                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-md transition-all duration-300"
+                whileHover={{ 
+                  scale: 1.1,
+                  rotate: 15,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)"
+                }}
+                whileTap={{ 
+                  scale: 0.9,
+                  rotate: -15
+                }}
+                initial={{ opacity: 1, scale: 1, rotate: 0 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 400, 
+                  damping: 17
+                }}
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-md transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                {theme === "light" ? 
-                  <Moon className="h-5 w-5 text-foreground" /> : 
-                  <Sun className="h-5 w-5 text-foreground" />
-                }
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: theme === "light" ? 0 : 180 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  {theme === "light" ? 
+                    <Moon className="h-5 w-5 text-foreground" /> : 
+                    <Sun className="h-5 w-5 text-foreground" />
+                  }
+                </motion.div>
               </motion.button>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 1, scale: 1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0 }}
-                className="btn-premium group"
-                onClick={() => handleNavClick('/contact')}
               >
-                <span className="relative z-10">Get Started</span>
-              </motion.button>
+                <WrapButton href="/contact" className="scale-75">
+                  Get Started
+                </WrapButton>
+              </motion.div>
             </div>
 
             {/* Mobile Menu Toggle */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileHover={{ 
+                scale: 1.1,
+                backgroundColor: "rgba(255, 255, 255, 0.1)"
+              }}
+              whileTap={{ scale: 0.9 }}
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0 }}
-              className="md:hidden p-2 text-foreground"
+              transition={{ 
+                type: "spring", 
+                stiffness: 400, 
+                damping: 17
+              }}
+              className="md:hidden p-2 text-foreground rounded-lg transition-all duration-300"
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <motion.div
+                animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </motion.div>
             </motion.button>
           </div>
 
@@ -141,28 +202,76 @@ export const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden py-4 border-t border-white/10 bg-white/5 backdrop-blur-md rounded-b-2xl"
             >
-              {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  className="block w-full text-left py-3 text-foreground hover:text-accent transition-colors duration-300"
-                >
-                  {item.name}
-                </button>
-              ))}
-              <button
+              {navItems.map((item, index) => {
+                const isActive = location.pathname === item.href;
+                return (
+                  <motion.button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.href)}
+                    whileHover={{ 
+                      x: 10,
+                      backgroundColor: isActive ? "rgba(var(--primary), 0.1)" : "rgba(var(--accent), 0.05)"
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ 
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 17
+                    }}
+                    className={`block w-full text-left py-3 px-4 rounded-lg transition-all duration-300 ${
+                      isActive 
+                        ? 'text-primary font-medium bg-primary/5' 
+                        : 'text-foreground hover:text-accent'
+                    }`}
+                  >
+                    <motion.span
+                      whileHover={{ letterSpacing: "0.02em" }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {item.name}
+                    </motion.span>
+                  </motion.button>
+                );
+              })}
+              <motion.button
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                className="flex items-center justify-center w-full py-3 text-foreground hover:text-accent transition-colors duration-300"
+                whileHover={{ 
+                  x: 10,
+                  backgroundColor: "rgba(var(--accent), 0.05)"
+                }}
+                whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ 
+                  delay: navItems.length * 0.1,
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 17
+                }}
+                className="flex items-center justify-center w-full py-3 px-4 text-foreground hover:text-accent transition-all duration-300 rounded-lg"
               >
-                {theme === "light" ? <Moon className="w-5 h-5 mr-2" /> : <Sun className="w-5 h-5 mr-2" />}
-                {theme === "light" ? "Dark Mode" : "Light Mode"}
-              </button>
-              <button 
-                onClick={() => handleNavClick('/contact')}
-                className="w-full mt-4 btn-premium"
-              >
-                Get Started
-              </button>
+                <motion.div
+                  whileHover={{ rotate: 15 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center"
+                >
+                  {theme === "light" ? <Moon className="w-5 h-5 mr-2" /> : <Sun className="w-5 h-5 mr-2" />}
+                  <motion.span
+                    whileHover={{ letterSpacing: "0.02em" }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {theme === "light" ? "Dark Mode" : "Light Mode"}
+                  </motion.span>
+                </motion.div>
+              </motion.button>
+              <div className="w-full mt-4 flex justify-center">
+                <WrapButton href="/contact" className="scale-90">
+                  Get Started
+                </WrapButton>
+              </div>
             </motion.div>
           )}
         </div>
