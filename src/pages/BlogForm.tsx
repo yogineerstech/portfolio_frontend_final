@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Save, ArrowLeft, Upload, X, Image } from 'lucide-react';
 import { createBlog, updateBlog, fetchBlogById } from '@/lib/api';
 import { Header } from '@/components/Header';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 interface BlogFormData {
   title: string;
   content: string;

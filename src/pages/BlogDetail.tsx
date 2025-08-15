@@ -5,6 +5,8 @@ import { ArrowLeft, Clock, User, Tag, Calendar, Eye, Heart } from 'lucide-react'
 import { fetchBlogBySlug, Blog } from '@/lib/api';
 import { Header } from '@/components/Header';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [blog, setBlog] = useState<Blog | null>(null);
@@ -107,15 +109,67 @@ export const BlogDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background">
       <Header />
-    <div className="min-h-screen bg-background pt-20">
-      {/* Header with back button */}
-      <div className="border-b border-border">
+      
+      {/* Banner Image - Full width hero section */}
+      {blog.banner_image && (
+        <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
+          <img 
+            src={`${API_BASE_URL}${blog.banner_image}`}
+            alt={blog.title}
+            className="w-full h-full object-cover"
+          />
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/20" />
+          
+          {/* Banner content overlay */}
+          <div className="absolute inset-0 flex items-end">
+            <div className="w-full bg-gradient-to-t from-black/60 via-black/20 to-transparent">
+              <div className="max-w-4xl mx-auto px-6 py-12">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  {/* Category badge on banner */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/30">
+                      {blog.category}
+                    </span>
+                    {blog.is_featured === 1 && (
+                      <span className="bg-accent/90 text-white px-3 py-1 rounded text-xs font-medium">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Title on banner */}
+                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 font-display">
+                    {blog.title}
+                  </h1>
+                  
+                  {/* Subtitle on banner */}
+                  <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl">
+                    {blog.subtitle}
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Back button - positioned over banner or at top if no banner */}
+      <div className={`${blog.banner_image ? 'absolute top-24 left-0 right-0 z-20' : 'border-b border-border'}`}>
         <div className="max-w-4xl mx-auto px-6 py-6">
           <Link 
             to="/companyblogs"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
+            className={`inline-flex items-center gap-2 transition-colors ${
+              blog.banner_image 
+                ? 'text-white/80 hover:text-white bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20' 
+                : 'text-muted-foreground hover:text-accent'
+            }`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
@@ -123,34 +177,39 @@ export const BlogDetail = () => {
         </div>
       </div>
 
-      {/* Article */}
+      {/* Article Content */}
       <article className="max-w-4xl mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Category and Meta */}
-          <div className="flex items-center gap-4 mb-8">
-            <span className="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium">
-              {blog.category}
-            </span>
-            {blog.is_featured === 1 && (
-              <span className="bg-accent/20 text-accent px-3 py-1 rounded text-xs font-medium">
-                Featured
-              </span>
-            )}
-          </div>
+          {/* Title and meta for blogs without banner */}
+          {!blog.banner_image && (
+            <>
+              {/* Category and Meta */}
+              <div className="flex items-center gap-4 mb-8">
+                <span className="bg-accent/10 text-accent px-4 py-2 rounded-full text-sm font-medium">
+                  {blog.category}
+                </span>
+                {blog.is_featured === 1 && (
+                  <span className="bg-accent/20 text-accent px-3 py-1 rounded text-xs font-medium">
+                    Featured
+                  </span>
+                )}
+              </div>
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-6">
-            {blog.title}
-          </h1>
+              {/* Title */}
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-6 font-display">
+                {blog.title}
+              </h1>
 
-          {/* Subtitle */}
-          <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-            {blog.subtitle}
-          </p>
+              {/* Subtitle */}
+              <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+                {blog.subtitle}
+              </p>
+            </>
+          )}
 
           {/* Author and Meta Info */}
           <div className="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b border-border">
@@ -184,10 +243,29 @@ export const BlogDetail = () => {
             </div>
           </div>
 
-          {/* Featured Image Placeholder */}
-          <div className="w-full h-64 md:h-96 bg-gradient-to-br from-accent/20 to-primary/20 rounded-2xl flex items-center justify-center mb-12">
-            <Tag className="w-16 h-16 text-accent/60" />
-          </div>
+          {/* Featured Image - Medium style in-content image */}
+          {blog.featured_image && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mb-12"
+            >
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                <img 
+                  src={`${API_BASE_URL}${blog.featured_image}`}
+                  alt={blog.title}
+                  className="w-full h-auto object-cover"
+                />
+                {/* Optional: Image caption area */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
+                  <p className="text-white/80 text-sm italic">
+                    Featured image for "{blog.title}"
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Content */}
           <motion.div
@@ -236,6 +314,5 @@ export const BlogDetail = () => {
         </motion.div>
       </article>
     </div>
-  </div>
   );
 };
