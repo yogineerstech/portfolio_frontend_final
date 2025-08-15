@@ -267,3 +267,111 @@ export const likeBlog = async (id: number): Promise<any> => {
     throw error;
   }
 };
+
+// Project Management Functions
+export const fetchAllProjects = async (page: number = 1, limit: number = 10): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects?page=${page}&limit=${limit}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching all projects:', error);
+    throw error;
+  }
+};
+
+export const fetchProjectById = async (projectId: number): Promise<Project> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching project by ID:', error);
+    throw error;
+  }
+};
+
+export const createProject = async (formData: FormData): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects`, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error creating project:', error);
+    throw error;
+  }
+};
+
+export const updateProject = async (projectId: number, formData: FormData): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}`, {
+      method: 'PUT',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error updating project:', error);
+    throw error;
+  }
+};
+
+export const deleteProject = async (projectId: number): Promise<any> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}`, {
+      method: 'DELETE',
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    throw error;
+  }
+};
+
+export const searchProjects = async (searchTerm: string, page: number = 1, limit: number = 10): Promise<any> => {
+  try {
+    const params = new URLSearchParams({
+      q: searchTerm,
+      page: page.toString(),
+      limit: limit.toString()
+    });
+    
+    const response = await fetch(`${API_BASE_URL}/api/projects/search?${params}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error searching projects:', error);
+    throw error;
+  }
+};
