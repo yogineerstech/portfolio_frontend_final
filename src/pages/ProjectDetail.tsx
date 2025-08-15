@@ -249,7 +249,7 @@ export const ProjectDetail = () => {
               <div className="max-w-5xl mx-auto">
                 <MaskedDiv 
                   maskType="type-2" 
-                  className="shadow-2xl hover:shadow-3xl transition-all duration-500 bg-gradient-to-br from-accent/5 to-primary/5"
+                  className="shadow-2xl hover:shadow-3xl transition-all duration-500"
                   size={0.95}
                 >
                   <video
@@ -306,35 +306,55 @@ export const ProjectDetail = () => {
             >
               <h2 className="text-2xl font-bold text-foreground mb-8 font-display">Project Gallery</h2>
               
-              {/* Equal Size 2-Column Grid Layout */}
+              {/* Alternating Masked and Simple Image Layout */}
               <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {parsePhotos(project.project_photos).map((photo, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="group cursor-pointer"
-                      onClick={() => openImageModal(index)}
-                      whileHover={{ y: -8 }}
-                    >
-                      <div className="shadow-xl hover:shadow-2xl transition-all duration-500 bg-gradient-to-br from-accent/10 to-primary/10 w-full h-[500px] md:h-[600px] lg:h-[650px] group-hover:scale-[1.02] overflow-hidden">
-                        <MaskedDiv 
-                          maskType={index % 2 === 0 ? "type-1" : "type-2"}
-                          className="w-full h-full"
-                          size={1}
-                        >
-                          <img
-                            src={`${API_BASE_URL}${photo}`}
-                            alt={`${project.project_name} screenshot ${index + 1}`}
-                            className="w-full h-full object-cover transition-transform duration-500"
-                            loading="lazy"
-                          />
-                        </MaskedDiv>
-                      </div>
-                    </motion.div>
-                  ))}
+                  {parsePhotos(project.project_photos).map((photo, index) => {
+                    // Calculate row number (0-based)
+                    const rowIndex = Math.floor(index / 2);
+                    // Determine if this should be masked based on row and position
+                    const isLeftColumn = index % 2 === 0;
+                    const shouldBeMasked = (rowIndex % 2 === 0 && isLeftColumn) || (rowIndex % 2 === 1 && !isLeftColumn);
+                    
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        className="group cursor-pointer"
+                        onClick={() => openImageModal(index)}
+                        whileHover={{ y: -8 }}
+                      >
+                        {shouldBeMasked ? (
+                          <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02] bg-transparent">
+                            <MaskedDiv 
+                              maskType={rowIndex % 2 === 0 ? "type-1" : "type-2"}
+                              className="w-full h-full bg-transparent"
+                              size={1}
+                              style={{ aspectRatio: 'unset', backgroundColor: 'transparent' }}
+                            >
+                              <img
+                                src={`${API_BASE_URL}${photo}`}
+                                alt={`${project.project_name} screenshot ${index + 1}`}
+                                className="w-full h-full object-cover transition-transform duration-500"
+                                loading="lazy"
+                              />
+                            </MaskedDiv>
+                          </div>
+                        ) : (
+                          <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]">
+                            <img
+                              src={`${API_BASE_URL}${photo}`}
+                              alt={`${project.project_name} screenshot ${index + 1}`}
+                              className="w-full h-full object-cover transition-transform duration-500"
+                              loading="lazy"
+                            />
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                   
                   {/* Add placeholder if odd number of images to maintain grid structure */}
                   {parsePhotos(project.project_photos).length % 2 !== 0 && (
@@ -344,7 +364,7 @@ export const ProjectDetail = () => {
                       transition={{ duration: 0.6, delay: parsePhotos(project.project_photos).length * 0.1 }}
                       className="hidden lg:block"
                     >
-                      <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] rounded-2xl border-2 border-dashed border-muted-foreground/20 flex items-center justify-center bg-muted/20">
+                      <div className="w-full h-[500px] md:h-[600px] lg:h-[650px] rounded-3xl border-2 border-dashed border-muted-foreground/20 flex items-center justify-center bg-muted/20">
                         <div className="text-center text-muted-foreground">
                           <ImageIcon className="w-16 h-16 mx-auto mb-4 opacity-30" />
                           <p className="text-lg font-medium opacity-50">More screenshots</p>

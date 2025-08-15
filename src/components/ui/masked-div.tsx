@@ -16,6 +16,7 @@ interface MaskedDivProps {
   className?: string
   backgroundColor?: string
   size?: number
+  style?: React.CSSProperties
 }
 
 const svgPaths: Record<MaskType, SvgPath> = {
@@ -47,6 +48,7 @@ const MaskedDiv: React.FC<MaskedDivProps> = ({
   className = "",
   backgroundColor = "transparent",
   size = 1,
+  style = {},
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -111,16 +113,20 @@ const MaskedDiv: React.FC<MaskedDivProps> = ({
 
   const containerStyle: React.CSSProperties = {
     aspectRatio: `${selectedMask.width}/${selectedMask.height}`,
-    backgroundColor,
+    backgroundColor: backgroundColor === 'transparent' ? 'transparent' : backgroundColor, // Use backgroundColor prop but default to transparent
     maskImage: `url("${svgString}")`,
     WebkitMaskImage: `url("${svgString}")`,
     maskRepeat: "no-repeat",
     WebkitMaskRepeat: "no-repeat",
-    maskSize: "contain",
-    WebkitMaskSize: "contain",
+    maskSize: "cover", // Change from contain to cover to fill entire container
+    WebkitMaskSize: "cover",
+    maskPosition: "center",
+    WebkitMaskPosition: "center",
     width: `${size * 100}%`,
     maxWidth: "100%",
     margin: "0 auto",
+    overflow: "hidden", // Ensure no overflow
+    ...style, // Merge custom styles, allowing override of aspectRatio
   }
 
   return (
