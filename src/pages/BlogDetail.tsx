@@ -138,7 +138,7 @@ export const BlogDetail = () => {
                       {blog.category}
                     </span>
                     {blog.is_featured === 1 && (
-                      <span className="bg-accent/90 text-white px-3 py-1 rounded text-xs font-medium">
+                      <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/30">
                         Featured
                       </span>
                     )}

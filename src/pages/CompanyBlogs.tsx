@@ -5,6 +5,8 @@ import { Clock, User, Tag, Search, X } from 'lucide-react';
 import { fetchBlogs, searchBlogs, Blog } from '@/lib/api';
 import { Header } from '@/components/Header';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const CompanyBlogs = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -192,8 +194,19 @@ export const CompanyBlogs = () => {
                 <motion.article key={blog.id}>
                   <Link to={`/blog/${blog.slug}`} className="block">
                     <div className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500">
-                      <div className="h-48 bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
-                        <Tag className="w-12 h-12 text-accent/60" />
+                      {/* Featured Image */}
+                      <div className="h-48 overflow-hidden">
+                        {blog.featured_image ? (
+                          <img 
+                            src={`${API_BASE_URL}${blog.featured_image}`}
+                            alt={blog.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                            <Tag className="w-12 h-12 text-accent/60" />
+                          </div>
+                        )}
                       </div>
                       <div className="p-8">
                         <div className="flex items-center gap-2 text-sm text-accent font-medium mb-4">
@@ -262,8 +275,18 @@ export const CompanyBlogs = () => {
                           <span>{formatDate(blog.published_at)}</span>
                         </div>
                       </div>
-                      <div className="w-full md:w-48 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Tag className="w-8 h-8 text-accent/60" />
+                      <div className="w-full md:w-48 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                        {blog.featured_image ? (
+                          <img 
+                            src={`${API_BASE_URL}${blog.featured_image}`}
+                            alt={blog.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                            <Tag className="w-8 h-8 text-accent/60" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
