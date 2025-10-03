@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code, Brain, Heart, Users } from 'lucide-react';
 import { CometCard } from '@/components/ui/comet-card';
 import ScrollReveal from '@/components/ui/scroll-reveal';
+import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -131,6 +132,7 @@ export const About = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-16">
+          <DrawUnderlineButton onBack={true} marginTop="40px" width="90%" thickness={5}>
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
@@ -146,6 +148,7 @@ export const About = () => {
               Pioneering the Future of Software Development
             </ScrollReveal>
           </h2>
+          </DrawUnderlineButton>
           <p className="text-body-lg text-muted-foreground leading-relaxed">
             <ScrollReveal
               containerClassName="my-0"

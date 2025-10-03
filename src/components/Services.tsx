@@ -13,6 +13,18 @@ import { CardSwap } from '@/components/ui/card-swap';
 import { CometCard } from '@/components/ui/comet-card';
 import { fetchServices, Service } from '@/lib/api';
 import { getIconComponent } from '@/lib/icons';
+import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss } from 'react-icons/si';
+import LogoLoop from './LogoLoop';
+
+
+
+const techLogos = [
+  { node: <SiReact />, title: "React", href: "https://react.dev" },
+  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+];
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,12 +140,14 @@ export const Services = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
+          <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3}>
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
           >
             Our Expertise & Services
           </h2>
+          </DrawUnderlineButton>
           <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12">
             We deliver comprehensive technology solutions across multiple domains, 
             combining innovation with reliability to drive your business forward.
@@ -214,13 +228,33 @@ export const Services = () => {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-32 text-center"
         >
+          <DrawUnderlineButton onBack={true} marginTop="35px" width="80%" thickness={3}>
           <h2 className="text-display-lg mb-6 text-foreground">
             Technologies We Master
           </h2>
+          </DrawUnderlineButton>
           <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-16">
             Leveraging cutting-edge technologies and frameworks to build scalable, 
             robust solutions that meet modern business demands.
           </p>
+
+
+ <div style={{ height: '200px', position: 'relative', overflow: 'hidden'}}>
+      <LogoLoop
+        logos={techLogos}
+        speed={120}
+        direction="left"
+        logoHeight={48}
+        gap={40}
+        pauseOnHover
+        scaleOnHover
+        fadeOut
+        fadeOutColor="#ffffff"
+        ariaLabel="Technology partners"
+      />
+    </div>
+
+
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {[

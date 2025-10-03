@@ -130,7 +130,7 @@ export const Footer = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-body text-primary-foreground/60">
-              © 2024 Yogineers Technologies. All rights reserved.
+              © 2025 Yogineers Technologies. All rights reserved.
             </p>
             
             <div className="flex items-center gap-6">
