@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WrapButton } from '@/components/ui/wrap-button-new';
 import DarkVeil from '@/components/ui/dark-veil';
+import { ImageVerticalCarousel } from '@/components/ImageVerticalCarousel';
+import { AnimatedCTAButton } from '@/components/AnimatedCTAButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -152,9 +154,9 @@ export const Hero = () => {
   };
 
   return (
-    <div ref={heroRef} className="relative overflow-hidden bg-background min-h-screen flex items-center">
-      {/* Dark Veil Background - Full viewport coverage */}
-      <div className="fixed inset-0 w-screen h-screen opacity-30 z-0">
+    <div ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center justify-center bg-[#F8F3EA] dark:bg-gray-900">
+      {/* Dark Veil Background - Only show in dark mode */}
+      <div className="fixed inset-0 w-screen h-screen opacity-30 z-0 dark:block hidden">
         <DarkVeil 
           hueShift={25}
           noiseIntensity={0.03}
@@ -175,45 +177,37 @@ export const Hero = () => {
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-2xl"></div>
       </div>
 
-      {/* Main content */}
-      <div ref={parallaxRef} className="relative z-20 flex flex-col items-center justify-center px-6 text-center w-full">
-        {/* Main title */}
-        <div ref={titleRef} className="mb-8">
-          <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-AftikaBold font-extrabold text-foreground leading-none tracking-tight">
-            {splitText('YOGINEERS')}
-          </h1>
-        </div>
-
-        {/* Elegant subtitle */}
-  <div ref={subtitleRef} className="mb-6">
-          <h2 className="text-3xl md:text-5xl lg:text-5xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
-            We don't just grow brands
-          </h2>
-        </div>
-
-        {/* Tech subtitle */}
-        {/* <div className="mb-8">
-          <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-wide font-palo">
-            TECH
-          </h3>
-        </div> */}
-
-        {/* Description */}
-        <div ref={descriptionRef} className="mb-12 max-w-2xl">
-          <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-montserrat">
-            At Yogineers, we craft cutting-edge software solutions that bridge 
-            the gap between innovation and practicality. From AI-powered applications 
-            to healthcare technology and government platforms.
-          </p>
-        </div>
-
-        {/* CTA Buttons */}
-  <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-4">
-          <div className="cta-button">
-            <WrapButton href="/contact" >
-              Start Your Project
-            </WrapButton>
+      {/* Main content - Grid Layout */}
+      <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-8 w-full h-full px-6 lg:px-12">
+        {/* Left side - Text content */}
+        <div ref={parallaxRef} className="flex flex-col justify-center lg:pl-8">
+          {/* Elegant subtitle */}
+          <div ref={subtitleRef} className="mb-4">
+            <h2 className="text-xl md:text-3xl lg:text-4xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
+              We don't just create products
+            </h2>
           </div>
+
+          {/* Main title */}
+          <div ref={titleRef} className="mb-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-AftikaBold font-extrabold text-foreground leading-[0.75] tracking-tight">
+              We build<br />
+              market<br />
+              leaders.
+            </h1>
+          </div>
+
+          {/* CTA Buttons */}
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-start items-start mt-8">
+            <div className="cta-button">
+              <AnimatedCTAButton href="/contact" />
+            </div>
+          </div>
+        </div>
+
+        {/* Right side - Image Carousel */}
+        <div className="hidden lg:flex items-center justify-center">
+          <ImageVerticalCarousel className="w-full max-w-md" />
         </div>
       </div>
 

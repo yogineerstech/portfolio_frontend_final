@@ -14,17 +14,53 @@ import { CometCard } from '@/components/ui/comet-card';
 import { fetchServices, Service } from '@/lib/api';
 import { getIconComponent } from '@/lib/icons';
 import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss } from 'react-icons/si';
+import { 
+  SiReact, 
+  SiNextdotjs, 
+  SiTypescript, 
+  SiTailwindcss,
+  SiNodedotjs,
+  SiPython,
+  SiMongodb,
+  SiPostgresql,
+  SiDocker,
+  SiKubernetes,
+  SiAmazon,
+  SiGooglecloud,
+  SiGit,
+  SiGithub,
+  SiFigma,
+  SiRedis,
+  SiGraphql,
+  SiFirebase,
+  SiVercel,
+  SiNetlify,
+  SiJenkins,
+  SiTerraform
+} from 'react-icons/si';
 import LogoLoop from './LogoLoop';
 
 
 
-const techLogos = [
+const techLogosOne = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },
   { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+  { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
+  { node: <SiPython />, title: "Python", href: "https://python.org" },
+  { node: <SiDocker />, title: "Docker", href: "https://docker.com" },
+  { node: <SiAmazon />, title: "AWS", href: "https://aws.amazon.com" },
+  { node: <SiFirebase />, title: "Firebase", href: "https://firebase.google.com" },
+];
+const techLogosTwo = [
   { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
   { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+  { node: <SiMongodb />, title: "MongoDB", href: "https://mongodb.com" },
+  { node: <SiPostgresql />, title: "PostgreSQL", href: "https://postgresql.org" },
+  { node: <SiKubernetes />, title: "Kubernetes", href: "https://kubernetes.io" },
+  { node: <SiGooglecloud />, title: "Google Cloud", href: "https://cloud.google.com" },
+  { node: <SiVercel />, title: "Vercel", href: "https://vercel.com" },
 ];
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -239,20 +275,40 @@ export const Services = () => {
           </p>
 
 
- <div style={{ height: '200px', position: 'relative', overflow: 'hidden'}}>
-      <LogoLoop
-        logos={techLogos}
-        speed={120}
-        direction="left"
-        logoHeight={48}
-        gap={40}
-        pauseOnHover
-        scaleOnHover
-        fadeOut
-        fadeOutColor="#ffffff"
-        ariaLabel="Technology partners"
-      />
-    </div>
+          <div style={{ height: '300px', position: 'relative', overflow: 'hidden'}}>
+            {/* Frontend Technologies Row */}
+            <div style={{ position: 'absolute', top: '0', width: '100%', height: '100px' }}>
+              <LogoLoop
+                logos={techLogosOne}
+                speed={100}
+                direction="left"
+                logoHeight={40}
+                gap={50}
+                pauseOnHover
+                scaleOnHover
+                fadeOut
+                fadeOutColor="hsl(var(--background))"
+                ariaLabel="Frontend Technologies"
+              />
+            </div>
+            
+            {/* Backend Technologies Row */}
+            <div style={{ position: 'absolute', top: '100px', width: '100%', height: '100px' }}>
+              <LogoLoop
+                logos={techLogosTwo}
+                speed={110}
+                direction="right"
+                logoHeight={42}
+                gap={45}
+                pauseOnHover
+                scaleOnHover
+                fadeOut
+                fadeOutColor="hsl(var(--background))"
+                ariaLabel="Backend Technologies"
+              />
+            </div>
+
+          </div>
 
 
           
