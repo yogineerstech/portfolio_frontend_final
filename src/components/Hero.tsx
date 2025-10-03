@@ -180,8 +180,8 @@ export const Hero = () => {
       {/* Main content - Three Column Layout */}
       <div className="relative z-20 grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] gap-0 w-full h-full">
         {/* Left column - Single animated marquee */}
-        <div className="hidden lg:flex items-center justify-end ml-[16px]">
-          <div className="w-full max-w-sm h-screen overflow-hidden">
+        <div className="hidden lg:flex items-center justify-end -mr-24">
+          <div className="w-full max-w-sm h-screen overflow-hidden z-10">
             {/* Single column scrolling down */}
             <motion.div
               className="flex flex-col gap-8 h-full"
@@ -225,17 +225,17 @@ export const Hero = () => {
         </div>
 
         {/* Center column - Text content */}
-        <div ref={parallaxRef} className="flex flex-col justify-center px-2 lg:px-12">
+        <div ref={parallaxRef} className="relative z-30 flex flex-col justify-center px-4 lg:px-16">
           {/* Elegant subtitle */}
           <div ref={subtitleRef} className="mb-4">
-            <h2 className="text-xl md:text-3xl lg:text-4xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed text-center">
+            <h2 className="text-lg md:text-2xl lg:text-4xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed text-center">
               We don't just create products
             </h2>
           </div>
 
           {/* Main title */}
-          <div ref={titleRef} className="mb-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-AftikaBold font-extrabold text-foreground leading-[0.75] tracking-tight text-center">
+          <div ref={titleRef} className="mb-6 lg:mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-AftikaBold font-extrabold text-foreground leading-[0.75] tracking-tight text-center">
               We craft<br />
               Industry<br />
               Icons.
@@ -243,7 +243,7 @@ export const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center items-center mt-6 lg:mt-8">
             <div className="cta-button">
               <AnimatedCTAButton href="/contact" />
             </div>
@@ -251,8 +251,8 @@ export const Hero = () => {
         </div>
 
         {/* Right column - Single animated marquee */}
-        <div className="hidden lg:flex items-center justify-start -ml-10">
-          <div className="w-full max-w-sm h-screen overflow-hidden">
+        <div className="hidden lg:flex items-center justify-start -ml-24">
+          <div className="w-full max-w-sm h-screen overflow-hidden z-10">
             {/* Single column scrolling up */}
             <motion.div
               className="flex flex-col gap-8 h-full"
@@ -295,9 +295,58 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Mobile version - Show original carousel for mobile */}
-        <div className="lg:hidden col-span-1">
-          <ImageVerticalCarousel className="w-full h-64" />
+      </div>
+
+      {/* Mobile Marquee - Bottom positioned for mobile devices */}
+      <div className="lg:hidden absolute bottom-20 left-0 right-0 z-20">
+        <div className="relative h-24 overflow-hidden">
+          {/* Mobile horizontal marquee */}
+          <motion.div
+            className="flex gap-4 h-full items-center absolute"
+            animate={{
+              x: [0, -50 * 10 + '%']
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            {[
+              '/ai.png',
+              '/cloud.png',
+              '/cyber.png',
+              '/data.png',
+              '/desktop.png',
+              '/ecom.png',
+              '/erp.png',
+              '/exam.png',
+              '/itconsulting.png',
+              '/mobiledev.png',
+              '/ai.png',
+              '/cloud.png',
+              '/cyber.png',
+              '/data.png',
+              '/desktop.png',
+              '/ecom.png',
+              '/erp.png',
+              '/exam.png',
+              '/itconsulting.png',
+              '/mobiledev.png',
+            ].map((image, index) => (
+              <div
+                key={`mobile-${index}`}
+                className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative overflow-hidden rounded-lg shadow-lg"
+              >
+                <img
+                  src={image}
+                  alt={`Service ${index + 1}`}
+                  className="w-full h-full object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
 
