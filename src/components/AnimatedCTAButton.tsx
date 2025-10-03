@@ -95,33 +95,26 @@ export const AnimatedCTAButton: React.FC<AnimatedCTAButtonProps> = ({
           flexShrink: 0
         }}
         animate={{
-          x: isHovered ? 8 : 0,
+          x: [0, 6, 0],
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
       >
-        <motion.div
-          animate={{
-            x: isHovered ? [0, 4, 0] : 0,
-          }}
-          transition={{
-            duration: isHovered ? 0.6 : 0,
-            repeat: isHovered ? Infinity : 0,
-            ease: "easeInOut"
-          }}
+        <svg 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="#1e293b" 
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <svg 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="#1e293b" 
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </motion.div>
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
       </motion.div>
 
       {/* Typewriter text */}

@@ -132,7 +132,7 @@ export const About = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <DrawUnderlineButton onBack={true} marginTop="40px" width="90%" thickness={5}>
+          <DrawUnderlineButton onBack={true} marginTop="65px" width="90%" thickness={3} static={true} variant='single5'>
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"

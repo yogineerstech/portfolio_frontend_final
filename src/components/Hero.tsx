@@ -177,37 +177,127 @@ export const Hero = () => {
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary/3 rounded-full blur-2xl"></div>
       </div>
 
-      {/* Main content - Grid Layout */}
-      <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-8 w-full h-full px-6 lg:px-12">
-        {/* Left side - Text content */}
-        <div ref={parallaxRef} className="flex flex-col justify-center lg:pl-8">
+      {/* Main content - Three Column Layout */}
+      <div className="relative z-20 grid grid-cols-1 lg:grid-cols-[1fr_3fr_1fr] gap-0 w-full h-full">
+        {/* Left column - Single animated marquee */}
+        <div className="hidden lg:flex items-center justify-end ml-[16px]">
+          <div className="w-full max-w-sm h-screen overflow-hidden">
+            {/* Single column scrolling down */}
+            <motion.div
+              className="flex flex-col gap-8 h-full"
+              animate={{
+                y: [0, -50 * 5 + '%'] // Adjusted for 5 images
+              }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {[
+                '/ai.png',
+                '/cloud.png',
+                '/cyber.png',
+                '/data.png',
+                '/desktop.png',
+                '/ai.png',
+                '/cloud.png',
+                '/cyber.png',
+                '/data.png',
+                '/desktop.png',
+              ].map((image, index) => (
+                <div
+                  key={`left-col-${index}`}
+                  className="flex-shrink-0 h-80 md:h-96 lg:h-[28rem] relative overflow-hidden rounded-lg shadow-lg"
+                  style={{ width: '280px' }}
+                >
+                  <img
+                    src={image}
+                    alt={`Service ${index + 1}`}
+                    className="h-full object-cover transition-transform duration-300 hover:scale-105"
+                    style={{ width: '280px', objectFit: 'cover' }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Center column - Text content */}
+        <div ref={parallaxRef} className="flex flex-col justify-center px-2 lg:px-12">
           {/* Elegant subtitle */}
           <div ref={subtitleRef} className="mb-4">
-            <h2 className="text-xl md:text-3xl lg:text-4xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed">
+            <h2 className="text-xl md:text-3xl lg:text-4xl text-foreground/90 italic font-light tracking-wide font-serif leading-relaxed text-center">
               We don't just create products
             </h2>
           </div>
 
           {/* Main title */}
           <div ref={titleRef} className="mb-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-AftikaBold font-extrabold text-foreground leading-[0.75] tracking-tight">
-              We build<br />
-              market<br />
-              leaders.
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-AftikaBold font-extrabold text-foreground leading-[0.75] tracking-tight text-center">
+              We craft<br />
+              Industry<br />
+              Icons.
             </h1>
           </div>
 
           {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-start items-start mt-8">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-8">
             <div className="cta-button">
               <AnimatedCTAButton href="/contact" />
             </div>
           </div>
         </div>
 
-        {/* Right side - Image Carousel */}
-        <div className="hidden lg:flex items-center justify-center">
-          <ImageVerticalCarousel className="w-full max-w-md" />
+        {/* Right column - Single animated marquee */}
+        <div className="hidden lg:flex items-center justify-start -ml-10">
+          <div className="w-full max-w-sm h-screen overflow-hidden">
+            {/* Single column scrolling up */}
+            <motion.div
+              className="flex flex-col gap-8 h-full"
+              animate={{
+                y: [-50 * 5 + '%', 0] // Adjusted for 5 images, scrolling up
+              }}
+              transition={{
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {[
+                '/ecom.png',
+                '/erp.png',
+                '/exam.png',
+                '/itconsulting.png',
+                '/mobiledev.png',
+                '/ecom.png',
+                '/erp.png',
+                '/exam.png',
+                '/itconsulting.png',
+                '/mobiledev.png',
+              ].map((image, index) => (
+                <div
+                  key={`right-col-${index}`}
+                  className="flex-shrink-0 h-80 md:h-96 lg:h-[28rem] relative overflow-hidden rounded-lg shadow-lg"
+                  style={{ width: '280px' }}
+                >
+                  <img
+                    src={image}
+                    alt={`Service ${index + 1}`}
+                    className="h-full object-cover transition-transform duration-300 hover:scale-105"
+                    style={{ width: '280px', objectFit: 'cover' }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Mobile version - Show original carousel for mobile */}
+        <div className="lg:hidden col-span-1">
+          <ImageVerticalCarousel className="w-full h-64" />
         </div>
       </div>
 

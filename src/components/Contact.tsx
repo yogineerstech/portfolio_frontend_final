@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { submitContactForm, ContactFormData } from '@/lib/api';
+import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -143,12 +144,15 @@ export const Contact = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
+          <DrawUnderlineButton onBack={true} marginTop="45px" width="90%" thickness={3} static={true} variant='single5'>
+
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
           >
             Let's Build Something Amazing Together
           </h2>
+          </DrawUnderlineButton>
           <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Ready to transform your ideas into reality? Get in touch with our team of experts 
             and let's discuss how we can help bring your vision to life.

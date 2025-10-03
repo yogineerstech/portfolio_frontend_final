@@ -176,7 +176,7 @@ export const Services = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3}>
+          <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3}  >
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
@@ -264,7 +264,7 @@ export const Services = () => {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-32 text-center"
         >
-          <DrawUnderlineButton onBack={true} marginTop="35px" width="80%" thickness={3}>
+          <DrawUnderlineButton onBack={true} marginTop="35px" width="80%" thickness={3} static={true} variant='single5'>
           <h2 className="text-display-lg mb-6 text-foreground">
             Technologies We Master
           </h2>
@@ -275,15 +275,15 @@ export const Services = () => {
           </p>
 
 
-          <div style={{ height: '300px', position: 'relative', overflow: 'hidden'}}>
+          <div style={{ height: '400px', position: 'relative', overflow: 'hidden'}}>
             {/* Frontend Technologies Row */}
-            <div style={{ position: 'absolute', top: '0', width: '100%', height: '100px' }}>
+            <div style={{ position: 'absolute', top: '0', width: '100%', height: '150px' }}>
               <LogoLoop
                 logos={techLogosOne}
                 speed={100}
                 direction="left"
-                logoHeight={40}
-                gap={50}
+                logoHeight={64}
+                gap={70}
                 pauseOnHover
                 scaleOnHover
                 fadeOut
@@ -293,13 +293,13 @@ export const Services = () => {
             </div>
             
             {/* Backend Technologies Row */}
-            <div style={{ position: 'absolute', top: '100px', width: '100%', height: '100px' }}>
+            <div style={{ position: 'absolute', top: '150px', width: '100%', height: '150px' }}>
               <LogoLoop
                 logos={techLogosTwo}
                 speed={110}
                 direction="right"
-                logoHeight={42}
-                gap={45}
+                logoHeight={68}
+                gap={70}
                 pauseOnHover
                 scaleOnHover
                 fadeOut

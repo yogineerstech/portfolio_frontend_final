@@ -13,6 +13,8 @@ interface DrawUnderlineButtonProps {
   marginTop?: string; // Custom margin-top for SVG positioning (e.g., "10px", "1rem", "20%")
   width?: string; // Custom width for SVG coverage (e.g., "100%", "80%", "300px") - defaults to "100%"
   thickness?: number; // Custom stroke width for the animation (e.g., 4, 6, 8) - defaults to 6
+  variant?: 'sequence' | 'random' | 'single' | 'single1' | 'single2' | 'single3' | 'single4' | 'single5' | 'single6'; // Controls how underline styles are selected - defaults to 'sequence'
+  static?: boolean; // When true, underline is always visible, when false (default) shows on hover
 }
 
 const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({ 
@@ -25,7 +27,9 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   onBack = false,
   marginTop = '0px',
   width = '100%',
-  thickness = 6
+  thickness = 6,
+  variant = 'sequence',
+  static: isStatic = false
 }) => {
   const { theme } = useTheme();
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -33,7 +37,7 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   const pathRef = useRef<SVGPathElement | null>(null);
   const enterTweenRef = useRef<gsap.core.Tween | null>(null);
   const leaveTweenRef = useRef<gsap.core.Tween | null>(null);
-  const nextIndexRef = useRef<number>(Math.floor(Math.random() * 6)); // Start with random index
+  const nextIndexRef = useRef<number>(variant === 'random' ? Math.floor(Math.random() * 6) : 0); // Start with random or first index based on variant
 
   // Same SVG variants will be used for both modes - just positioned differently
 
@@ -59,7 +63,29 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
 
   // Get SVG based on current index with dynamic thickness
   const getCurrentSvg = (): string => {
-    const pathData = svgPathTemplates[nextIndexRef.current];
+    let index = nextIndexRef.current;
+    
+    // Handle different variants
+    if (variant === 'random') {
+      index = Math.floor(Math.random() * svgPathTemplates.length);
+    } else if (variant === 'single') {
+      index = 0; // Always use the first style
+    } else if (variant === 'single1') {
+      index = 0; // First style (index 0)
+    } else if (variant === 'single2') {
+      index = 1; // Second style (index 1)
+    } else if (variant === 'single3') {
+      index = 2; // Third style (index 2)
+    } else if (variant === 'single4') {
+      index = 3; // Fourth style (index 3)
+    } else if (variant === 'single5') {
+      index = 4; // Fifth style (index 4)
+    } else if (variant === 'single6') {
+      index = 5; // Sixth style (index 5)
+    }
+    // 'sequence' uses the current nextIndexRef.current value
+    
+    const pathData = svgPathTemplates[index];
     return generateSvgWithThickness(pathData);
   };
 
@@ -108,6 +134,9 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   };
 
   const handleMouseEnter = (): void => {
+    // If static is true, don't handle hover events
+    if (isStatic) return;
+    
     // Kill any running leave animation
     if (leaveTweenRef.current && leaveTweenRef.current.isActive()) {
       leaveTweenRef.current.kill();
@@ -119,12 +148,13 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
     setIsAnimating(true);
     
     // Select SVG variant with dynamic thickness
-    const pathData = svgPathTemplates[nextIndexRef.current];
-    const selectedSvg = generateSvgWithThickness(pathData);
+    const selectedSvg = getCurrentSvg();
     setCurrentSvg(selectedSvg);
     
-    // Advance index for next hover
-    nextIndexRef.current = (nextIndexRef.current + 1) % svgPathTemplates.length;
+    // Advance index for next hover (only for sequence variant)
+    if (variant === 'sequence') {
+      nextIndexRef.current = (nextIndexRef.current + 1) % svgPathTemplates.length;
+    }
 
     // Start animation after SVG is rendered
     setTimeout(() => {
@@ -136,6 +166,9 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   };
 
   const handleMouseLeave = (): void => {
+    // If static is true, don't handle hover events
+    if (isStatic) return;
+    
     const pathElement = pathRef.current;
     if (!pathElement || !currentSvg) return;
 
@@ -152,6 +185,23 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
       playOut();
     }
   };
+
+  // Handle static underline initialization
+  useEffect(() => {
+    if (isStatic && !currentSvg) {
+      setIsAnimating(true);
+      const selectedSvg = getCurrentSvg();
+      setCurrentSvg(selectedSvg);
+      
+      // Start animation after SVG is rendered
+      setTimeout(() => {
+        const pathElement = pathRef.current;
+        if (pathElement) {
+          animatePathIn(pathElement);
+        }
+      }, 50);
+    }
+  }, [isStatic]);
 
   // Clean up GSAP tweens on unmount
   useEffect(() => {
@@ -224,8 +274,8 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
 
   const commonProps = {
     style: wrapperStyles,
-    onMouseEnter: handleMouseEnter,
-    onMouseLeave: handleMouseLeave,
+    onMouseEnter: isStatic ? undefined : handleMouseEnter,
+    onMouseLeave: isStatic ? undefined : handleMouseLeave,
     onClick: handleClick,
     className: className
   };
@@ -334,12 +384,16 @@ Usage as wrapper component - preserves child styling and adds animated effects:
 // - width: Custom width for SVG coverage (e.g., "100%", "80%", "300px") - defaults to "100%"
 // - thickness: Custom stroke width for animation (e.g., 3, 6, 10) - defaults to 6
 // - underlineColor: Custom color for the animation (defaults to theme accent color)
+// - variant: Controls underline style selection - 'sequence' (cycles through styles), 'random' (picks random style), 'single'/'single1' (first style), 'single2' (second style), 'single3' (third style), 'single4' (fourth style), 'single5' (fifth style), 'single6' (sixth style) - defaults to 'sequence'
+// - static: When true, underline is always visible; when false (default), shows on hover
 // 
 // Features:
 // - Dynamic stroke width control with thickness prop
 // - Flexible width control - can be narrower or wider than the element
 // - Fully customizable positioning with marginTop
 // - Theme-aware colors that adapt to light/dark mode
+// - Multiple underline style variants with different selection modes
+// - Static or hover-based display modes
 // - Preserves all child element styling
 // - Centered alignment for perfect positioning
 */

@@ -8,6 +8,7 @@ import { Spotlight } from '@/components/ui/spotlight-new';
 import { WrapButton } from '@/components/ui/wrap-button-new';
 import SendLoveButton from './AnimatedComponents/SendLoveButton';
 import GoButton from './AnimatedComponents/GoButton';
+import { AnimatedCTAButton } from './AnimatedCTAButton';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,18 +65,34 @@ export const Header = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div
-              className="flex items-center space-x-3 cursor-pointer"
+              className="flex items-center space-x-2 cursor-pointer group"
               onClick={() => handleNavClick('/')}
             >
               <img
                 src="/logo2.png"
                 alt="Yogineers Logo"
-                className="h-10 w-auto"
+                className="h-10 w-auto mr-[-20px]"
               />
               {/* <GoButton text="Y" /> */}
-              <span className="text-display-sm font-bold text-foreground tracking-tight font-sans">
-                Yogineers
-              </span>
+              <motion.span 
+                className="text-display-sm font-bold text-foreground font-mono tracking-tighter uppercase select-none"
+                style={{ 
+                  fontStretch: 'condensed',
+                  letterSpacing: '-0.05em',
+                  fontVariationSettings: '"wdth" 75'
+                }}
+                whileHover={{
+                  letterSpacing: '-0.02em',
+                  scale: 1.02,
+                  y: -1
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut"
+                }}
+              >
+                YOGINEERS
+              </motion.span>
             </div>
 
             {/* Desktop Navigation */}
@@ -171,7 +188,8 @@ export const Header = () => {
 
               </motion.div> */}
               <div className="scale-75">
-                <SendLoveButton staticText="Get Started" hoverText="Connect with us" />
+                {/* <SendLoveButton staticText="Get Started" hoverText="Connect with us" /> */}
+                  <AnimatedCTAButton href="/contact" />
 
               </div>
             </div>
