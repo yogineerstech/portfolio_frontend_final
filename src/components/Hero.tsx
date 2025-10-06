@@ -178,10 +178,10 @@ export const Hero = () => {
       </div>
 
       {/* Two Column Carousel Layout */}
-      <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-0 w-full h-full">
+      <div className="relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 w-full h-full">
         {/* Left column - Single animated marquee */}
         <div className="hidden lg:flex items-center justify-center">
-          <div className="w-full h-screen overflow-hidden flex justify-center">
+          <div className="w-full h-screen overflow-hidden flex justify-center ">
             {/* Single column scrolling down */}
             <motion.div
               className="flex flex-col gap-8 h-full"
@@ -298,14 +298,13 @@ export const Hero = () => {
 
 
 
-      {/* Mobile Marquee - Bottom positioned for mobile devices */}
-      <div className="lg:hidden absolute bottom-20 left-0 right-0 z-20">
-        <div className="relative h-24 overflow-hidden">
-          {/* Mobile horizontal marquee */}
+      {/* Mobile Marquee - Single row with larger images at bottom edge */}
+      <div className="lg:hidden absolute bottom-0 left-0 right-0 z-20">
+        <div className="relative h-32 overflow-hidden">
           <motion.div
-            className="flex gap-4 h-full items-center absolute"
+            className="flex gap-6 items-end"
             animate={{
-              x: [0, -50 * 10 + '%']
+              x: [0, -50 * 10 - 240] // Move by total width of 10 images + gaps
             }}
             transition={{
               duration: 25,
@@ -313,6 +312,7 @@ export const Hero = () => {
               ease: "linear"
             }}
           >
+            {/* Images with proper spacing to prevent overlap */}
             {[
               '/ai.png',
               '/cloud.png',
@@ -324,6 +324,7 @@ export const Hero = () => {
               '/exam.png',
               '/itconsulting.png',
               '/mobiledev.png',
+              // Duplicate set for seamless infinite scroll
               '/ai.png',
               '/cloud.png',
               '/cyber.png',
@@ -337,14 +338,16 @@ export const Hero = () => {
             ].map((image, index) => (
               <div
                 key={`mobile-${index}`}
-                className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative overflow-hidden rounded-lg shadow-lg"
+                className="flex-shrink-0 w-40 h-64 sm:w-44 sm:h-72 relative overflow-hidden rounded-t-3xl shadow-2xl"
+                style={{ marginBottom: '-32px' }} // Pull images down so only top 50% is visible
               >
                 <img
                   src={image}
                   alt={`Service ${index + 1}`}
-                  className="w-full h-full object-cover opacity-80"
+                  className="w-full h-full object-cover opacity-95"
+                  style={{ objectPosition: 'top' }} // Focus on top part of image
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
               </div>
             ))}
           </motion.div>

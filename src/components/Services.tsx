@@ -14,6 +14,7 @@ import { CometCard } from '@/components/ui/comet-card';
 import { fetchServices, Service } from '@/lib/api';
 import { getIconComponent } from '@/lib/icons';
 import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
+import AnimatedGridBackground from './AnimatedComponents/AnimatedGridBackground';
 import { 
   SiReact, 
   SiNextdotjs, 
@@ -168,6 +169,9 @@ export const Services = () => {
       ref={sectionRef}
       className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
+      {/* Animated Grid Background */}
+      <AnimatedGridBackground />
+      
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent rounded-full blur-3xl animate-pulse" />
