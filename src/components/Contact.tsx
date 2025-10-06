@@ -153,7 +153,7 @@ export const Contact = () => {
             Let's Build Something Amazing Together
           </h2>
           </DrawUnderlineButton>
-          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mt-4">
             Ready to transform your ideas into reality? Get in touch with our team of experts 
             and let's discuss how we can help bring your vision to life.
           </p>

@@ -64,36 +64,19 @@ export const Header = () => {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div
-              className="flex items-center space-x-2 cursor-pointer group"
+            <motion.div
+              className="cursor-pointer group"
               onClick={() => handleNavClick('/')}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
             >
               <img
-                src="/logo2.png"
-                alt="Yogineers Logo"
-                className="h-10 w-auto mr-[-20px]"
+                src="/logof.png"
+                alt="Company Logo"
+                className="h-12 w-auto object-contain"
               />
-              {/* <GoButton text="Y" /> */}
-              <motion.span 
-                className="text-display-sm font-bold text-foreground font-mono tracking-tighter uppercase select-none"
-                style={{ 
-                  fontStretch: 'condensed',
-                  letterSpacing: '-0.05em',
-                  fontVariationSettings: '"wdth" 75'
-                }}
-                whileHover={{
-                  letterSpacing: '-0.02em',
-                  scale: 1.02,
-                  y: -1
-                }}
-                transition={{
-                  duration: 0.3,
-                  ease: "easeOut"
-                }}
-              >
-                YOGINEERS
-              </motion.span>
-            </div>
+            </motion.div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">

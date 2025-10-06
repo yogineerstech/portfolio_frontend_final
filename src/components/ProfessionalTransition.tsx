@@ -85,8 +85,12 @@ export const ProfessionalTransition = ({ children }: ProfessionalTransitionProps
         style={{ display: 'none' }}
       >
         <div ref={logoRef} className="text-center">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-2xl shadow-primary/20">
-            <span className="text-primary-foreground font-bold text-2xl">Y</span>
+          <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <img 
+              src="/tr.png" 
+              alt="Transition Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto"></div>
         </div>
