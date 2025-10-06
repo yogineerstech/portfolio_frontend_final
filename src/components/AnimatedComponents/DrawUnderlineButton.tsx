@@ -15,6 +15,7 @@ interface DrawUnderlineButtonProps {
   thickness?: number; // Custom stroke width for the animation (e.g., 4, 6, 8) - defaults to 6
   variant?: 'sequence' | 'random' | 'single' | 'single1' | 'single2' | 'single3' | 'single4' | 'single5' | 'single6'; // Controls how underline styles are selected - defaults to 'sequence'
   static?: boolean; // When true, underline is always visible, when false (default) shows on hover
+  autoAnimate?: boolean; // When true, automatically plays underline animations with delay, when false (default) uses hover/static behavior
 }
 
 const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({ 
@@ -29,7 +30,8 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   width = '100%',
   thickness = 6,
   variant = 'sequence',
-  static: isStatic = false
+  static: isStatic = false,
+  autoAnimate = false
 }) => {
   const { theme } = useTheme();
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
@@ -134,8 +136,8 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   };
 
   const handleMouseEnter = (): void => {
-    // If static is true, don't handle hover events
-    if (isStatic) return;
+    // If static or autoAnimate is true, don't handle hover events
+    if (isStatic || autoAnimate) return;
     
     // Kill any running leave animation
     if (leaveTweenRef.current && leaveTweenRef.current.isActive()) {
@@ -166,8 +168,8 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
   };
 
   const handleMouseLeave = (): void => {
-    // If static is true, don't handle hover events
-    if (isStatic) return;
+    // If static or autoAnimate is true, don't handle hover events
+    if (isStatic || autoAnimate) return;
     
     const pathElement = pathRef.current;
     if (!pathElement || !currentSvg) return;
@@ -202,6 +204,73 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
       }, 50);
     }
   }, [isStatic]);
+
+  // Handle auto-animation functionality
+  useEffect(() => {
+    if (autoAnimate && !isStatic) {
+      let intervalId: NodeJS.Timeout;
+      let timeoutId: NodeJS.Timeout;
+
+      const startAutoAnimation = () => {
+        // Initial delay before starting animations
+        timeoutId = setTimeout(() => {
+          setIsAnimating(true);
+          const selectedSvg = getCurrentSvg();
+          setCurrentSvg(selectedSvg);
+          
+          // Advance index after getting the SVG (for sequence variant)
+          if (variant === 'sequence') {
+            nextIndexRef.current = (nextIndexRef.current + 1) % svgPathTemplates.length;
+          }
+          
+          // Start animation after SVG is rendered
+          setTimeout(() => {
+            const pathElement = pathRef.current;
+            if (pathElement) {
+              animatePathIn(pathElement);
+            }
+          }, 50);
+
+          // Set up interval for repeated animations
+          intervalId = setInterval(() => {
+            // Animate out current path
+            const currentPathElement = pathRef.current;
+            if (currentPathElement) {
+              animatePathOut(currentPathElement);
+              
+              // Wait for animation to complete, then start new one
+              setTimeout(() => {
+                // Advance index for next animation (for sequence variant)
+                if (variant === 'sequence') {
+                  nextIndexRef.current = (nextIndexRef.current + 1) % svgPathTemplates.length;
+                }
+                
+                // Get next SVG variant
+                const nextSvg = getCurrentSvg();
+                setCurrentSvg(nextSvg);
+                setIsAnimating(true);
+                
+                // Animate in new path after SVG is rendered
+                setTimeout(() => {
+                  const newPathElement = pathRef.current;
+                  if (newPathElement) {
+                    animatePathIn(newPathElement);
+                  }
+                }, 50);
+              }, 600); // Wait for out animation to complete (500ms + buffer)
+            }
+          }, 2000); // 2 second interval between animations
+        }, 1000); // 1 second initial delay
+      };
+
+      startAutoAnimation();
+
+      return () => {
+        if (intervalId) clearInterval(intervalId);
+        if (timeoutId) clearTimeout(timeoutId);
+      };
+    }
+  }, [autoAnimate, isStatic]);
 
   // Clean up GSAP tweens on unmount
   useEffect(() => {
@@ -274,8 +343,8 @@ const DrawUnderlineButton: React.FC<DrawUnderlineButtonProps> = ({
 
   const commonProps = {
     style: wrapperStyles,
-    onMouseEnter: isStatic ? undefined : handleMouseEnter,
-    onMouseLeave: isStatic ? undefined : handleMouseLeave,
+    onMouseEnter: (isStatic || autoAnimate) ? undefined : handleMouseEnter,
+    onMouseLeave: (isStatic || autoAnimate) ? undefined : handleMouseLeave,
     onClick: handleClick,
     className: className
   };
@@ -386,6 +455,7 @@ Usage as wrapper component - preserves child styling and adds animated effects:
 // - underlineColor: Custom color for the animation (defaults to theme accent color)
 // - variant: Controls underline style selection - 'sequence' (cycles through styles), 'random' (picks random style), 'single'/'single1' (first style), 'single2' (second style), 'single3' (third style), 'single4' (fourth style), 'single5' (fifth style), 'single6' (sixth style) - defaults to 'sequence'
 // - static: When true, underline is always visible; when false (default), shows on hover
+// - autoAnimate: When true, automatically plays underline animations with 1-2 second delays; when false (default), uses hover/static behavior
 // 
 // Features:
 // - Dynamic stroke width control with thickness prop
@@ -393,7 +463,7 @@ Usage as wrapper component - preserves child styling and adds animated effects:
 // - Fully customizable positioning with marginTop
 // - Theme-aware colors that adapt to light/dark mode
 // - Multiple underline style variants with different selection modes
-// - Static or hover-based display modes
+// - Static, hover-based, or auto-animated display modes
 // - Preserves all child element styling
 // - Centered alignment for perfect positioning
 */

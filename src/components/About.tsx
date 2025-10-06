@@ -122,7 +122,7 @@ export const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="py-24 lg:py-32 bg-card/50 relative overflow-hidden"
+      className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
@@ -132,7 +132,7 @@ export const About = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <DrawUnderlineButton onBack={true} marginTop="65px" width="90%" thickness={3} static={true} variant='single5'>
+          <DrawUnderlineButton onBack={true} marginTop="65px" width="90%" thickness={2}   autoAnimate={true}>
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
@@ -169,16 +169,16 @@ export const About = () => {
           {values.map((value, index) => (
             <CometCard
               key={value.title}
-              className="about-card group"
-              rotateDepth={12}
-              translateDepth={15}
+              className="about-card group !bg-gray-50 dark:!bg-card border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-500"
+              rotateDepth={0}
+              translateDepth={0}
             >
-              <div className="p-8">
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors duration-300">
-                  <value.icon className="w-8 h-8 text-accent" />
+              <div className="p-8 h-full flex flex-col">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent/20 to-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:from-accent/30 group-hover:to-accent/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                  <value.icon className="w-8 h-8 text-accent group-hover:scale-110 transition-transform duration-300" />
                 </div>
                 
-                <h3 className="text-display-sm mb-4 text-foreground">
+                <h3 className="text-display-sm mb-4 text-foreground group-hover:text-accent transition-colors duration-300">
                   <ScrollReveal
                     containerClassName="my-0"
                     textClassName="text-inherit font-inherit"
@@ -191,9 +191,14 @@ export const About = () => {
                   </ScrollReveal>
                 </h3>
                 
-                <p className="text-body text-muted-foreground leading-relaxed">
+                <p className="text-body text-muted-foreground leading-relaxed flex-grow group-hover:text-foreground/80 transition-colors duration-300">
                   {value.description}
                 </p>
+
+                {/* Subtle bottom accent line */}
+                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div className="w-12 h-1 bg-gradient-to-r from-accent to-accent/50 rounded-full group-hover:w-full transition-all duration-500"></div>
+                </div>
               </div>
             </CometCard>
           ))}
@@ -214,7 +219,7 @@ export const About = () => {
           ].map((stat, index) => (
             <motion.div 
               key={stat.label} 
-              className="text-center group"
+              className="text-center group p-6 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-accent/30 hover:bg-white dark:hover:bg-gray-750 transition-all duration-300"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ 
@@ -234,9 +239,11 @@ export const About = () => {
                   suffix={stat.suffix}
                 />
               </div>
-              <div className="text-body font-palo text-muted-foreground">
+              <div className="text-body font-palo text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                 {stat.label}
               </div>
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </motion.div>
           ))}
         </motion.div>

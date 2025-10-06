@@ -134,7 +134,7 @@ export const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-24 lg:py-32 bg-card/50 relative overflow-hidden"
+      className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
@@ -144,7 +144,7 @@ export const Contact = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <DrawUnderlineButton onBack={true} marginTop="45px" width="90%" thickness={3} static={true} variant='single5'>
+          <DrawUnderlineButton onBack={true} marginTop="45px" width="90%" thickness={3} autoAnimate={true}>
 
           <h2
             ref={titleRef}

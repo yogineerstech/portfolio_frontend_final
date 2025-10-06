@@ -154,7 +154,7 @@ export const Hero = () => {
   };
 
   return (
-    <div ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center justify-center bg-[#F8F3EA] dark:bg-gray-900">
+    <div ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
       {/* Dark Veil Background - Only show in dark mode */}
       <div className="fixed inset-0 w-screen h-screen opacity-30 z-0 dark:block hidden">
         <DarkVeil 

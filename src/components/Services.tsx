@@ -166,7 +166,7 @@ export const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-24 lg:py-32 relative overflow-hidden"
+      className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -176,7 +176,7 @@ export const Services = () => {
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3}  >
+          <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3} autoAnimate={true} >
           <h2
             ref={titleRef}
             className="text-display-lg mb-6 text-foreground"
@@ -264,7 +264,7 @@ export const Services = () => {
           transition={{ delay: 1.2, duration: 0.8 }}
           className="mt-32 text-center"
         >
-          <DrawUnderlineButton onBack={true} marginTop="35px" width="80%" thickness={3} static={true} variant='single5'>
+          <DrawUnderlineButton onBack={true} marginTop="35px" width="80%" thickness={3} autoAnimate={true} >
           <h2 className="text-display-lg mb-6 text-foreground">
             Technologies We Master
           </h2>
@@ -287,7 +287,6 @@ export const Services = () => {
                 pauseOnHover
                 scaleOnHover
                 fadeOut
-                fadeOutColor="hsl(var(--background))"
                 ariaLabel="Frontend Technologies"
               />
             </div>
@@ -303,7 +302,6 @@ export const Services = () => {
                 pauseOnHover
                 scaleOnHover
                 fadeOut
-                fadeOutColor="hsl(var(--background))"
                 ariaLabel="Backend Technologies"
               />
             </div>

@@ -57,8 +57,8 @@ export const Header = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0 }}
         className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${isScrolled
-            ? 'bg-background/20 backdrop-blur-3xl border-b border-white/10 shadow-2xl'
-            : 'bg-background/10 backdrop-blur-2xl border-b border-white/5 shadow-xl'
+            ? 'bg-white/95 dark:bg-background/20 backdrop-blur-3xl border-b border-gray-200/50 dark:border-white/10 shadow-2xl'
+            : 'bg-white/90 dark:bg-background/10 backdrop-blur-2xl border-b border-gray-200/30 dark:border-white/5 shadow-xl'
           }`}
       >
         <div className="container mx-auto px-6 lg:px-8">
