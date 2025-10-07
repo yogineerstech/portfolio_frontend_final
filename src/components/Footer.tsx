@@ -1,5 +1,7 @@
+// src/components/Footer.tsx
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Boxes } from './ui/background-boxes';
 
 export const Footer = () => {
   const socialLinks = [
@@ -41,13 +43,15 @@ export const Footer = () => {
 
   return (
     <footer className="bg-primary text-primary-foreground relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-primary-foreground rounded-full blur-3xl" />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-primary/60 z-0" />
+
+      {/* Background Boxes Effect - receives all hover events */}
+      <div className="absolute inset-0 w-full h-full z-[1] opacity-30">
+        <Boxes />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-6 lg:px-8 relative z-[2]" style={{ pointerEvents: 'none' }}>
         {/* Main Footer Content */}
         <div className="py-16 grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Company Info */}
@@ -81,6 +85,7 @@ export const Footer = () => {
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-10 h-10 bg-primary-foreground/10 hover:bg-accent rounded-lg flex items-center justify-center transition-colors duration-300"
+                    style={{ pointerEvents: 'auto' }}
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
@@ -109,6 +114,7 @@ export const Footer = () => {
                         href={link.href}
                         whileHover={{ x: 5 }}
                         className="text-body text-primary-foreground/80 hover:text-accent transition-colors duration-300"
+                        style={{ pointerEvents: 'auto' }}
                       >
                         {link.name}
                       </motion.a>
@@ -137,18 +143,21 @@ export const Footer = () => {
               <a
                 href="#"
                 className="text-body text-primary-foreground/60 hover:text-accent transition-colors duration-300"
+                style={{ pointerEvents: 'auto' }}
               >
                 Terms of Service
               </a>
               <a
                 href="#"
                 className="text-body text-primary-foreground/60 hover:text-accent transition-colors duration-300"
+                style={{ pointerEvents: 'auto' }}
               >
                 Privacy Policy
               </a>
               <a
                 href="#"
                 className="text-body text-primary-foreground/60 hover:text-accent transition-colors duration-300"
+                style={{ pointerEvents: 'auto' }}
               >
                 Cookie Policy
               </a>

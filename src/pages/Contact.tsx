@@ -1,3 +1,4 @@
+// src/pages/Contact.tsx
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { Header } from "@/components/Header";
 import { Contact } from "@/components/Contact";

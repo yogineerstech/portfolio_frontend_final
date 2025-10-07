@@ -1,3 +1,4 @@
+// src/components/Contact.tsx
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
@@ -5,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { submitContactForm, ContactFormData } from '@/lib/api';
 import DrawUnderlineButton from './AnimatedComponents/DrawUnderlineButton';
+import { BackgroundBeams } from './ui/background-beams';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -136,8 +138,11 @@ export const Contact = () => {
       ref={sectionRef}
       className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
+      {/* Background Beams */}
+      <BackgroundBeams className="z-0" />
+
       {/* Background Elements */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-5 z-0">
         <div className="absolute top-20 right-10 w-80 h-80 bg-accent rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary rounded-full blur-3xl" />
       </div>
@@ -145,13 +150,12 @@ export const Contact = () => {
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <DrawUnderlineButton onBack={true} marginTop="45px" width="90%" thickness={3} autoAnimate={true}>
-
-          <h2
-            ref={titleRef}
-            className="text-display-lg mb-6 text-foreground"
-          >
-            Let's Build Something Amazing Together
-          </h2>
+            <h2
+              ref={titleRef}
+              className="text-display-lg mb-6 text-foreground"
+            >
+              Let's Build Something Amazing Together
+            </h2>
           </DrawUnderlineButton>
           <p className="text-body-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed mt-4">
             Ready to transform your ideas into reality? Get in touch with our team of experts 

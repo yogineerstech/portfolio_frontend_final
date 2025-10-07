@@ -1,4 +1,4 @@
-
+// src/pages/Index.tsx
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { PageTransition } from "@/components/PageTransition";
 import { Header } from "@/components/Header";
@@ -7,6 +7,8 @@ import { About } from "@/components/About";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import VideoShowcase from "@/components/VideoShowcase";
+import { WavySection } from "@/components/WavySection"; // Import the new WavySection component
 
 const Index = () => {
   return (
@@ -16,9 +18,11 @@ const Index = () => {
           <Header />
           <main>
             <Hero />
+            <WavySection />
             <About />
             <Services />
             <Contact />
+            <VideoShowcase />
           </main>
           <Footer />
         </div>
