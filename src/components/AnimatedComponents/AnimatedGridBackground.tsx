@@ -35,7 +35,9 @@ const AnimatedGridBackground: React.FC = () => {
             className="absolute top-0 h-full bg-gray-300/40 dark:bg-gray-600/20" 
             style={{ 
               left: line.left,
-              width: '1px'
+              width: '1px',
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)'
             }}
           >
             {/* Floating Elements on each line */}
@@ -56,6 +58,32 @@ const AnimatedGridBackground: React.FC = () => {
             ))}
           </div>
         ))}
+        
+        {/* Top and Bottom Fade Overlays */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-32 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0))',
+          }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0))',
+          }}
+        />
+        <div 
+          className="absolute top-0 left-0 right-0 h-32 pointer-events-none dark:block hidden"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))',
+          }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none dark:block hidden"
+          style={{
+            background: 'linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))',
+          }}
+        />
       </div>
     </>
   );

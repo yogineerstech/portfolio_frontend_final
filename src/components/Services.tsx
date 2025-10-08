@@ -183,7 +183,7 @@ export const Services = () => {
           <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3} autoAnimate={true} >
           <h2
             ref={titleRef}
-            className="text-display-lg mb-6 text-foreground"
+            className="  "
           >
             Our Expertise & Services
           </h2>

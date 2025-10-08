@@ -7,7 +7,7 @@ import { About } from "@/components/About";
 import { Services } from "@/components/Services";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import VideoShowcase from "@/components/VideoShowcase";
+import LLMShowcase from "@/components/LLMShowcase";
 import { WavySection } from "@/components/WavySection"; // Import the new WavySection component
 
 const Index = () => {
@@ -22,7 +22,7 @@ const Index = () => {
             <About />
             <Services />
             <Contact />
-            <VideoShowcase />
+            <LLMShowcase />
           </main>
           <Footer />
         </div>

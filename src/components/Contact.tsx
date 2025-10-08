@@ -138,14 +138,15 @@ export const Contact = () => {
       ref={sectionRef}
       className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
     >
-      {/* Background Beams */}
-      <BackgroundBeams className="z-0" />
 
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5 z-0">
         <div className="absolute top-20 right-10 w-80 h-80 bg-accent rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-primary rounded-full blur-3xl" />
       </div>
+
+            {/* Background Beams */}
+      <BackgroundBeams className="z-0" />
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">

@@ -107,8 +107,8 @@ export const BackgroundBeams = React.memo(
             <path
               key={`static-path-${index}`}
               d={path}
-              stroke="url(#paint0_radial_242_278)"
-              strokeOpacity="0.15"
+              stroke="url(#staticGradient)"
+              strokeOpacity="0.25"
               strokeWidth="0.5"
             />
           ))}
@@ -126,6 +126,13 @@ export const BackgroundBeams = React.memo(
           ))}
           
           <defs>
+            <linearGradient id="staticGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#6b7280" stopOpacity="0" />
+              <stop offset="15%" stopColor="#6b7280" stopOpacity="1" />
+              <stop offset="85%" stopColor="#6b7280" stopOpacity="1" />
+              <stop offset="100%" stopColor="#6b7280" stopOpacity="0" />
+            </linearGradient>
+
             {paths.map((path, index) => {
               const config = animationConfigs[index];
               return (
@@ -159,19 +166,6 @@ export const BackgroundBeams = React.memo(
                 </motion.linearGradient>
               );
             })}
-
-            <radialGradient
-              id="paint0_radial_242_278"
-              cx="0"
-              cy="0"
-              r="1"
-              gradientUnits="userSpaceOnUse"
-              gradientTransform="translate(352 34) rotate(90) scale(555 1560.62)"
-            >
-              <stop offset="0.0666667" stopColor="#9ca3af" />
-              <stop offset="0.243243" stopColor="#6b7280" />
-              <stop offset="0.43594" stopColor="white" stopOpacity="0" />
-            </radialGradient>
           </defs>
         </svg>
       </div>
