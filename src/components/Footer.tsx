@@ -63,8 +63,12 @@ export const Footer = () => {
               viewport={{ once: true }}
             >
               <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                  <span className="text-primary font-bold text-lg">Y</span>
+                <div className="w-10 h-10 flex items-center justify-center">
+                  <img
+                    src="/YogineersTech-bgremoved.png"
+                    alt="Yogineers Logo"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <span className="text-display-sm font-bold">
                   Yogineers

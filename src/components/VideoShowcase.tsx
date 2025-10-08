@@ -46,11 +46,11 @@ const VideoShowcase: React.FC = () => {
             <span className="text-sm font-montserrat text-orange-300 tracking-wider">CUTTING-EDGE TECHNOLOGY</span>
           </div>
           
-          <h2 className="text-6xl lg:text-8xl font-AftikaBold bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500 bg-clip-text text-transparent mb-6 leading-tight">
+          <h2 className="text-6xl lg:text-8xl font-AftikaBold bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500 bg-clip-text text-transparent mb-9 leading-normal pb-5">
             Language Models
           </h2>
           
-          <p className="text-xl lg:text-2xl font-serif text-black max-w-3xl mx-auto leading-relaxed italic">
+          <p className="text-xl lg:text-2xl font-serif text-gray-800 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed italic mt-[-40px]">
             Witnessing the future of intelligent communication through
             <span className="text-transparent bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text font-semibold"> advanced neural architectures</span>
           </p>
@@ -108,7 +108,7 @@ const VideoShowcase: React.FC = () => {
               {features.map((feature, idx) => (
                 <Card 
                   key={idx} 
-                  className="bg-gradient-to-br from-black to-black border-orange-500/30 p-6 shadow-xl shadow-orange-500/10 hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 group cursor-pointer"
+                  className="bg-gradient-to-br from-white to-gray-50 dark:from-black dark:to-black border-orange-500/30 dark:border-orange-500/30 p-6 shadow-xl shadow-orange-500/10 hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 group cursor-pointer"
                   style={{ 
                     animationDelay: `${idx * 0.2}s`,
                     opacity: isVisible ? 1 : 0,
@@ -121,8 +121,8 @@ const VideoShowcase: React.FC = () => {
                       <feature.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-AftikaBold text-stone-200 mb-2">{feature.label}</h3>
-                      <p className="text-sm font-montserrat text-stone-400">{feature.desc}</p>
+                      <h3 className="text-xl font-AftikaBold text-gray-800 dark:text-stone-200 mb-2">{feature.label}</h3>
+                      <p className="text-sm font-montserrat text-gray-600 dark:text-stone-400">{feature.desc}</p>
                     </div>
                     <ArrowRight className="w-5 h-5 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
@@ -132,7 +132,7 @@ const VideoShowcase: React.FC = () => {
           </div>
 
           {/* Bottom Stats - Redesigned */}
-          <div className={`grid grid-cols-3 gap-8 mt-20 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-20 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {[
               { label: 'Parameters', value: '175B+', detail: 'Neural connections' },
               { label: 'Accuracy', value: '99.9%', detail: 'Precision rate' },
@@ -140,14 +140,14 @@ const VideoShowcase: React.FC = () => {
             ].map((stat, idx) => (
               <div key={idx} className="relative group cursor-pointer">
                 {/* Background Card */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5 rounded-2xl border border-orange-500/20 group-hover:border-orange-500/40 transition-all"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 dark:from-orange-500/20 dark:to-amber-500/20 rounded-2xl border border-orange-500/30 dark:border-orange-500/40 group-hover:border-orange-500/50 dark:group-hover:border-orange-500/60 transition-all shadow-lg dark:shadow-orange-500/20"></div>
                 
-                <div className="relative text-center p-6">
-                  <div className="text-4xl lg:text-5xl font-AftikaBold bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform">
+                <div className="relative text-center p-6 sm:p-8">
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-AftikaBold bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform">
                     {stat.value}
                   </div>
-                  <div className="text-sm font-montserrat text-black tracking-wider uppercase mb-1">{stat.label}</div>
-                  <div className="text-xs font-montserrat text-stone-400">{stat.detail}</div>
+                  <div className="text-sm sm:text-base font-montserrat text-gray-800 dark:text-white tracking-wider uppercase mb-1 font-semibold">{stat.label}</div>
+                  <div className="text-xs sm:text-sm font-montserrat text-gray-600 dark:text-gray-300">{stat.detail}</div>
                 </div>
               </div>
             ))}

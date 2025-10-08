@@ -21,8 +21,8 @@ const Index = () => {
             <WavySection />
             <About />
             <Services />
-            <Contact />
             <VideoShowcase />
+            <Contact />
           </main>
           <Footer />
         </div>

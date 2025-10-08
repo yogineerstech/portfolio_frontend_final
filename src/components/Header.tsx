@@ -65,7 +65,7 @@ export const Header = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
         <motion.div
-          className="cursor-pointer group flex items-center gap-3"
+          className="cursor-pointer group flex items-center gap-2 sm:gap-3"
           onClick={() => handleNavClick('/')}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -74,13 +74,13 @@ export const Header = () => {
           <img
             src="/YogineersTech-bgremoved.png"
             alt="Company Logo"
-            className="h-20 w-auto object-contain"
+            className="h-12 sm:h-16 md:h-20 w-auto object-contain"
           />
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-foreground tracking-tight">
+            <span className="text-sm sm:text-lg md:text-2xl font-bold text-foreground tracking-tight">
               Yogineers Technologies
             </span>
-            <span className="text-xs font-medium text-muted-foreground tracking-wider uppercase text-center"> {/* Added text-center */}
+            <span className="text-[10px] sm:text-xs font-medium text-muted-foreground tracking-wider uppercase text-center">
               Engineered To Elevate
             </span>
           </div>
