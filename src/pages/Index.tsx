@@ -18,11 +18,11 @@ const Index = () => {
           <Header />
           <main>
             <Hero />
-            <WavySection />
+            {/* <WavySection /> */}
             <About />
             <Services />
-            <Contact />
             <LLMShowcase />
+            <Contact />
           </main>
           <Footer />
         </div>

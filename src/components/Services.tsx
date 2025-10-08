@@ -155,7 +155,7 @@ const containerVariants = {
 const techItems = [
   {
     title: 'Frontend Development',
-    description: 'Modern, responsive web applications built with cutting-edge frontend technologies for exceptional user experiences.',
+    description: 'We design and develop modern, responsive web applications that combine aesthetic appeal with powerful functionality. Using cutting-edge frontend technologies such as React, Next.js, and TypeScript, we create seamless, high-performance digital experiences optimized for speed, accessibility, and scalability. Every interface is crafted with precision to ensure intuitive navigation, exceptional responsiveness, and a truly engaging user journey across all devices.',
     icon: <Code2 className="size-6" />,
     technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'Vue.js'],
     size: 'large' as const,
@@ -176,7 +176,7 @@ const techItems = [
   },
   {
     title: 'AI & Machine Learning',
-    description: 'Intelligent solutions powered by artificial intelligence, machine learning models, and advanced data analytics.',
+    description: 'We develop intelligent digital solutions powered by artificial intelligence, machine learning, and advanced data analytics. Our systems leverage predictive algorithms, natural language processing, and automation to uncover insights, optimize decision-making, and enhance operational efficiency. By transforming raw data into actionable intelligence, we help businesses innovate faster, reduce costs, and deliver smarter, more personalized user experiences.',
     icon: <Brain className="size-6" />,
     technologies: ['TensorFlow', 'PyTorch', 'OpenAI', 'Langchain', 'Scikit-learn', 'Pandas'],
     size: 'large' as const,

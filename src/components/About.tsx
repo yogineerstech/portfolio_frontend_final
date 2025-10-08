@@ -67,10 +67,10 @@ const BentoGridItem = ({
           <div className="bg-primary/10 text-primary shadow-primary/10 group-hover:bg-primary/20 group-hover:shadow-primary/20 mb-4 flex h-12 w-12 items-center justify-center rounded-full shadow transition-all duration-500">
             {icon}
           </div>
-          <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{title}</h3>
-          <p className="text-gray-600 dark:text-muted-foreground text-sm">{description}</p>
+          <h3 className={`mb-2 font-semibold tracking-tight text-gray-900 dark:text-white ${size === 'small' ? 'text-lg' : 'text-xl'}`}>{title}</h3>
+          <p className={`text-gray-600 dark:text-muted-foreground leading-relaxed ${size === 'small' ? 'text-xs' : 'text-sm'}`}>{description}</p>
         </div>
-        <div className="text-primary mt-4 flex items-center text-sm">
+        <div className="text-primary mt-auto flex items-center text-sm pt-2">
           <span className="mr-1 text-gray-700 dark:text-gray-300">Learn more</span>
           <ArrowRight className="size-4 transition-all duration-500 group-hover:translate-x-2 text-gray-700 dark:text-gray-300" />
         </div>
@@ -100,14 +100,14 @@ export const About = () => {
     },
     {
       title: 'AI & Machine Learning',
-      description: 'Harnessing the power of artificial intelligence, machine learning, and data analytics to create intelligent systems. We develop custom AI models, implement computer vision solutions, natural language processing, and predictive analytics to automate processes and enhance user experiences across industries.',
+      description: 'We develop custom AI models, implement computer vision solutions, natural language processing, and predictive analytics to automate processes and enhance user experiences across industries.',
       icon: <Cpu className="size-6" />,
       image: webTechnologiesImg,
       size: 'medium' as const,
     },
     {
       title: 'Healthcare Technology',
-      description: 'Revolutionizing healthcare through innovative IT solutions including electronic health records (EHR), telemedicine platforms, patient management systems, and medical device integration. We ensure HIPAA compliance while delivering secure, user-friendly applications that improve patient care and streamline medical workflows.',
+      description: 'Transforming healthcare through secure, user-friendly IT solutions like EHR, telemedicine, and patient management systems that streamline workflows and improve care.',
       icon: <Heart className="size-6" />,
       image: healthcareFocusImg,
       size: 'medium' as const,
@@ -118,6 +118,20 @@ export const About = () => {
       icon: <Building className="size-6" />,
       image: governmentSolutionsImg,
       size: 'large' as const,
+    },
+    {
+      title: 'Innovation & R&D',
+      description: 'Continuous research and development in emerging technologies to stay ahead of industry trends and deliver next-generation solutions.',
+      icon: <Code className="size-6" />,
+      image: technicalExcellenceImg,
+      size: 'small' as const,
+    },
+    {
+      title: 'Global Reach',
+      description: 'Serving clients worldwide with 24/7 support and localized solutions tailored to different markets and regulatory requirements.',
+      icon: <Building className="size-6" />,
+      image: governmentSolutionsImg,
+      size: 'small' as const,
     },
   ];
 
@@ -165,7 +179,7 @@ export const About = () => {
         {/* Bento Grid */}
         <div className="mx-auto max-w-6xl px-4 py-12">
           <motion.div
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2"
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -178,7 +192,13 @@ export const About = () => {
                 icon={item.icon}
                 image={item.image}
                 size={item.size}
-                className="h-80"
+                className={
+                  item.size === 'large' 
+                    ? 'md:col-span-2 lg:col-span-2 h-80' 
+                    : item.size === 'medium'
+                    ? 'h-80'
+                    : 'h-60'
+                }
               />
             ))}
           </motion.div>
