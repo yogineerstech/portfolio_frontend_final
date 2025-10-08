@@ -8,7 +8,9 @@ import {
   Database,
   Smartphone,
   Brain,
+  ArrowRight,
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { CardSwap } from '@/components/ui/card-swap';
 import { CometCard } from '@/components/ui/comet-card';
 import { fetchServices, Service } from '@/lib/api';
@@ -64,6 +66,143 @@ const techLogosTwo = [
 
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface TechBentoGridItemProps {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  technologies: string[];
+  className?: string;
+  size?: 'small' | 'medium' | 'large';
+}
+
+const TechBentoGridItem = ({
+  title,
+  description,
+  icon,
+  technologies,
+  className,
+  size = 'small',
+}: TechBentoGridItemProps) => {
+  const variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring' as const, damping: 25 },
+    },
+  };
+
+  return (
+    <motion.div
+      variants={variants}
+      className={cn(
+        'group border-gray-200 dark:border-primary/10 bg-white dark:bg-background hover:border-primary/50 dark:hover:border-primary/30 relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl border px-6 pt-6 pb-10 shadow-lg hover:shadow-xl transition-all duration-500',
+        className,
+      )}
+    >
+      <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#3d16165e_1px,transparent_1px),linear-gradient(to_bottom,#3d16165e_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]"></div>
+
+      <div className="text-gray-100 dark:text-primary/5 group-hover:text-gray-200 dark:group-hover:text-primary/10 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
+        {icon}
+      </div>
+
+      {/* Technology icons at top right */}
+      <div className="absolute top-4 right-4 z-10 flex flex-wrap gap-1">
+        {technologies.slice(0, 3).map((tech, idx) => (
+          <div key={idx} className="bg-white/10 dark:bg-black/10 backdrop-blur-sm rounded-md p-1">
+            <span className="text-xs font-mono text-gray-700 dark:text-gray-300">{tech}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="relative z-10 flex h-full flex-col justify-between">
+        <div>
+          <div className="bg-primary/10 text-primary shadow-primary/10 group-hover:bg-primary/20 group-hover:shadow-primary/20 mb-4 flex h-12 w-12 items-center justify-center rounded-full shadow transition-all duration-500">
+            {icon}
+          </div>
+          <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight">{title}</h3>
+          <p className="text-gray-600 dark:text-muted-foreground text-sm mb-4 leading-relaxed">{description}</p>
+          
+          {/* Technology list */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {technologies.map((tech, idx) => (
+              <span key={idx} className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="text-primary mt-auto flex items-center text-sm pt-2">
+          <span className="mr-1 text-gray-700 dark:text-gray-300">View Projects</span>
+          <ArrowRight className="size-4 transition-all duration-500 group-hover:translate-x-2 text-gray-700 dark:text-gray-300" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const techItems = [
+  {
+    title: 'Frontend Development',
+    description: 'Modern, responsive web applications built with cutting-edge frontend technologies for exceptional user experiences.',
+    icon: <Code2 className="size-6" />,
+    technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'Vue.js'],
+    size: 'large' as const,
+  },
+  {
+    title: 'Backend & APIs',
+    description: 'Scalable server-side solutions and robust APIs built with industry-leading backend technologies.',
+    icon: <Database className="size-6" />,
+    technologies: ['Node.js', 'Python', 'FastAPI', 'Express', 'PostgreSQL', 'MongoDB'],
+    size: 'medium' as const,
+  },
+  {
+    title: 'Mobile Development',
+    description: 'Cross-platform mobile applications for iOS and Android with native performance and user experience.',
+    icon: <Smartphone className="size-6" />,
+    technologies: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Expo', 'Firebase'],
+    size: 'medium' as const,
+  },
+  {
+    title: 'AI & Machine Learning',
+    description: 'Intelligent solutions powered by artificial intelligence, machine learning models, and advanced data analytics.',
+    icon: <Brain className="size-6" />,
+    technologies: ['TensorFlow', 'PyTorch', 'OpenAI', 'Langchain', 'Scikit-learn', 'Pandas'],
+    size: 'large' as const,
+  },
+  {
+    title: 'Cloud & DevOps',
+    description: 'Scalable cloud infrastructure and automated deployment pipelines for reliable, high-performance applications.',
+    icon: <SiAmazon className="size-6" />,
+    technologies: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Terraform', 'Vercel'],
+    size: 'medium' as const,
+  },
+  {
+    title: 'Database Solutions',
+    description: 'Optimized database architectures and data management systems for efficient data storage and retrieval.',
+    icon: <SiPostgresql className="size-6" />,
+    technologies: ['PostgreSQL', 'MongoDB', 'Redis', 'GraphQL', 'Prisma', 'Supabase'],
+    size: 'medium' as const,
+  },
+  {
+    title: 'Web3 & Blockchain',
+    description: 'Decentralized applications, smart contracts, and blockchain solutions for the next generation of web applications.',
+    icon: <SiGit className="size-6" />,
+    technologies: ['Solidity', 'Ethereum', 'Web3.js', 'IPFS', 'MetaMask', 'Polygon'],
+    size: 'medium' as const,
+  },
+];
 
 export const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -167,23 +306,16 @@ export const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-24 lg:py-32 bg-white dark:bg-background relative overflow-hidden"
+      className="py-24 lg:py-32 bg-white dark:bg-background relative"
     >
-      {/* Animated Grid Background */}
-      <AnimatedGridBackground />
-      
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-primary rounded-full blur-3xl animate-pulse" />
-      </div>
+
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <DrawUnderlineButton onBack={true} marginTop="32px" width="90%" thickness={3} autoAnimate={true} >
           <h2
             ref={titleRef}
-            className="  "
+            className="text-display-lg mb-6 text-foreground"
           >
             Our Expertise & Services
           </h2>
@@ -279,7 +411,7 @@ export const Services = () => {
           </p>
 
 
-          <div style={{ height: '400px', position: 'relative', overflow: 'hidden'}}>
+          <div style={{ height: '400px', position: 'relative'}}>
             {/* Frontend Technologies Row */}
             <div style={{ position: 'absolute', top: '0', width: '100%', height: '150px' }}>
               <LogoLoop
@@ -314,61 +446,26 @@ export const Services = () => {
 
 
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {[
-              { 
-                icon: Code2, 
-                name: 'React & Next.js',
-                description: 'Modern frontend frameworks for dynamic web applications',
-                gradient: 'from-blue-500 to-cyan-500'
-              },
-              { 
-                icon: Database, 
-                name: 'Node.js & Python',
-                description: 'Powerful backend technologies for scalable APIs',
-                gradient: 'from-green-500 to-emerald-500'
-              },
-              { 
-                icon: Smartphone, 
-                name: 'Mobile Development',
-                description: 'Cross-platform apps for iOS and Android devices',
-                gradient: 'from-purple-500 to-pink-500'
-              },
-              { 
-                icon: Brain, 
-                name: 'AI & ML',
-                description: 'Intelligent solutions with machine learning capabilities',
-                gradient: 'from-orange-500 to-yellow-500'
-              },
-            ].map((tech, index) => (
-              <div
-                key={tech.name}
-                className="tech-card"
-              >
-                <CometCard
-                  className="group h-full"
-                  rotateDepth={12}
-                  translateDepth={15}
-                >
-                  <div className="p-8 h-full flex flex-col">
-                    {/* Icon Container */}
-                    <div className={`w-16 h-16 bg-gradient-to-br ${tech.gradient} rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                      <tech.icon className="w-8 h-8 text-white" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="text-center flex-1 flex flex-col">
-                      <h4 className="text-lg font-bold text-foreground mb-3 font-palo group-hover:text-accent transition-colors duration-300">
-                        {tech.name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                        {tech.description}
-                      </p>
-                    </div>
-                  </div>
-                </CometCard>
-              </div>
-            ))}
+          {/* Technology Bento Grid */}
+          <div className="mx-auto max-w-6xl px-4 py-12">
+            <motion.div
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+            >
+              {techItems.map((item, i) => (
+                <TechBentoGridItem
+                  key={i}
+                  title={item.title}
+                  description={item.description}
+                  icon={item.icon}
+                  technologies={item.technologies}
+                  size={item.size}
+                  className={item.size === 'large' ? 'lg:col-span-2 h-96' : 'h-96'}
+                />
+              ))}
+            </motion.div>
           </div>
         </motion.div>
       </div>
