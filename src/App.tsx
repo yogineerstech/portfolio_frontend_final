@@ -19,7 +19,17 @@ import { AdminLogin } from "./pages/AdminLogin";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { BlogForm } from "./pages/BlogForm";
 import DrawUnderlineButton from "./components/AnimatedComponents/DrawUnderlineButton";
+import FeaturesSectionDemo from "./components/features-section-demo-3";
+import { AppleCardsCarouselDemo } from "./components/extraComponents/AppleCardsCarouselDemo";
+import { AnimatedTestimonialsDemo } from "./components/extraComponents/AnimatedTestimonialsDemo";
+import { LinkPreviewDemoSecond } from "./components/extraComponents/LinkPreviewDemoSecond";
+import { HeroParallaxDemo } from "./components/extraComponents/HeroParallaxDemo";
+import { ContainerTextFlipDemo } from "./components/extraComponents/ContainerTextFlipDemo";
+import { MultiStepLoaderDemo } from "./components/extraComponents/MultiStepLoaderDemo";
+import { FloatingDockDemo } from "./components/extraComponents/FloatingDockDemo";
 
+
+// Initialize React Query Client
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -34,11 +44,28 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/services" element={<ServicesPage />} />
+
+
+
+              {/* Demo Routes for various components - can be removed in production */}
+              <Route path="/feature-section" element={<FeaturesSectionDemo />} />
+              <Route path="/apple-cards-carousel" element={<AppleCardsCarouselDemo />} />
+              <Route path="/animated-testimonials" element={<AnimatedTestimonialsDemo />} />
+              <Route path="/link-preview" element={<LinkPreviewDemoSecond />} />
+              <Route path="/hero-parallax" element={<HeroParallaxDemo />} />
+              <Route path="/container-text-flip" element={<ContainerTextFlipDemo />} />
+              <Route path="/multi-step-loader" element={<MultiStepLoaderDemo />} />
+              <Route path="/floating-dock" element={<FloatingDockDemo />} />
+
+
+
+
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/projects/:serviceId" element={<ProjectsShowcase />} />
               <Route path="/projects/:serviceId/:projectId" element={<ProjectDetail />} />
               <Route path="/companyblogs" element={<CompanyBlogs />} />
               <Route path="/blog/:slug" element={<BlogDetail />} />
+
               {/* Admin Routes */}
               <Route path="/admin" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
