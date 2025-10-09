@@ -97,13 +97,13 @@ const TechBentoGridItem = ({
     <motion.div
       variants={variants}
       className={cn(
-        'group border-gray-200 dark:border-primary/10 bg-white dark:bg-background hover:border-primary/50 dark:hover:border-primary/30 relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl border px-6 pt-6 pb-10 shadow-lg hover:shadow-xl transition-all duration-500',
+        'group border-gray-200 dark:border-accent/20 bg-white dark:bg-background hover:border-accent/60 dark:hover:border-accent/50 relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl border px-6 pt-6 pb-10 shadow-lg hover:shadow-xl transition-all duration-500',
         className,
       )}
     >
-      <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#3d16165e_1px,transparent_1px),linear-gradient(to_bottom,#3d16165e_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]"></div>
+      <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#374151_0.5px,transparent_1px),linear-gradient(to_bottom,#374151_0.5px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]"></div>
 
-      <div className="text-gray-100 dark:text-primary/5 group-hover:text-gray-200 dark:group-hover:text-primary/10 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
+      <div className="text-gray-100 dark:text-accent/10 group-hover:text-gray-200 dark:group-hover:text-accent/20 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
         {icon}
       </div>
 
@@ -118,7 +118,7 @@ const TechBentoGridItem = ({
 
       <div className="relative z-10 flex h-full flex-col justify-between">
         <div>
-          <div className="bg-primary/10 text-primary shadow-primary/10 group-hover:bg-primary/20 group-hover:shadow-primary/20 mb-4 flex h-12 w-12 items-center justify-center rounded-full shadow transition-all duration-500">
+          <div className="bg-accent/10 text-accent shadow-accent/10 group-hover:bg-accent/20 group-hover:shadow-accent/20 mb-4 flex h-12 w-12 items-center justify-center rounded-full shadow transition-all duration-500">
             {icon}
           </div>
           <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white leading-tight">{title}</h3>
@@ -127,13 +127,13 @@ const TechBentoGridItem = ({
           {/* Technology list */}
           <div className="flex flex-wrap gap-2 mb-4">
             {technologies.map((tech, idx) => (
-              <span key={idx} className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">
+              <span key={idx} className="bg-accent/10 text-accent text-xs px-2 py-1 rounded-full font-medium">
                 {tech}
               </span>
             ))}
           </div>
         </div>
-        <div className="text-primary mt-auto flex items-center text-sm pt-2">
+        <div className="text-accent mt-auto flex items-center text-sm pt-2">
           <span className="mr-1 text-gray-700 dark:text-gray-300">View Projects</span>
           <ArrowRight className="size-4 transition-all duration-500 group-hover:translate-x-2 text-gray-700 dark:text-gray-300" />
         </div>

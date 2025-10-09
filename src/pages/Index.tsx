@@ -18,7 +18,7 @@ const Index = () => {
           <Header />
           <main>
             <Hero />
-            {/* <WavySection /> */}
+            <WavySection />
             <About />
             <Services />
             <LLMShowcase />
