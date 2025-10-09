@@ -101,9 +101,9 @@ const TechBentoGridItem = ({
         className,
       )}
     >
-      <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#374151_0.5px,transparent_1px),linear-gradient(to_bottom,#374151_0.5px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]"></div>
+  <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px] dark:bg-[size:32px_32px]"></div>
 
-      <div className="text-gray-100 dark:text-accent/10 group-hover:text-gray-200 dark:group-hover:text-accent/20 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
+      <div className="text-accent/10 dark:text-accent/10 group-hover:text-accent/20 dark:group-hover:text-accent/20 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
         {icon}
       </div>
 
